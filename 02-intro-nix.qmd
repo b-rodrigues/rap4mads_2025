@@ -13,12 +13,12 @@ knitr::include_graphics("img/Nix_Snowflake_Logo.png")
 ```
 </div>
 
-## Learning Outcomes (Day 1)
+## Learning Outcomes
 
-By the end of Day 1, you will:
+By the end of this chapter, you will:
 
 - Understand the need for environment reproducibility in modern workflows
-- Install and configure Nix
+- Install Nix
 - Use `{rix}` to generate `default.nix` files
 - Build cross-language environments for data work or software development
 
@@ -182,9 +182,8 @@ You can use `{rix}` to generate Nix expressions even if you don't have Nix
 installed on your system, but obviously, you need to install Nix if you actually
 want to build the defined development environment and use them. 
 
-Installing (and
-uninstalling) Nix is quite simple, thanks to the installer from [Determinate
-Systems](https://determinate.systems/posts/determinate-nix-installer), a company
+Installing (and uninstalling) Nix is quite simple, thanks to the installer from 
+[Determinate Systems](https://determinate.systems/posts/determinate-nix-installer), a company
 that provides services and tools built on Nix, and works the same way on Linux
 (native or WSL2) and macOS.
 
@@ -242,7 +241,6 @@ nix-shell -p sl
 
 and then again:
 
-
 ```bash
 which sl
 ```
@@ -257,11 +255,129 @@ This is the path to the `sl` binary installed through Nix. The path starts with
 `/nix/store`: the *Nix store* is where all the software installed through Nix is 
 stored. Now type `sl` and see what happens!
 
+You can find the list of available packages [here](https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=).
+
 ## Session 1.2 – Dev Environments with Nix *(2h)*
 
-### Using `{rix}` to generate development environments
+### Some Nix concepts
 
+While temporary shells are useful for quick testing, this is not how Nix is typically used in practice. 
+Nix is a declarative package manager: users specify what they want to build, and Nix takes care of the rest.
 
+To do so, users write files called `default.nix` that contain the a so-called Nix expression. This expression
+will contain the definition of a (or several) *derivations*. 
+
+In `Nix` terminology, a derivation is *a specification for running an executable
+on precisely defined input files to repeatably produce output files at uniquely
+determined file system paths.*
+([source](https://nix.dev/manual/nix/2.25/language/derivations))
+
+In simpler terms, a derivation is a recipe with precisely defined inputs, steps,
+and a fixed output. This means that given identical inputs and build steps, the
+exact same output will always be produced. To achieve this level of
+reproducibility, several important measures must be taken:
+
+- All inputs to a derivation must be explicitly declared.
+- Inputs include not just data files, but also software dependencies,
+  configuration flags, and environment variables, essentially anything necessary
+  for the build process.
+- The build process takes place in a *hermetic* sandbox to ensure the exact same
+  output is always produced.
+
+The next sections of this document explain these three points in more detail.
+
+#### Derivations
+
+Here is an example of a *simple* `Nix` expression:
+
+```
+let
+ pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-04-11.tar.gz") {};
+
+in
+
+pkgs.stdenv.mkDerivation {
+  name = "filtered_mtcars";
+  buildInputs = [ pkgs.gawk ];
+  dontUnpack = true;
+  src = ./mtcars.csv;
+  installPhase = ''
+    mkdir -p $out
+    awk -F',' 'NR==1 || $9=="1" { print }' $src > $out/filtered.csv
+  '';
+}
+```
+
+I won't go into details here, but what's important is that this code uses `awk`,
+a common Unix data processing tool, to filter the `mtcars.csv` file to keep only
+rows where the 9th column (the `am` column) equals 1. As you can see, a
+significant amount of boilerplate code is required to perform this simple
+operation. However, this approach is completely reproducible: the dependencies
+are declared and pinned to a specific dated branch of our
+`rstats-on-nix/nixpkgs` fork (more on this later), and the only thing that could make this pipeline
+fail (though it's a bit of a stretch to call this a *pipeline*) is if the
+`mtcars.csv` file is not provided to it. This expression can be *instantiated* into a derivation,
+and the derivation is then built into the actual output that interests us, namely the filtered
+`mtcars` data.
+
+The derivation above uses the `Nix` builtin function `mkDerivation`: as its name implies, this
+function *makes a derivation*. But there is also `mkShell`, which is the function that builds 
+a shell instead. Nix expressions that built a shell is the kind of expressions `{rix}` generates for you.
+
+###  Using `{rix}` to generate development environments
+
+If you have successfully installed Nix, but don't have yet R installed on your
+system, you could install R as you would usually do on your operating system,
+and then install the `{rix}` package, and from there, generate project-specific
+expressions and build them. But you could also install R using Nix. Running the
+following line in a terminal will drop you in an interactive R session that you
+can use to start generating expressions:
+
+```bash
+nix-shell -p R rPackages.rix
+```
+
+This will drop you in a temporary shell with R and `{rix}` available. Navigate to an empty directory
+to help a project, call it `rix-session-1`:
+
+```bash
+mkdir rix-session-1
+```
+
+and start R and load `{rix}`:
+
+```bash
+R
+```
+
+```r
+library(rix)
+```
+
+you can now generate an expression by running the following code:
+
+```r
+rix(
+  date = "2025-06-02",
+  r_pkgs = c("dplyr", "ggplot2"),
+  py_conf = list(
+    py_version = "3.13",
+    py_pkgs = c("polars", "great-tables")
+  ),
+  ide = "positron",
+  project_path = ".",
+  overwrite = TRUE
+)
+```
+
+This will write a file called `default.nix` in your project’s directory. This `default.nix`
+contains a Nix expression which will build a shell that comes with R, `{dplyr}` and `{ggplot2}`
+as they were on the the 2nd of June 2025 on CRAN. This will also add Python 3.13 and the `ploars`
+and `great-tables` Python packages as they were at the time in `nixpkgs` (more on this later).
+Finally, this also add the Positron IDE, which is a fork of VS Code for data science. This is just
+an example, and you can use another IDE if you wish. See this 
+[vignette](https://docs.ropensci.org/rix/articles/e-configuring-ide.html) for learning how to setup
+your IDE with Nix.
 
 ### Using `nix-shell` to Launch Environments
 

@@ -9,7 +9,7 @@ webr:
 
 <div style="text-align:center;">
 ```{r, echo = F}
-knitr::include_graphics("img/abacus.png")
+knitr::include_graphics("img/Nix_Snowflake_Logo.png")
 ```
 </div>
 

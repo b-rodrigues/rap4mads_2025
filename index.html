@@ -52,6 +52,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./02-intro-nix.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -63,9 +64,9 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c27fdc8e5b00b532d2d5a75ada188648.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ad70530d0d041e0409e14c309de1970f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-c27fdc8e5b00b532d2d5a75ada188648.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9f86c52d4dff625896d8acf9e015343c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f19aaedb8d2e2767e944cadf838d33d5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-9f86c52d4dff625896d8acf9e015343c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -631,6 +632,12 @@ div.csl-indent {
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro-nix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Reproducibility with Nix</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -1103,6 +1110,15 @@ The reproducibility spectrum from Peng’s 2011 paper.
 </section>
 <section id="nix" class="level2">
 <h2 class="anchored" data-anchor-id="nix">Nix</h2>
+<p>Nix is a package manager for Linux distributions, macOS and it even works on Windows if you enable WSL2. What’s a package manager? If you’re not a Linux user, you may not be aware. Let me explain it this way: in R, if you want to install a package to provide some functionality not included with a vanilla installation of R, you’d run this:</p>
+<pre><code>install.packages("dplyr")</code></pre>
+<p>It turns out that Linux distributions, like Ubuntu for example, work in a similar way, but for software that you’d usually install using an installer (at least on Windows). For example you could install Firefox on Ubuntu using:</p>
+<pre><code>sudo apt-get install firefox</code></pre>
+<p>(there’s also graphical interfaces that make this process “more user-friendly”). In Linux jargon, <code>packages</code> are simply what we call software (or I guess it’s all “apps” these days). These packages get downloaded from so-called repositories (think of CRAN, the repository of R packages, or Pypi, in the case of Python) but for any type of software that you might need to make your computer work: web browsers, office suites, multimedia software and so on.</p>
+<p>So Nix is just another package manager that you can use to install software.</p>
+<p>But what interests us is not using Nix to install Firefox, but instead to install R, Python and the R and Python packages that we require for our analysis. But why use Nix instead of the usual ways to install software on our operating systems?</p>
+<p>The first thing that you should know is that Nix’s repository, <code>nixpkgs</code>, is huge. Humongously huge. As I’m writing these lines, <a href="https://search.nixos.org/packages">there’s more than 120’000 pieces of software available</a>, and the <em>entirety of CRAN and Bioconductor</em> is also available through <code>nixpkgs</code>. So instead of installing R as you usually do and then use <code>install.packages()</code> to install packages, you could use Nix to handle everything. But still, why use Nix at all?</p>
+<p>Nix has an interesting feature: using Nix, it is possible to install software in (relatively) isolated environments. So using Nix, you can install as many versions of R and R packages that you need. Suppose that you start working on a new project. As you start the project, with Nix, you would install a project-specific version of R and R packages that you would only use for that particular project. If you switch projects, you’d switch versions of R and R packages.</p>
 </section>
 <section id="pre-requisites" class="level2">
 <h2 class="anchored" data-anchor-id="pre-requisites">Pre-requisites</h2>
@@ -1573,6 +1589,15 @@ Peng, Roger D. 2011. <span>“Reproducible Research in Computational Science.”
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-intro-nix.html" class="pagination-link" aria-label="Reproducibility with Nix">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Reproducibility with Nix</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

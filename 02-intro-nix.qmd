@@ -279,7 +279,7 @@ The next sections of this document explain these three points in more detail.
 
 Here is an example of a *simple* `Nix` expression:
 
-```
+```nix
 let
  pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-04-11.tar.gz") {};
 

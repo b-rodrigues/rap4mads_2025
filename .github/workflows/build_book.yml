@@ -12,17 +12,11 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Install Nix
-      uses: DeterminateSystems/nix-installer-action@main
+    - uses: cachix/install-nix-action@v25
       with:
-        logger: pretty
-        log-directives: nix_installer=trace
-        backtrace: full
-
-    - name: Nix cache
-      uses: DeterminateSystems/magic-nix-cache-action@main
+        nix_path: nixpkgs=https://github.com/rstats-on-nix/nixpkgs/archive/refs/heads/r-daily.tar.gz
 
     - name: Build development environment
       run: |

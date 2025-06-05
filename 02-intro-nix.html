@@ -369,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-outcomes-day-1" id="toc-learning-outcomes-day-1" class="nav-link active" data-scroll-target="#learning-outcomes-day-1"><span class="header-section-number">1.1</span> Learning Outcomes (Day 1)</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes"><span class="header-section-number">1.1</span> Learning Outcomes</a></li>
   <li><a href="#why-reproducibility-why-nix-2h" id="toc-why-reproducibility-why-nix-2h" class="nav-link" data-scroll-target="#why-reproducibility-why-nix-2h"><span class="header-section-number">1.2</span> Why Reproducibility? Why Nix? <em>(2h)</em></a>
   <ul class="collapse">
   <li><a href="#motivation-reproducibility-in-scientific-and-data-workflows" id="toc-motivation-reproducibility-in-scientific-and-data-workflows" class="nav-link" data-scroll-target="#motivation-reproducibility-in-scientific-and-data-workflows"><span class="header-section-number">1.2.1</span> Motivation: Reproducibility in Scientific and Data Workflows</a></li>
@@ -384,10 +384,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#session-1.2-dev-environments-with-nix-2h" id="toc-session-1.2-dev-environments-with-nix-2h" class="nav-link" data-scroll-target="#session-1.2-dev-environments-with-nix-2h"><span class="header-section-number">1.4</span> Session 1.2 – Dev Environments with Nix <em>(2h)</em></a>
   <ul class="collapse">
-  <li><a href="#using-rix-to-generate-development-environments" id="toc-using-rix-to-generate-development-environments" class="nav-link" data-scroll-target="#using-rix-to-generate-development-environments"><span class="header-section-number">1.4.1</span> Using <code>{rix}</code> to generate development environments</a></li>
-  <li><a href="#using-nix-shell-to-launch-environments" id="toc-using-nix-shell-to-launch-environments" class="nav-link" data-scroll-target="#using-nix-shell-to-launch-environments"><span class="header-section-number">1.4.2</span> Using <code>nix-shell</code> to Launch Environments</a></li>
-  <li><a href="#pinning-with-nixpkgs" id="toc-pinning-with-nixpkgs" class="nav-link" data-scroll-target="#pinning-with-nixpkgs"><span class="header-section-number">1.4.3</span> Pinning with <code>nixpkgs</code></a></li>
-  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">1.4.4</span> Hands-On Exercises</a></li>
+  <li><a href="#some-nix-concepts" id="toc-some-nix-concepts" class="nav-link" data-scroll-target="#some-nix-concepts"><span class="header-section-number">1.4.1</span> Some Nix concepts</a></li>
+  <li><a href="#using-rix-to-generate-development-environments" id="toc-using-rix-to-generate-development-environments" class="nav-link" data-scroll-target="#using-rix-to-generate-development-environments"><span class="header-section-number">1.4.2</span> Using <code>{rix}</code> to generate development environments</a></li>
+  <li><a href="#using-nix-shell-to-launch-environments" id="toc-using-nix-shell-to-launch-environments" class="nav-link" data-scroll-target="#using-nix-shell-to-launch-environments"><span class="header-section-number">1.4.3</span> Using <code>nix-shell</code> to Launch Environments</a></li>
+  <li><a href="#pinning-with-nixpkgs" id="toc-pinning-with-nixpkgs" class="nav-link" data-scroll-target="#pinning-with-nixpkgs"><span class="header-section-number">1.4.4</span> Pinning with <code>nixpkgs</code></a></li>
+  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">1.4.5</span> Hands-On Exercises</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/02-intro-nix.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
@@ -426,12 +427,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<section id="learning-outcomes-day-1" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="learning-outcomes-day-1"><span class="header-section-number">1.1</span> Learning Outcomes (Day 1)</h2>
-<p>By the end of Day 1, you will:</p>
+<section id="learning-outcomes" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="learning-outcomes"><span class="header-section-number">1.1</span> Learning Outcomes</h2>
+<p>By the end of this chapter, you will:</p>
 <ul>
 <li>Understand the need for environment reproducibility in modern workflows</li>
-<li>Install and configure Nix</li>
+<li>Install Nix</li>
 <li>Use <code>{rix}</code> to generate <code>default.nix</code> files</li>
 <li>Build cross-language environments for data work or software development</li>
 </ul>
@@ -527,32 +528,87 @@ systemd=true</code></pre>
 <p>this time you should see something like:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/nix/store/cndqpx74312xkrrgp842ifinkd4cg89g-sl-5.05/bin/sl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This is the path to the <code>sl</code> binary installed through Nix. The path starts with <code>/nix/store</code>: the <em>Nix store</em> is where all the software installed through Nix is stored. Now type <code>sl</code> and see what happens!</p>
+<p>You can find the list of available packages <a href="https://search.nixos.org/packages?channel=unstable&amp;from=0&amp;size=50&amp;sort=relevance&amp;type=packages&amp;query=">here</a>.</p>
 </section>
 </section>
 <section id="session-1.2-dev-environments-with-nix-2h" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="session-1.2-dev-environments-with-nix-2h"><span class="header-section-number">1.4</span> Session 1.2 – Dev Environments with Nix <em>(2h)</em></h2>
-<section id="using-rix-to-generate-development-environments" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="using-rix-to-generate-development-environments"><span class="header-section-number">1.4.1</span> Using <code>{rix}</code> to generate development environments</h3>
+<section id="some-nix-concepts" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="some-nix-concepts"><span class="header-section-number">1.4.1</span> Some Nix concepts</h3>
+<p>While temporary shells are useful for quick testing, this is not how Nix is typically used in practice. Nix is a declarative package manager: users specify what they want to build, and Nix takes care of the rest.</p>
+<p>To do so, users write files called <code>default.nix</code> that contain the a so-called Nix expression. This expression will contain the definition of a (or several) <em>derivations</em>.</p>
+<p>In <code>Nix</code> terminology, a derivation is <em>a specification for running an executable on precisely defined input files to repeatably produce output files at uniquely determined file system paths.</em> (<a href="https://nix.dev/manual/nix/2.25/language/derivations">source</a>)</p>
+<p>In simpler terms, a derivation is a recipe with precisely defined inputs, steps, and a fixed output. This means that given identical inputs and build steps, the exact same output will always be produced. To achieve this level of reproducibility, several important measures must be taken:</p>
+<ul>
+<li>All inputs to a derivation must be explicitly declared.</li>
+<li>Inputs include not just data files, but also software dependencies, configuration flags, and environment variables, essentially anything necessary for the build process.</li>
+<li>The build process takes place in a <em>hermetic</em> sandbox to ensure the exact same output is always produced.</li>
+</ul>
+<p>The next sections of this document explain these three points in more detail.</p>
+<section id="derivations" class="level4" data-number="1.4.1.1">
+<h4 data-number="1.4.1.1" class="anchored" data-anchor-id="derivations"><span class="header-section-number">1.4.1.1</span> Derivations</h4>
+<p>Here is an example of a <em>simple</em> <code>Nix</code> expression:</p>
+<pre><code>let
+ pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-04-11.tar.gz") {};
+
+in
+
+pkgs.stdenv.mkDerivation {
+  name = "filtered_mtcars";
+  buildInputs = [ pkgs.gawk ];
+  dontUnpack = true;
+  src = ./mtcars.csv;
+  installPhase = ''
+    mkdir -p $out
+    awk -F',' 'NR==1 || $9=="1" { print }' $src &gt; $out/filtered.csv
+  '';
+}</code></pre>
+<p>I won’t go into details here, but what’s important is that this code uses <code>awk</code>, a common Unix data processing tool, to filter the <code>mtcars.csv</code> file to keep only rows where the 9th column (the <code>am</code> column) equals 1. As you can see, a significant amount of boilerplate code is required to perform this simple operation. However, this approach is completely reproducible: the dependencies are declared and pinned to a specific dated branch of our <code>rstats-on-nix/nixpkgs</code> fork (more on this later), and the only thing that could make this pipeline fail (though it’s a bit of a stretch to call this a <em>pipeline</em>) is if the <code>mtcars.csv</code> file is not provided to it. This expression can be <em>instantiated</em> into a derivation, and the derivation is then built into the actual output that interests us, namely the filtered <code>mtcars</code> data.</p>
+<p>The derivation above uses the <code>Nix</code> builtin function <code>mkDerivation</code>: as its name implies, this function <em>makes a derivation</em>. But there is also <code>mkShell</code>, which is the function that builds a shell instead. Nix expressions that built a shell is the kind of expressions <code>{rix}</code> generates for you.</p>
 </section>
-<section id="using-nix-shell-to-launch-environments" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2" class="anchored" data-anchor-id="using-nix-shell-to-launch-environments"><span class="header-section-number">1.4.2</span> Using <code>nix-shell</code> to Launch Environments</h3>
+</section>
+<section id="using-rix-to-generate-development-environments" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="using-rix-to-generate-development-environments"><span class="header-section-number">1.4.2</span> Using <code>{rix}</code> to generate development environments</h3>
+<p>If you have successfully installed Nix, but don’t have yet R installed on your system, you could install R as you would usually do on your operating system, and then install the <code>{rix}</code> package, and from there, generate project-specific expressions and build them. But you could also install R using Nix. Running the following line in a terminal will drop you in an interactive R session that you can use to start generating expressions:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix-shell</span> <span class="at">-p</span> R rPackages.rix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will drop you in a temporary shell with R and <code>{rix}</code> available. Navigate to an empty directory to help a project, call it <code>rix-session-1</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> rix-session-1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and start R and load <code>{rix}</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>you can now generate an expression by running the following code:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rix</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> <span class="st">"2025-06-02"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(<span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">py_conf =</span> <span class="fu">list</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_version =</span> <span class="st">"3.13"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_pkgs =</span> <span class="fu">c</span>(<span class="st">"polars"</span>, <span class="st">"great-tables"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ide =</span> <span class="st">"positron"</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will write a file called <code>default.nix</code> in your project’s directory. This <code>default.nix</code> contains a Nix expression which will build a shell that comes with R, <code>{dplyr}</code> and <code>{ggplot2}</code> as they were on the the 2nd of June 2025 on CRAN. This will also add Python 3.13 and the <code>ploars</code> and <code>great-tables</code> Python packages as they were at the time in <code>nixpkgs</code> (more on this later). Finally, this also add the Positron IDE, which is a fork of VS Code for data science. This is just an example, and you can use another IDE if you wish. See this <a href="https://docs.ropensci.org/rix/articles/e-configuring-ide.html">vignette</a> for learning how to setup your IDE with Nix.</p>
+</section>
+<section id="using-nix-shell-to-launch-environments" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="using-nix-shell-to-launch-environments"><span class="header-section-number">1.4.3</span> Using <code>nix-shell</code> to Launch Environments</h3>
 <p>Once your file is in place, simply run:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix-shell</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix-shell</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This gives you an isolated shell session with all declared packages available. You can test code, explore APIs, or install further tools within this session.</p>
 </section>
-<section id="pinning-with-nixpkgs" class="level3" data-number="1.4.3">
-<h3 data-number="1.4.3" class="anchored" data-anchor-id="pinning-with-nixpkgs"><span class="header-section-number">1.4.3</span> Pinning with <code>nixpkgs</code></h3>
+<section id="pinning-with-nixpkgs" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="pinning-with-nixpkgs"><span class="header-section-number">1.4.4</span> Pinning with <code>nixpkgs</code></h3>
 <p>To ensure long-term reproducibility, pin the version of Nixpkgs used. Replace <code>&lt;nixpkgs&gt;</code> with a fixed import:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode nix code-with-copy"><code class="sourceCode nix"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span> <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2025-06-02.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> pkgs<span class="op">.</span>r pkgs<span class="op">.</span>rPackages<span class="op">.</span>dplyr <span class="op">];</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode nix code-with-copy"><code class="sourceCode nix"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span> <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2025-06-02.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> pkgs<span class="op">.</span>r pkgs<span class="op">.</span>rPackages<span class="op">.</span>dplyr <span class="op">];</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This avoids unexpected updates and lets others reproduce your environment exactly.</p>
 </section>
-<section id="hands-on-exercises" class="level3" data-number="1.4.4">
-<h3 data-number="1.4.4" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">1.4.4</span> Hands-On Exercises</h3>
+<section id="hands-on-exercises" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">1.4.5</span> Hands-On Exercises</h3>
 <ol type="1">
 <li>Extend your previous <code>shell.nix</code> to add <code>r</code> and <code>rPackages.dplyr</code></li>
 <li>Add Python with <code>numpy</code> and <code>pytest</code></li>

@@ -107,7 +107,7 @@ However Nix has quite a steep learning curve, so this is why for the purposes of
 course we are going to use an R package called `{rix}` to set up reproducible 
 environments.
 
-### rix workflow
+### The rix package
 
 The idea of `{rix}` is for you to declare the environment you need using the
 provided `rix()` function. `rix()` is the package's main function and generates

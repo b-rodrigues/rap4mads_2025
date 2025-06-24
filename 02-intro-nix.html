@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./03-git.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -77,9 +78,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9f86c52d4dff625896d8acf9e015343c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f19aaedb8d2e2767e944cadf838d33d5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-9f86c52d4dff625896d8acf9e015343c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c7386286bec4d3499fbf570280cb2957.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ddc1c4001465e9a91aca86560637e0d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-c7386286bec4d3499fbf570280cb2957.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -359,6 +360,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Reproducibility with Nix</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-functional-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functional Programming: The Cornerstone of Reproducible Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-unit-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unit Testing: The Safety Net for Your Code</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -456,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="nix-a-declarative-package-manager" class="level3" data-number="1.2.3">
 <h3 data-number="1.2.3" class="anchored" data-anchor-id="nix-a-declarative-package-manager"><span class="header-section-number">1.2.3</span> Nix, a declarative package manager</h3>
 <p>Nix is a tool for reproducible builds and development environments, often introduced as a package manager. It captures complete dependency trees, from your programming language interpreter to every system-level library you rely on. With Nix, environments are not recreated from documentation, but rebuilt precisely from code.</p>
-<p>Nix can be installed on Linux distributions, macOS and it even works on Windows if you enable WSL2. In this course, we will use Nix mostly as a package manager (but towards the end also as a build automatino tool).</p>
+<p>Nix can be installed on Linux distributions, macOS and it even works on Windows if you enable WSL2. In this course, we will use Nix mostly as a package manager (but towards the end also as a build automation tool).</p>
 <p>What’s a package manager? If you’re not a Linux user, you may not know. Let me explain it this way: in R, if you want to install a package to provide some functionality not included with a vanilla installation of R, you’d run this:</p>
 <pre><code>install.packages("dplyr")</code></pre>
 <p>It turns out that Linux distributions, like Ubuntu for example, work in a similar way, but for software that you’d usually install using an installer (at least on Windows). For example you could install Firefox on Ubuntu using:</p>
@@ -471,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-rix-package" class="level3" data-number="1.2.4">
 <h3 data-number="1.2.4" class="anchored" data-anchor-id="the-rix-package"><span class="header-section-number">1.2.4</span> The rix package</h3>
 <p>The idea of <code>{rix}</code> is for you to declare the environment you need using the provided <code>rix()</code> function. <code>rix()</code> is the package’s main function and generates a file called <code>default.nix</code> which is then used by the Nix package manager to build that environment. Ideally, you would set up such an environment for each of your projects. You can then use this environment to either work interactively, or run R or Python scripts. It is possible to have as many environments as projects, and software that is common to environments will simply be re-used and not get re-installed to save space. Environments are isolated for each other, but can still interact with your system’s files, unlike with Docker where a volume must be mounted. Environments can also interact with the software installed on your computer through the usual means, which can sometimes lead to issues. For example, if you already have R installed, and a user library of R packages, more caution is required to properly use environments managed by Nix.</p>
-<p>You don’t need to have R installed or be an R user to use <code>{rix}</code>. If you have Nix installed on your system, it is possible to “drop” into a temporary environment with R and <code>{rix}</code> available and generate the required Nix expression from there.</p>
+<p>You don’t need to have R installed or be an R user to use <code>{rix}</code>. If you have Nix installed on your system, it is possible to “drop” into a temporary environment with R and <code>{rix}</code> available and generate the required Nix expression from there.</p>
 <p>But first, let’s install Nix and try to use temporary shells.</p>
 </section>
 <section id="installing-nix" class="level3" data-number="1.2.5">
@@ -479,7 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If you are on Windows, you need the Windows Subsystem for Linux 2 (WSL2) to run Nix. If you are on a recent version of Windows 10 or 11, you can simply run this as an administrator in PowerShell:</p>
 <pre><code>wsl --install</code></pre>
 <p>You can find further installation notes at <a href="https://learn.microsoft.com/en-us/windows/wsl/install">this official MS documentation</a>.</p>
-<p>We recommend to activate <code>systemd</code> in Ubuntu WSL2, mainly because this supports other users than <code>root</code> running Nix. To set this up, please do as outlined <a href="https://ubuntu.com/blog/ubuntu-wsl-enable-systemd">this official Ubuntu blog entry</a>:</p>
+<p>I recommend to activate <code>systemd</code> in Ubuntu WSL2, mainly because this supports other users than <code>root</code> running Nix. To set this up, please do as outlined <a href="https://ubuntu.com/blog/ubuntu-wsl-enable-systemd">this official Ubuntu blog entry</a>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># in WSL2 Ubuntu shell</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -490,7 +509,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 systemd=true</code></pre>
 <p>Save the file with CTRL-O and then quit nano with CTRL-X. Then, type the following line in powershell:</p>
 <pre><code>wsl --shutdown</code></pre>
-<p>and then relaunch WSL (Ubuntu) from the start menu.</p>
+<p>and then relaunch WSL (Ubuntu) from the start menu. For those of you running Windows, we will be working exclusively from WSL2 now. If that is not an option, then I highly recommend you set up a virtual machine with Ubuntu using <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> for example, or dual-boot Ubuntu.</p>
 <p>Installing (and uninstalling) Nix is quite simple, thanks to the installer from <a href="https://determinate.systems/posts/determinate-nix-installer">Determinate Systems</a>, a company that provides services and tools built on Nix, and works the same way on Linux (native or WSL2) and macOS.</p>
 <p>Do not use your operating system’s package manager to install Nix. Instead, simply open a terminal and run the following line (on Windows, if you cannot or have decided not to activate systemd, then you have to append <code>--init none</code> to the command. You can find more details about this on <a href="https://github.com/DeterminateSystems/nix-installer">The Determinate Nix Installer page</a>):</p>
 <div class="cell">
@@ -512,7 +531,7 @@ systemd=true</code></pre>
 <p>you will likely see something like this:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">which:</span> no sl in ....</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>now run this:</p>
-<pre><code>nix-shell -p sl</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix-shell</span> <span class="at">-p</span> sl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>and then again:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> sl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>this time you should see something like:</p>
@@ -585,6 +604,7 @@ systemd=true</code></pre>
 <p>Once your file is in place, simply run:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix-shell</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This gives you an isolated shell session with all declared packages available. You can test code, explore APIs, or install further tools within this session.</p>
+<p>To remove the packages that were installed, call <code>nix-store --gc</code>. This will call the garbage collector. If you want to avoid that an environment gets garbage-collected, use <code>nix-build</code> instead of <code>nix-shell</code>. This will create a symlink called <code>result</code> in your project’s root directory and <code>nix-store --gc</code> won’t garbage-collect this environment until you manually remove <code>result</code>.</p>
 </section>
 <section id="pinning-with-nixpkgs" class="level3" data-number="1.3.5">
 <h3 data-number="1.3.5" class="anchored" data-anchor-id="pinning-with-nixpkgs"><span class="header-section-number">1.3.5</span> Pinning with <code>nixpkgs</code></h3>
@@ -601,13 +621,11 @@ systemd=true</code></pre>
 <section id="hands-on-exercises" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">1.4</span> Hands-On Exercises</h2>
 <ol type="1">
-<li>Extend your previous <code>shell.nix</code> to add <code>r</code> and <code>rPackages.dplyr</code></li>
-<li>Add Python with <code>numpy</code> and <code>pytest</code></li>
-<li>Write a one-liner R and Python script and run them inside <code>nix-shell</code></li>
-<li>Share your folder with a partner; verify their shell behaves identically</li>
-<li>Pin your nixpkgs version and commit the change</li>
+<li>Start a temporary shell with R and <code>{rix}</code> again using <code>nix-shell -p R rPackages.rix</code>. Start an R session (by typing <code>R</code>) and then load the <code>{rix}</code> package (using <code>library(rix)</code>). Run the <code>available_dates()</code> function: using the latest available date, generate a new <code>default.nix</code>.</li>
+<li>Inside of an activated shell, type <code>which R</code> and <code>echo $PATH</code>. Explore what is being added to your environment. What is the significance of paths like <code>/nix/store/...</code>?</li>
+<li>Break it on purpose: generate a new environment with a wrong R package name, for example <code>dplyrnaught</code>. Try to build the environment. What happens?</li>
+<li>Go to <a href="https://search.nixos.org/packages">https://search.nixos.org/packages</a> and look for packages that you usually use for your projects to see if they are available.</li>
 </ol>
-<hr>
 
 
 </section>
@@ -1032,6 +1050,9 @@ systemd=true</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./03-git.html" class="pagination-link" aria-label="Git">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

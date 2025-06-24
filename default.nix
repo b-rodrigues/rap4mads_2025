@@ -72,6 +72,6 @@ in
     LC_PAPER = "en_US.UTF-8";
     LC_MEASUREMENT = "en_US.UTF-8";
 
-    buildInputs = [ rpkgs tex system_packages github_pkgs ];
+    buildInputs = [ rpkgs pyconf tex system_packages github_pkgs ];
       
   }

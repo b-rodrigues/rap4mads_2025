@@ -1,0 +1,466 @@
+# Unit Testing: The Safety Net for Your Code
+
+<div style="text-align:center;">
+```{r, echo = F}
+knitr::include_graphics("img/pcr_test.png")
+```
+</div>
+
+What you'll learn by the end of this chapter:
+*   What unit tests are and why they are essential for reliable data analysis.
+*   How to write and run unit tests for your functions in both R (with
+    `{testthat}`) and Python (with `pytest`).
+*   How to use testing to improve the design and robustness of your code.
+*   How to leverage LLMs to accelerate test writing and embrace your role as a
+    code reviewer.
+
+## Introduction: Proving Your Code Works
+
+I hope you are starting to see the pieces of our reproducible workflow coming
+together. We now have:
+
+1.  **Reproducible Environments (Nix):** The correct tools for everyone.
+2.  **Reproducible History (Git):** The correct version of the code for
+    everyone.
+3.  **Reproducible Logic (Functional Programming):** A philosophy for writing
+    clean, predictable, and self-contained code.
+
+This brings us to the final, crucial question: **How do we *prove* that our
+functions actually do what we claim they do?**
+
+The answer is **unit testing**. A unit test is a piece of code whose sole job is
+to check that another piece of code, a "unit", works correctly. In our functional
+world, the "unit" is almost always a single function. This is why we spent so
+much time on FP in the previous chapter. Small, pure functions are not just easy
+to reason about; they are incredibly easy to test.
+
+Writing tests is your contract with your collaborators and your future self.
+It’s a formal promise that your function, `calculate_mean_mpg()`, given a
+specific input, will always produce a specific, correct output. It's the safety
+net that catches bugs before they make it into your final analysis and the tool
+that gives you the confidence to refactor and improve your code without breaking
+it.
+
+## The Philosophy of a Good Unit Test
+
+So, what should we test? Writing good tests is a skill, but it revolves around
+answering a few key questions about your function. For any function you write,
+you should have tests that cover:
+
+*   **The "Happy Path":** Does the function return the expected, correct value
+    for a typical, valid input?
+*   **Bad Inputs:** Does the function fail gracefully or throw an informative
+    error when given garbage input (e.g., a string instead of a number, a data
+    frame with the wrong columns)?
+*   **Edge Cases:** How does the function handle tricky but valid inputs? For
+    example, what happens if it receives an empty data frame, a vector with `NA`
+    values, or a vector where all the numbers are the same?
+
+Writing tests forces you to think through these scenarios, and in doing so,
+almost always leads you to write more robust and well-designed functions.
+
+## Unit Testing in Practice
+
+Let's imagine we've written a simple helper function to normalize a numeric
+vector (i.e., scale it to have a mean of 0 and a standard deviation of 1). We'll
+save this in a file named `utils.R` or `utils.py`.
+
+**R version (`utils.R`):**
+```R
+normalize_vector <- function(x) {
+  (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
+}
+```
+
+**Python version (`utils.py`):**
+```python
+import numpy as np
+
+def normalize_vector(x):
+  return (x - np.nanmean(x)) / np.nanstd(x)
+```
+
+Now, let's write tests for it.
+
+### Testing in R with `{testthat}`
+
+In R, the standard for unit testing is the `{testthat}` package. The convention
+is to create a `tests/testthat/` directory in your project, and for a script
+`utils.R`, you would create a test file named `test-utils.R`.
+
+Inside `test-utils.R`, we use the `test_that()` function to group related expectations.
+
+```R
+# In file: tests/testthat/test-utils.R
+
+# First, we need to load the function we want to test
+source("../../utils.R")
+
+library(testthat)
+
+test_that("Normalization works on a simple vector (the happy path)", {
+  # 1. Setup: Create input and expected output
+  input_vector <- c(10, 20, 30)
+  expected_output <- c(-1, 0, 1)
+  
+  # 2. Action: Run the function
+  actual_output <- normalize_vector(input_vector)
+  
+  # 3. Expectation: Check if the actual output matches the expected output
+  expect_equal(actual_output, expected_output)
+})
+
+test_that("Normalization handles NA values correctly", {
+  input_with_na <- c(10, 20, 30, NA)
+  expected_output <- c(-1, 0, 1, NA)
+  
+  actual_output <- normalize_vector(input_with_na)
+  
+  # We need to use expect_equal because it knows how to compare NAs
+  expect_equal(actual_output, expected_output)
+})
+```
+
+The `expect_equal()` function checks for near-exact equality. `{testthat}` has
+many other `expect_*()` functions, like `expect_error()` to check that a
+function fails correctly, or `expect_warning()` to check for warnings.
+
+### Testing in Python with `pytest`
+
+In Python, the de facto standard is `pytest`. It's incredibly simple and
+powerful. The convention is to create a `tests/` directory, and your test files
+should be named `test_*.py`. Inside, you just write functions whose names start
+with `test_` and use Python's standard `assert` keyword.
+
+```python
+# In file: tests/test_utils.py
+
+import numpy as np
+from utils import normalize_vector # Import our function
+
+def test_normalize_vector_happy_path():
+    # 1. Setup
+    input_vector = np.array([10, 20, 30])
+    expected_output = np.array([-1.0, 0.0, 1.0])
+    
+    # 2. Action
+    actual_output = normalize_vector(input_vector)
+    
+    # 3. Expectation
+    # For floating point numbers, it's better to check for "close enough"
+    assert np.allclose(actual_output, expected_output)
+
+def test_normalize_vector_with_nas():
+    input_with_na = np.array([10, 20, 30, np.nan])
+    expected_output = np.array([-1.0, 0.0, 1.0, np.nan])
+    
+    actual_output = normalize_vector(input_with_na)
+    
+    # `np.allclose` doesn't handle NaNs, but `np.testing.assert_allclose` does!
+    np.testing.assert_allclose(actual_output, expected_output)
+```
+
+To run your tests, you simply navigate to your project's root directory in the
+terminal and run the command `pytest`. It will automatically discover and run
+all your tests for you.
+
+## Testing as a Design Tool
+
+Here is where testing becomes a superpower. What happens if we try to normalize
+a vector where all the elements are the same? The standard deviation will be 0,
+leading to a division by zero!
+
+Let's write a test for this edge case first.
+
+**`pytest` version:**
+```python
+# tests/test_utils.py
+def test_normalize_vector_with_zero_std():
+    input_vector = np.array([5, 5, 5, 5])
+    actual_output = normalize_vector(input_vector)
+    # The current function will return `[nan, nan, nan, nan]`
+    # Let's assert that we expect a vector of zeros instead.
+    assert np.allclose(actual_output, np.array([0, 0, 0, 0]))
+```
+
+If we run `pytest` now, this test will **fail**. This is great! Our test has
+just revealed a flaw in our function's design. This process is a core part of
+**Test-Driven Development (TDD)**: write a failing test, then write the code to
+make it pass.
+
+Let's improve our function:
+
+Improved Python version (`utils.py`):
+
+```python
+import numpy as np
+
+def normalize_vector(x):
+  std_dev = np.nanstd(x)
+  if std_dev == 0:
+    # If std is 0, all elements are the mean. Return a vector of zeros.
+    return np.zeros_like(x, dtype=float)
+  return (x - np.nanmean(x)) / std_dev
+```
+
+Now, if we run `pytest` again, our new test will pass. We used testing not just
+to verify our code, but to actively make it more robust and thoughtful.
+
+## The Modern Data Scientist's Role: Reviewer and AI Collaborator
+
+In the past, writing tests was often seen as a chore. Today, LLMs make this
+process very easy.
+
+### Using LLMs to Write Tests
+
+LLMs are fantastic at writing unit tests. They are good at handling boilerplate
+code and thinking of edge cases. You can provide your function to an LLM and
+give it a prompt like this:
+
+> **Prompt:** "Here is my Python function `normalize_vector`. Please write three
+> `pytest` unit tests for it. Include a test for the happy path with a simple
+> array, a test for an array containing `np.nan`, and a test for the edge case
+> where all elements in the array are identical."
+
+The LLM will likely generate high-quality test code that is very similar to what
+we wrote above. This is a massive productivity boost. However, this introduces a
+new, critical role for the data scientist: **you are the reviewer.**
+
+An LLM does not *write* your tests; it *generates a draft*. It is your
+professional responsibility to:
+1.  **Read and understand** every line of the test code.
+2.  **Verify** that the `expected_output` is actually correct.
+3.  **Confirm** that the tests cover the cases you care about.
+4.  **Commit** that code under your name, taking full ownership of it.
+
+"A COMPUTER CAN NEVER BE HELD ACCOUNTABLE THEREFORE A COMPUTER MUST NEVER MAKE A
+MANAGEMENT DECISION" – IBM Training Manual, 1979.
+
+If I ask you why you did something, and your answer is something to the effect
+of "I dunno, the LLM generated it", be glad we’re not in the USA where I could
+just fire you, because that’s what I’d do.
+
+### Testing and Code Review
+
+This role as a reviewer is central to modern collaborative data science. When a
+teammate (or your future self) submits a Pull Request on GitHub, the tests are
+your first line of defense. A PR that changes logic but doesn't update the tests
+is a major red flag. A PR that adds a new feature without adding any tests
+should be rejected until tests are included.
+
+Even as a junior member of a team, one of the most valuable contributions you
+can make during a code review is to ask: "This looks great, but what happens if
+the input is `NA`? Could we add a test for that case?" This moves the quality of
+the entire project forward.
+
+By embracing testing, you are not just writing better code; you are becoming a
+better collaborator and a more responsible data scientist.
+
+### A Note on Packaging and Project Structure
+
+Throughout this chapter, we've focused on testing individual functions within a
+simple project structure (`utils.R` and `tests/test-utils.R`). This is the
+fundamental skill. It's important to recognize, however, that this entire
+process becomes even more streamlined and robust when your code is organized
+into a formal **package**.
+
+Packaging your code provides a standardized structure for your functions,
+documentation, and tests. It solves many logistical problems automatically:
+testing frameworks know exactly where to find your source code without needing
+manual `source()` or `from utils import ...` statements, and tools can easily
+run all tests with a single command. It also makes your code installable,
+versionable, and distributable, which is the ultimate form of reproducibility.
+
+While a full guide to package development is beyond the scope of this course, it
+is the natural next step in your journey as a data scientist who produces
+reliable tools. When you are ready to take that step, here are the definitive
+resources to guide you:
+
+*   **For R:** The "R Packages" (2e) book by Hadley Wickham and Jennifer Bryan
+    is the essential, comprehensive guide. It covers everything from initial
+    setup with `{usethis}` to testing, documentation, and submission to CRAN.
+    [**Read it online here.**](https://r-pkgs.org/)
+*   **For Python:** The official [**Python Packaging User
+    Guide**](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+    is the place to start. For a more modern and streamlined approach that
+    handles dependency management and publishing, many developers use tools like
+    [**Poetry**](https://python-poetry.org/docs/) or
+    [**Hatch**](https://hatch.pypa.io/latest/).
+
+Treating your data analysis project like a small, internal software
+package, complete with functions and tests, is a powerful mindset that will
+elevate the quality and reliability of your work.
+
+### Hands-On Exercises
+
+For these exercises, create a project directory with a `tests/` subdirectory.
+Place your function code in a script in the root directory (e.g.,
+`my_functions.R` or `my_functions.py`) and your test code inside the `tests/`
+directory (e.g., `tests/test_my_functions.R` or `tests/test_my_functions.py`).
+
+#### Exercise 1: Testing the "Happy Path"
+
+The median of a list of numbers is a common calculation. However, the logic is
+slightly different depending on whether the list has an odd or even number of
+elements. Your task is to test both of these "happy paths."
+
+Here is the function in R and Python.
+
+**R (`my_functions.R`):**
+```R
+calculate_median <- function(x) {
+  sorted_x <- sort(x)
+  n <- length(sorted_x)
+  mid <- floor(n / 2)
+  
+  if (n %% 2 == 1) {
+    # Odd number of elements
+    return(sorted_x[mid + 1])
+  } else {
+    # Even number of elements
+    return(mean(c(sorted_x[mid], sorted_x[mid + 1])))
+  }
+}
+```
+
+**Python (`my_functions.py`):**
+
+```python
+import numpy as np
+
+def calculate_median(x):
+  sorted_x = np.sort(np.array(x))
+  n = len(sorted_x)
+  mid = n // 2
+  
+  if n % 2 == 1:
+    # Odd number of elements
+    return sorted_x[mid]
+  else:
+    # Even number of elements
+    return (sorted_x[mid - 1] + sorted_x[mid]) / 2.0
+```
+
+**Your Task:**
+1.  Create a test file (`test-my_functions.R` or `tests/test_my_functions.py`).
+2.  Write a test that checks if `calculate_median` gives the correct result for
+    a vector with an **odd** number of elements (e.g., `c(10, 20, 40)`).
+3.  Write a second test that checks if `calculate_median` gives the correct
+    result for a vector with an **even** number of elements (e.g., `[1, 2, 8,
+    10]`).
+
+#### Exercise 2: Testing Edge Cases and Expected Errors
+
+The geometric mean is another way to calculate an average, but it has strict
+requirements: it only works with non-negative numbers. This makes it a great
+candidate for testing edge cases and expected failures.
+
+**R (`my_functions.R`):**
+```R
+calculate_geometric_mean <- function(x) {
+  if (any(x < 0)) {
+    stop("Geometric mean is not defined for negative numbers.")
+  }
+  return(prod(x)^(1 / length(x)))
+}
+```
+
+**Python (`my_functions.py`):**
+```python
+import numpy as np
+
+def calculate_geometric_mean(x):
+  if np.any(np.array(x) < 0):
+    raise ValueError("Geometric mean is not defined for negative numbers.")
+  return np.prod(x)**(1 / len(x))
+```
+
+**Your Task:**
+Write three tests for this function:
+1.  A "happy path" test with a simple vector of positive numbers (e.g., `c(1, 2,
+    4)` should result in `2`).
+2.  An **edge case** test for a vector that includes `0`. The expected result
+    should be `0`.
+3.  An **error test** that confirms the function fails correctly when given a
+    vector with a negative number.
+    *   In R, use `testthat::expect_error()`.
+    *   In Python, use `pytest.raises()`. Example: `with
+        pytest.raises(ValueError): your_function_call()`
+
+#### Exercise 3: Test-Driven Development (in miniature)
+
+Testing can help you design better functions. Here is a simple function that is
+slightly flawed. Your task is to use testing to find the flaw and fix it.
+
+**R (`my_functions.R`):**
+```R
+# Initial flawed version
+find_longest_string <- function(string_vector) {
+  # This will break on an empty vector!
+  string_vector[which.max(nchar(string_vector))]
+}
+```
+
+**Python (`my_functions.py`):**
+```python
+# Initial flawed version
+def find_longest_string(string_list):
+  # This will break on an empty list!
+  return max(string_list, key=len)
+```
+
+**Your Task:**
+1.  **Part A:** Write a simple test to prove the function works for a standard
+    case (e.g., `c("a", "b", "abc")` should return `"abc"`).
+2.  **Part B:** Write a new test for an **empty input** (`c()` or `[]`). Run
+    your tests. **This test should fail with an error.**
+3.  **Part C:** Modify the original `find_longest_string` function in your
+    source file to handle the empty input gracefully (e.g., it could return
+    `NULL` in R, or `None` in Python).
+4.  Run your tests again. Now all tests should pass. You have just completed a
+    mini-cycle of Test-Driven Development!
+
+#### Exercise 4: The AI Collaborator
+
+One of the most powerful uses of LLMs is to accelerate the creation of tests.
+Your job is to act as the senior reviewer for the code an LLM generates.
+
+Here is a simple data cleaning function in Python.
+
+**Python (`my_functions.py`):**
+```python
+import pandas as pd
+
+def clean_sales_data(df: pd.DataFrame) -> pd.DataFrame:
+  """
+  Cleans a raw sales DataFrame.
+  - Renames 'ts' column to 'timestamp'.
+  - Converts 'timestamp' column to datetime objects.
+  - Ensures 'sale_value' is a numeric type.
+  """
+  if 'ts' not in df.columns:
+    raise KeyError("Input DataFrame must contain a 'ts' column.")
+  
+  df = df.rename(columns={'ts': 'timestamp'})
+  df['timestamp'] = pd.to_datetime(df['timestamp'])
+  df['sale_value'] = pd.to_numeric(df['sale_value'])
+  return df
+```
+**Your Task:**
+1.  **Prompt your LLM:** Copy the function above and give your LLM a prompt like
+this: > "You are a helpful assistant writing tests for a Python data science
+project. Here is a function. Please write a `pytest` test file for it. Include a
+test for the happy path where everything works correctly. Also, include a test
+that verifies the function raises a `KeyError` if the 'ts' column is missing."
+
+2.  **Act as the Reviewer:**
+    *   Create a new test file (`tests/test_data_cleaning.py`) and paste the
+        LLM's response.
+    *   Read every line of the generated test code. Is the logic correct? Is the
+        `expected_output` data frame what you would actually expect?
+    *   Run the tests using `pytest`. Do they pass? If not, debug and fix them.
+        It is your responsibility to ensure the final committed code is correct.
+    *   Add a comment at the top of the test file describing one thing the LLM
+        did well and one thing you had to change or fix (e.g., `# LLM correctly
+        set up the test for the KeyError, but I had to correct the expected data
+        type in the happy path test.`).

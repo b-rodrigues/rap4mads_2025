@@ -396,30 +396,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#your-first-commit" id="toc-your-first-commit" class="nav-link" data-scroll-target="#your-first-commit"><span class="header-section-number">2.6</span> Your first commit</a></li>
   <li><a href="#understanding-git-workflow-commands" id="toc-understanding-git-workflow-commands" class="nav-link" data-scroll-target="#understanding-git-workflow-commands"><span class="header-section-number">2.7</span> Understanding Git workflow commands</a></li>
   <li><a href="#working-with-commit-history" id="toc-working-with-commit-history" class="nav-link" data-scroll-target="#working-with-commit-history"><span class="header-section-number">2.8</span> Working with commit history</a></li>
-  <li><a href="#collaborating" id="toc-collaborating" class="nav-link" data-scroll-target="#collaborating"><span class="header-section-number">2.9</span> Collaborating</a>
+  <li><a href="#collaborating-and-handling-conflicts" id="toc-collaborating-and-handling-conflicts" class="nav-link" data-scroll-target="#collaborating-and-handling-conflicts"><span class="header-section-number">2.9</span> Collaborating and handling conflicts</a>
   <ul class="collapse">
-  <li><a href="#handling-conflicts" id="toc-handling-conflicts" class="nav-link" data-scroll-target="#handling-conflicts"><span class="header-section-number">2.9.1</span> Handling conflicts</a></li>
+  <li><a href="#strategy-1-merging-the-default" id="toc-strategy-1-merging-the-default" class="nav-link" data-scroll-target="#strategy-1-merging-the-default"><span class="header-section-number">2.9.1</span> Strategy 1: Merging (The Default)</a></li>
+  <li><a href="#strategy-2-rebasing-the-cleaner-way" id="toc-strategy-2-rebasing-the-cleaner-way" class="nav-link" data-scroll-target="#strategy-2-rebasing-the-cleaner-way"><span class="header-section-number">2.9.2</span> Strategy 2: Rebasing (The Cleaner Way)</a></li>
   </ul></li>
   <li><a href="#working-with-branches" id="toc-working-with-branches" class="nav-link" data-scroll-target="#working-with-branches"><span class="header-section-number">2.10</span> Working with branches</a></li>
   <li><a href="#advanced-workflow-with-branches" id="toc-advanced-workflow-with-branches" class="nav-link" data-scroll-target="#advanced-workflow-with-branches"><span class="header-section-number">2.11</span> Advanced workflow with branches</a></li>
-  <li><a href="#essential-daily-workflow" id="toc-essential-daily-workflow" class="nav-link" data-scroll-target="#essential-daily-workflow"><span class="header-section-number">2.12</span> Essential daily workflow</a>
+  <li><a href="#essential-daily-workflow" id="toc-essential-daily-workflow" class="nav-link" data-scroll-target="#essential-daily-workflow"><span class="header-section-number">2.12</span> Essential daily workflow</a></li>
+  <li><a href="#a-better-way-to-collaborate-trunk-based-development" id="toc-a-better-way-to-collaborate-trunk-based-development" class="nav-link" data-scroll-target="#a-better-way-to-collaborate-trunk-based-development"><span class="header-section-number">2.13</span> A Better Way to Collaborate: Trunk-Based Development</a>
   <ul class="collapse">
-  <li><a href="#a-better-way-to-collaborate-trunk-based-development" id="toc-a-better-way-to-collaborate-trunk-based-development" class="nav-link" data-scroll-target="#a-better-way-to-collaborate-trunk-based-development"><span class="header-section-number">2.12.1</span> <strong>A Better Way to Collaborate: Trunk-Based Development</strong></a></li>
+  <li><a href="#how-to-work-with-short-lived-branches" id="toc-how-to-work-with-short-lived-branches" class="nav-link" data-scroll-target="#how-to-work-with-short-lived-branches"><span class="header-section-number">2.13.1</span> How to Work with Short-Lived Branches</a></li>
   </ul></li>
-  <li><a href="#contributing-to-someone-elses-repository" id="toc-contributing-to-someone-elses-repository" class="nav-link" data-scroll-target="#contributing-to-someone-elses-repository"><span class="header-section-number">2.13</span> Contributing to someone else’s repository</a></li>
-  <li><a href="#working-with-llms-and-git-managing-ai-generated-changes" id="toc-working-with-llms-and-git-managing-ai-generated-changes" class="nav-link" data-scroll-target="#working-with-llms-and-git-managing-ai-generated-changes"><span class="header-section-number">2.14</span> Working with LLMs and Git: Managing AI-Generated Changes</a>
+  <li><a href="#contributing-to-someone-elses-repository" id="toc-contributing-to-someone-elses-repository" class="nav-link" data-scroll-target="#contributing-to-someone-elses-repository"><span class="header-section-number">2.14</span> Contributing to someone else’s repository</a></li>
+  <li><a href="#working-with-llms-and-git-managing-ai-generated-changes" id="toc-working-with-llms-and-git-managing-ai-generated-changes" class="nav-link" data-scroll-target="#working-with-llms-and-git-managing-ai-generated-changes"><span class="header-section-number">2.15</span> Working with LLMs and Git: Managing AI-Generated Changes</a>
   <ul class="collapse">
-  <li><a href="#the-llm-workflow-with-git" id="toc-the-llm-workflow-with-git" class="nav-link" data-scroll-target="#the-llm-workflow-with-git"><span class="header-section-number">2.14.1</span> The LLM workflow with Git</a></li>
-  <li><a href="#examining-llm-changes" id="toc-examining-llm-changes" class="nav-link" data-scroll-target="#examining-llm-changes"><span class="header-section-number">2.14.2</span> Examining LLM changes</a></li>
-  <li><a href="#interactive-staging-accepting-changes-chunk-by-chunk" id="toc-interactive-staging-accepting-changes-chunk-by-chunk" class="nav-link" data-scroll-target="#interactive-staging-accepting-changes-chunk-by-chunk"><span class="header-section-number">2.14.3</span> Interactive staging: Accepting changes chunk by chunk</a></li>
-  <li><a href="#example-reviewing-llm-changes-to-an-r-script" id="toc-example-reviewing-llm-changes-to-an-r-script" class="nav-link" data-scroll-target="#example-reviewing-llm-changes-to-an-r-script"><span class="header-section-number">2.14.4</span> Example: Reviewing LLM changes to an R script</a></li>
-  <li><a href="#advanced-chunk-management" id="toc-advanced-chunk-management" class="nav-link" data-scroll-target="#advanced-chunk-management"><span class="header-section-number">2.14.5</span> Advanced chunk management</a></li>
-  <li><a href="#creating-meaningful-commits-after-llm-review" id="toc-creating-meaningful-commits-after-llm-review" class="nav-link" data-scroll-target="#creating-meaningful-commits-after-llm-review"><span class="header-section-number">2.14.6</span> Creating meaningful commits after LLM review</a></li>
-  <li><a href="#working-with-multiple-files-modified-by-llm" id="toc-working-with-multiple-files-modified-by-llm" class="nav-link" data-scroll-target="#working-with-multiple-files-modified-by-llm"><span class="header-section-number">2.14.7</span> Working with multiple files modified by LLM</a></li>
-  <li><a href="#handling-llm-generated-new-files" id="toc-handling-llm-generated-new-files" class="nav-link" data-scroll-target="#handling-llm-generated-new-files"><span class="header-section-number">2.14.8</span> Handling LLM-generated new files</a></li>
-  <li><a href="#using-git-to-compare-llm-suggestions" id="toc-using-git-to-compare-llm-suggestions" class="nav-link" data-scroll-target="#using-git-to-compare-llm-suggestions"><span class="header-section-number">2.14.9</span> Using Git to compare LLM suggestions</a></li>
-  <li><a href="#best-practices-for-llm-git-workflow" id="toc-best-practices-for-llm-git-workflow" class="nav-link" data-scroll-target="#best-practices-for-llm-git-workflow"><span class="header-section-number">2.14.10</span> Best practices for LLM + Git workflow</a></li>
-  <li><a href="#example-complete-workflow" id="toc-example-complete-workflow" class="nav-link" data-scroll-target="#example-complete-workflow"><span class="header-section-number">2.14.11</span> Example complete workflow</a></li>
+  <li><a href="#the-llm-workflow-with-git" id="toc-the-llm-workflow-with-git" class="nav-link" data-scroll-target="#the-llm-workflow-with-git"><span class="header-section-number">2.15.1</span> The LLM workflow with Git</a></li>
+  <li><a href="#examining-llm-changes" id="toc-examining-llm-changes" class="nav-link" data-scroll-target="#examining-llm-changes"><span class="header-section-number">2.15.2</span> Examining LLM changes</a></li>
+  <li><a href="#interactive-staging-accepting-changes-chunk-by-chunk" id="toc-interactive-staging-accepting-changes-chunk-by-chunk" class="nav-link" data-scroll-target="#interactive-staging-accepting-changes-chunk-by-chunk"><span class="header-section-number">2.15.3</span> Interactive staging: Accepting changes chunk by chunk</a></li>
+  <li><a href="#example-reviewing-llm-changes-to-an-r-script" id="toc-example-reviewing-llm-changes-to-an-r-script" class="nav-link" data-scroll-target="#example-reviewing-llm-changes-to-an-r-script"><span class="header-section-number">2.15.4</span> Example: Reviewing LLM changes to an R script</a></li>
+  <li><a href="#advanced-chunk-management" id="toc-advanced-chunk-management" class="nav-link" data-scroll-target="#advanced-chunk-management"><span class="header-section-number">2.15.5</span> Advanced chunk management</a></li>
+  <li><a href="#creating-meaningful-commits-after-llm-review" id="toc-creating-meaningful-commits-after-llm-review" class="nav-link" data-scroll-target="#creating-meaningful-commits-after-llm-review"><span class="header-section-number">2.15.6</span> Creating meaningful commits after LLM review</a></li>
+  <li><a href="#working-with-multiple-files-modified-by-llm" id="toc-working-with-multiple-files-modified-by-llm" class="nav-link" data-scroll-target="#working-with-multiple-files-modified-by-llm"><span class="header-section-number">2.15.7</span> Working with multiple files modified by LLM</a></li>
+  <li><a href="#handling-llm-generated-new-files" id="toc-handling-llm-generated-new-files" class="nav-link" data-scroll-target="#handling-llm-generated-new-files"><span class="header-section-number">2.15.8</span> Handling LLM-generated new files</a></li>
+  <li><a href="#using-git-to-compare-llm-suggestions" id="toc-using-git-to-compare-llm-suggestions" class="nav-link" data-scroll-target="#using-git-to-compare-llm-suggestions"><span class="header-section-number">2.15.9</span> Using Git to compare LLM suggestions</a></li>
+  <li><a href="#best-practices-for-llm-git-workflow" id="toc-best-practices-for-llm-git-workflow" class="nav-link" data-scroll-target="#best-practices-for-llm-git-workflow"><span class="header-section-number">2.15.10</span> Best practices for LLM + Git workflow</a></li>
+  <li><a href="#example-complete-workflow" id="toc-example-complete-workflow" class="nav-link" data-scroll-target="#example-complete-workflow"><span class="header-section-number">2.15.11</span> Example complete workflow</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/03-git.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
@@ -658,8 +660,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>To permanently revert a commit (creates a new commit that undoes changes):</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> revert <span class="op">&lt;</span>commit-hash<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="collaborating" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="collaborating"><span class="header-section-number">2.9</span> Collaborating</h2>
+<section id="collaborating-and-handling-conflicts" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="collaborating-and-handling-conflicts"><span class="header-section-number">2.9</span> Collaborating and handling conflicts</h2>
 <p>Let’s set up collaboration. Have a colleague invite you to their repository, or invite someone to yours. On GitHub, go to Settings → Manage access → Invite a collaborator.</p>
 <p>Once you’re both collaborators, try this workflow:</p>
 <ol type="1">
@@ -677,12 +679,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add iris_analysis.R</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add iris analysis"</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main  <span class="co"># This will fail!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="handling-conflicts" class="level3" data-number="2.9.1">
-<h3 data-number="2.9.1" class="anchored" data-anchor-id="handling-conflicts"><span class="header-section-number">2.9.1</span> Handling conflicts</h3>
 <p>You’ll get an error like <code>! [rejected] main -&gt; main (non-fast-forward)</code>. This sounds scary, but it’s Git’s safe way of telling you: <strong>“The remote repository on GitHub has changes that you don’t have on your computer. I’m stopping you from pushing because you would overwrite those changes.”</strong></p>
 <p>To solve this, you must first pull the changes from the remote repository and combine them with your local work. Git gives you two primary ways to do this: <strong>merging</strong> and <strong>rebasing</strong>.</p>
-<section id="strategy-1-merging-the-default" class="level4" data-number="2.9.1.1">
-<h4 data-number="2.9.1.1" class="anchored" data-anchor-id="strategy-1-merging-the-default"><span class="header-section-number">2.9.1.1</span> Strategy 1: Merging (The Default)</h4>
+<section id="strategy-1-merging-the-default" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="strategy-1-merging-the-default"><span class="header-section-number">2.9.1</span> Strategy 1: Merging (The Default)</h3>
 <p>If you just run <code>git pull</code>, Git will perform a <em>merge</em>. It looks at the remote changes and your local changes and creates a new, special “merge commit” to tie the two histories together.</p>
 <p>Imagine the history looks like this: * Your colleague pushed commit <code>D</code>. * You worked locally and created commit <code>C</code>.</p>
 <pre><code>      C (Your local work)
@@ -694,8 +694,8 @@ A---B ---D (Remote work on GitHub)</code></pre>
 A---B-------D</code></pre>
 <p>The history is now non-linear. While this accurately records that two lines of work were merged, it can clutter up the project history with many “Merge branch ‘main’…” commits, making it harder to read.</p>
 </section>
-<section id="strategy-2-rebasing-the-cleaner-way" class="level4" data-number="2.9.1.2">
-<h4 data-number="2.9.1.2" class="anchored" data-anchor-id="strategy-2-rebasing-the-cleaner-way"><span class="header-section-number">2.9.1.2</span> Strategy 2: Rebasing (The Cleaner Way)</h4>
+<section id="strategy-2-rebasing-the-cleaner-way" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="strategy-2-rebasing-the-cleaner-way"><span class="header-section-number">2.9.2</span> Strategy 2: Rebasing (The Cleaner Way)</h3>
 <p>The second strategy is to <em>rebase</em>. Rebasing does something clever. It says: “Let me temporarily put your local changes aside. I’ll download the latest remote changes first. Then, I’ll take your changes and re-apply them one-by-one on top of the new remote history.”</p>
 <p>Using the same scenario: * Start: <code>C (Your local work)          /     A---B ---D (Remote work on GitHub)</code></p>
 <ul>
@@ -737,7 +737,6 @@ A---B-------D</code></pre>
 <p>Finally, push your changes:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This time, it should succeed.</p>
-</section>
 </section>
 </section>
 <section id="working-with-branches" class="level2" data-number="2.10">
@@ -802,8 +801,9 @@ A---B-------D</code></pre>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main  <span class="co"># Get latest changes</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge feature-description</span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="a-better-way-to-collaborate-trunk-based-development" class="level3" data-number="2.12.1">
-<h3 data-number="2.12.1" class="anchored" data-anchor-id="a-better-way-to-collaborate-trunk-based-development"><span class="header-section-number">2.12.1</span> <strong>A Better Way to Collaborate: Trunk-Based Development</strong></h3>
+</section>
+<section id="a-better-way-to-collaborate-trunk-based-development" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="a-better-way-to-collaborate-trunk-based-development"><span class="header-section-number">2.13</span> A Better Way to Collaborate: Trunk-Based Development</h2>
 <p>The “Essential Daily Workflow” you just learned is a great start, but it leaves one important question unanswered: how long should a feature branch live? Days? Weeks? Months?</p>
 <p>A common mistake for new teams is to let branches live for a very long time. A data scientist might create a branch called <code>feature-big-analysis</code>, work on it for three weeks, and then try to merge it back into <code>main</code>. The result is often what’s called “merge hell”: <code>main</code> has changed so much in three weeks that merging the branch back in creates dozens of conflicts and is a painful, stressful process.</p>
 <p>To avoid this, many professional teams use a workflow called <strong>Trunk-Based Development (TBD)</strong>. The philosophy is simple but powerful:</p>
@@ -812,12 +812,10 @@ A---B-------D</code></pre>
 </blockquote>
 <p>This means that feature branches are incredibly <strong>short-lived</strong>. Instead of a single, massive feature branch that takes weeks, you create many tiny branches that each take a few hours or a day at most.</p>
 <p>The goal is to keep the <code>main</code> branch constantly updated with the latest code from everyone on the team. This has huge benefits: * <strong>Fewer Merge Conflicts:</strong> Because you are merging small changes frequently, the chance of conflicting with a teammate’s work is dramatically lower. * <strong>Easier Code Reviews:</strong> Reviewing a small change that adds one function is much easier and faster than reviewing a 1,000-line change that refactors an entire analysis. * <strong>Continuous Integration:</strong> Everyone is working from the most up-to-date version of the project, which reduces integration problems and keeps the project moving forward.</p>
-<section id="how-to-work-with-short-lived-branches" class="level4" data-number="2.12.1.1">
-<h4 data-number="2.12.1.1" class="anchored" data-anchor-id="how-to-work-with-short-lived-branches"><span class="header-section-number">2.12.1.1</span> How to Work with Short-Lived Branches</h4>
+<section id="how-to-work-with-short-lived-branches" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="how-to-work-with-short-lived-branches"><span class="header-section-number">2.13.1</span> How to Work with Short-Lived Branches</h3>
 <p>But how can you merge something back into <code>main</code> if the feature isn’t finished? The <code>main</code> branch must <strong>always be stable and runnable</strong>. You can’t merge broken code.</p>
-<p>Here are two key strategies to make TBD work in practice.</p>
-<section id="strategy-1-feature-flags-or-toggles" class="level5" data-number="2.12.1.1.1">
-<h5 data-number="2.12.1.1.1" class="anchored" data-anchor-id="strategy-1-feature-flags-or-toggles"><span class="header-section-number">2.12.1.1.1</span> Strategy 1: Feature Flags (or Toggles)</h5>
+<p>The first way to solve this issue is to use feature flags.</p>
 <p>A feature flag is just a simple variable (like a <code>TRUE</code>/<code>FALSE</code> switch) that lets you turn a new, unfinished part of the code on or off. This allows you to merge the code into <code>main</code> while keeping it “off” until it’s ready.</p>
 <p>Imagine you are adding a new, complex plot to <code>analysis.R</code>, but it will take a few days to get right.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># At the top of your analysis.R script</span></span>
@@ -834,10 +832,7 @@ A---B-------D</code></pre>
 <span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scatterplot3d</span>(mtcars<span class="sc">$</span>mpg, mtcars<span class="sc">$</span>hp, mtcars<span class="sc">$</span>wt)</span>
 <span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With this <code>if</code> block, you can safely merge your changes into <code>main</code>. The new code is there, but it won’t execute and won’t break the existing analysis. Other developers can pull your changes and won’t even notice. Once you’ve finished the feature in subsequent small commits, the final change is just to flip the switch: <code>use_new_scatterplot &lt;- TRUE</code>.</p>
-</section>
-<section id="strategy-2-stacked-pull-requests" class="level5" data-number="2.12.1.1.2">
-<h5 data-number="2.12.1.1.2" class="anchored" data-anchor-id="strategy-2-stacked-pull-requests"><span class="header-section-number">2.12.1.1.2</span> Strategy 2: Stacked Pull Requests</h5>
-<p>Sometimes, a feature is too big for one small change, but it can be broken down into a logical sequence of steps. For example, to add a new analysis, you might need to: 1. Add a new data cleaning function. 2. Use that function to process the data. 3. Generate a new plot from the processed data.</p>
+<p>The second strategy is to <em>stack</em> pull requests. This is useful when a feature is too big for one small change, but it can be broken down into a logical sequence of steps. For example, to add a new analysis, you might need to: 1. Add a new data cleaning function. 2. Use that function to process the data. 3. Generate a new plot from the processed data.</p>
 <p>Instead of putting all this in one giant Pull Request (PR), you can “stack” them. A stacked PR is a PR that is based on another PR branch, not on <code>main</code>.</p>
 <p>Here’s the workflow: 1. <strong>Create the first branch</strong> from <code>main</code> for the first step. <code>bash     git switch -c add-cleaning-function     # ...do the work, commit, and push...</code> Create a Pull Request on GitHub for this branch (<code>add-cleaning-function</code> -&gt; <code>main</code>).</p>
 <ol start="2" type="1">
@@ -849,10 +844,8 @@ A---B-------D</code></pre>
 <p>By embracing short-lived branches, feature flags, and stacked PRs, you can make collaboration smoother, less stressful, and far more productive.</p>
 </section>
 </section>
-</section>
-</section>
-<section id="contributing-to-someone-elses-repository" class="level2" data-number="2.13">
-<h2 data-number="2.13" class="anchored" data-anchor-id="contributing-to-someone-elses-repository"><span class="header-section-number">2.13</span> Contributing to someone else’s repository</h2>
+<section id="contributing-to-someone-elses-repository" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="contributing-to-someone-elses-repository"><span class="header-section-number">2.14</span> Contributing to someone else’s repository</h2>
 <p>To contribute to repositories you don’t have write access to:</p>
 <ol type="1">
 <li><p><strong>Fork the repository</strong> on GitHub (click the Fork button)</p></li>
@@ -884,11 +877,11 @@ A---B-------D</code></pre>
 <p>This workflow is fundamental for contributing to open source projects and collaborating in professional environments.</p>
 <p>The command line approach to Git gives you complete control and understanding of the version control process, making you a more effective developer and collaborator.</p>
 </section>
-<section id="working-with-llms-and-git-managing-ai-generated-changes" class="level2" data-number="2.14">
-<h2 data-number="2.14" class="anchored" data-anchor-id="working-with-llms-and-git-managing-ai-generated-changes"><span class="header-section-number">2.14</span> Working with LLMs and Git: Managing AI-Generated Changes</h2>
+<section id="working-with-llms-and-git-managing-ai-generated-changes" class="level2" data-number="2.15">
+<h2 data-number="2.15" class="anchored" data-anchor-id="working-with-llms-and-git-managing-ai-generated-changes"><span class="header-section-number">2.15</span> Working with LLMs and Git: Managing AI-Generated Changes</h2>
 <p>When working with Large Language Models (LLMs) like GitHub Copilot, ChatGPT, or Claude to generate or modify code, it’s crucial to review changes carefully before committing them. Git provides excellent tools for examining and selectively accepting or rejecting AI-generated modifications.</p>
-<section id="the-llm-workflow-with-git" class="level3" data-number="2.14.1">
-<h3 data-number="2.14.1" class="anchored" data-anchor-id="the-llm-workflow-with-git"><span class="header-section-number">2.14.1</span> The LLM workflow with Git</h3>
+<section id="the-llm-workflow-with-git" class="level3" data-number="2.15.1">
+<h3 data-number="2.15.1" class="anchored" data-anchor-id="the-llm-workflow-with-git"><span class="header-section-number">2.15.1</span> The LLM workflow with Git</h3>
 <p>Here’s a recommended workflow when using LLMs to modify your code:</p>
 <ol type="1">
 <li><strong>Always commit your working code first:</strong></li>
@@ -902,8 +895,8 @@ A---B-------D</code></pre>
 <li><p><strong>Commit accepted changes with descriptive messages</strong></p></li>
 </ol>
 </section>
-<section id="examining-llm-changes" class="level3" data-number="2.14.2">
-<h3 data-number="2.14.2" class="anchored" data-anchor-id="examining-llm-changes"><span class="header-section-number">2.14.2</span> Examining LLM changes</h3>
+<section id="examining-llm-changes" class="level3" data-number="2.15.2">
+<h3 data-number="2.15.2" class="anchored" data-anchor-id="examining-llm-changes"><span class="header-section-number">2.15.2</span> Examining LLM changes</h3>
 <p>After an LLM has modified your files, use Git to see exactly what changed:</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See all modified files</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
@@ -923,14 +916,14 @@ A---B-------D</code></pre>
 <span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show character-level changes</span></span>
 <span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--word-diff</span><span class="op">=</span>color <span class="at">--word-diff-regex</span><span class="op">=</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="interactive-staging-accepting-changes-chunk-by-chunk" class="level3" data-number="2.14.3">
-<h3 data-number="2.14.3" class="anchored" data-anchor-id="interactive-staging-accepting-changes-chunk-by-chunk"><span class="header-section-number">2.14.3</span> Interactive staging: Accepting changes chunk by chunk</h3>
+<section id="interactive-staging-accepting-changes-chunk-by-chunk" class="level3" data-number="2.15.3">
+<h3 data-number="2.15.3" class="anchored" data-anchor-id="interactive-staging-accepting-changes-chunk-by-chunk"><span class="header-section-number">2.15.3</span> Interactive staging: Accepting changes chunk by chunk</h3>
 <p>Git’s interactive staging feature (<code>git add -p</code>) is perfect for reviewing LLM changes. It lets you review each “hunk” (chunk of changes) individually:</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">-p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This will show you each chunk of changes and prompt you with options: - <code>y</code> - stage this hunk - <code>n</code> - do not stage this hunk - <code>q</code> - quit; do not stage this hunk or any remaining ones - <code>a</code> - stage this hunk and all later hunks in the file - <code>d</code> - do not stage this hunk or any later hunks in the file - <code>s</code> - split the current hunk into smaller hunks - <code>e</code> - manually edit the current hunk - <code>?</code> - print help</p>
 </section>
-<section id="example-reviewing-llm-changes-to-an-r-script" class="level3" data-number="2.14.4">
-<h3 data-number="2.14.4" class="anchored" data-anchor-id="example-reviewing-llm-changes-to-an-r-script"><span class="header-section-number">2.14.4</span> Example: Reviewing LLM changes to an R script</h3>
+<section id="example-reviewing-llm-changes-to-an-r-script" class="level3" data-number="2.15.4">
+<h3 data-number="2.15.4" class="anchored" data-anchor-id="example-reviewing-llm-changes-to-an-r-script"><span class="header-section-number">2.15.4</span> Example: Reviewing LLM changes to an R script</h3>
 <p>Let’s say an LLM modified your <code>analysis.R</code> file. Here’s how to review it:</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, see what files were modified</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
@@ -967,8 +960,8 @@ A---B-------D</code></pre>
 <span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Stage</span> this hunk <span class="pp">[</span><span class="ss">y,n,q,a,d,s,e,?</span><span class="pp">]?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You might decide: - <code>y</code> if you want the additional libraries - <code>n</code> if you think they’re unnecessary - <code>s</code> to split this into smaller chunks if you want only one library</p>
 </section>
-<section id="advanced-chunk-management" class="level3" data-number="2.14.5">
-<h3 data-number="2.14.5" class="anchored" data-anchor-id="advanced-chunk-management"><span class="header-section-number">2.14.5</span> Advanced chunk management</h3>
+<section id="advanced-chunk-management" class="level3" data-number="2.15.5">
+<h3 data-number="2.15.5" class="anchored" data-anchor-id="advanced-chunk-management"><span class="header-section-number">2.15.5</span> Advanced chunk management</h3>
 <p>Sometimes hunks are too large. Use <code>s</code> to split them:</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When prompted with a large hunk</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Stage</span> this hunk <span class="pp">[</span><span class="ss">y,n,q,a,d,s,e,?</span><span class="pp">]?</span> s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -976,8 +969,8 @@ A---B-------D</code></pre>
 <div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Stage</span> this hunk <span class="pp">[</span><span class="ss">y,n,q,a,d,s,e,?</span><span class="pp">]?</span> e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This opens your editor where you can: - Remove lines you don’t want (delete the entire line) - Keep lines by leaving them as-is - Lines starting with <code>+</code> are additions - Lines starting with <code>-</code> are deletions - Lines starting with <code></code> (space) are context</p>
 </section>
-<section id="creating-meaningful-commits-after-llm-review" class="level3" data-number="2.14.6">
-<h3 data-number="2.14.6" class="anchored" data-anchor-id="creating-meaningful-commits-after-llm-review"><span class="header-section-number">2.14.6</span> Creating meaningful commits after LLM review</h3>
+<section id="creating-meaningful-commits-after-llm-review" class="level3" data-number="2.15.6">
+<h3 data-number="2.15.6" class="anchored" data-anchor-id="creating-meaningful-commits-after-llm-review"><span class="header-section-number">2.15.6</span> Creating meaningful commits after LLM review</h3>
 <p>After selectively staging changes, commit with descriptive messages:</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Commit the staged changes</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add dplyr and efficiency categorization</span></span>
@@ -989,8 +982,8 @@ A---B-------D</code></pre>
 <span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="co"># If there are remaining unstaged changes you want to reject</span></span>
 <span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">--</span> analysis.R  <span class="co"># Revert unstaged changes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="working-with-multiple-files-modified-by-llm" class="level3" data-number="2.14.7">
-<h3 data-number="2.14.7" class="anchored" data-anchor-id="working-with-multiple-files-modified-by-llm"><span class="header-section-number">2.14.7</span> Working with multiple files modified by LLM</h3>
+<section id="working-with-multiple-files-modified-by-llm" class="level3" data-number="2.15.7">
+<h3 data-number="2.15.7" class="anchored" data-anchor-id="working-with-multiple-files-modified-by-llm"><span class="header-section-number">2.15.7</span> Working with multiple files modified by LLM</h3>
 <p>When an LLM modifies multiple files, review them systematically:</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See all changed files</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
@@ -1007,8 +1000,8 @@ A---B-------D</code></pre>
 <p>Or stage all changes interactively at once:</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">-p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="handling-llm-generated-new-files" class="level3" data-number="2.14.8">
-<h3 data-number="2.14.8" class="anchored" data-anchor-id="handling-llm-generated-new-files"><span class="header-section-number">2.14.8</span> Handling LLM-generated new files</h3>
+<section id="handling-llm-generated-new-files" class="level3" data-number="2.15.8">
+<h3 data-number="2.15.8" class="anchored" data-anchor-id="handling-llm-generated-new-files"><span class="header-section-number">2.15.8</span> Handling LLM-generated new files</h3>
 <p>When an LLM creates entirely new files:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See new files</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
@@ -1022,8 +1015,8 @@ A---B-------D</code></pre>
 <span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Or ignore if you don't want it</span></span>
 <span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"new_functions.R"</span> <span class="op">&gt;&gt;</span> .gitignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="using-git-to-compare-llm-suggestions" class="level3" data-number="2.14.9">
-<h3 data-number="2.14.9" class="anchored" data-anchor-id="using-git-to-compare-llm-suggestions"><span class="header-section-number">2.14.9</span> Using Git to compare LLM suggestions</h3>
+<section id="using-git-to-compare-llm-suggestions" class="level3" data-number="2.15.9">
+<h3 data-number="2.15.9" class="anchored" data-anchor-id="using-git-to-compare-llm-suggestions"><span class="header-section-number">2.15.9</span> Using Git to compare LLM suggestions</h3>
 <p>Create a branch to safely experiment with LLM suggestions:</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a branch for LLM experiments</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> llm-suggestions</span>
@@ -1044,8 +1037,8 @@ A---B-------D</code></pre>
 <span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">-p</span>  <span class="co"># Selectively stage parts of the cherry-picked changes</span></span>
 <span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Selected improvements from LLM suggestions"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="best-practices-for-llm-git-workflow" class="level3" data-number="2.14.10">
-<h3 data-number="2.14.10" class="anchored" data-anchor-id="best-practices-for-llm-git-workflow"><span class="header-section-number">2.14.10</span> Best practices for LLM + Git workflow</h3>
+<section id="best-practices-for-llm-git-workflow" class="level3" data-number="2.15.10">
+<h3 data-number="2.15.10" class="anchored" data-anchor-id="best-practices-for-llm-git-workflow"><span class="header-section-number">2.15.10</span> Best practices for LLM + Git workflow</h3>
 <ol type="1">
 <li><strong>Always commit working code before applying LLM suggestions</strong></li>
 <li><strong>Never blindly accept all LLM changes</strong> - review each modification</li>
@@ -1056,8 +1049,8 @@ A---B-------D</code></pre>
 <li><strong>Document why you accepted or rejected specific suggestions</strong></li>
 </ol>
 </section>
-<section id="example-complete-workflow" class="level3" data-number="2.14.11">
-<h3 data-number="2.14.11" class="anchored" data-anchor-id="example-complete-workflow"><span class="header-section-number">2.14.11</span> Example complete workflow</h3>
+<section id="example-complete-workflow" class="level3" data-number="2.15.11">
+<h3 data-number="2.15.11" class="anchored" data-anchor-id="example-complete-workflow"><span class="header-section-number">2.15.11</span> Example complete workflow</h3>
 <div class="sourceCode" id="cb71"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Save current working state</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Working analysis script before LLM optimization"</span></span>

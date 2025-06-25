@@ -406,7 +406,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#using-nix-shell-to-launch-environments" id="toc-using-nix-shell-to-launch-environments" class="nav-link" data-scroll-target="#using-nix-shell-to-launch-environments"><span class="header-section-number">1.3.4</span> Using <code>nix-shell</code> to Launch Environments</a></li>
   <li><a href="#pinning-with-nixpkgs" id="toc-pinning-with-nixpkgs" class="nav-link" data-scroll-target="#pinning-with-nixpkgs"><span class="header-section-number">1.3.5</span> Pinning with <code>nixpkgs</code></a></li>
   </ul></li>
-  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">1.4</span> Hands-On Exercises</a></li>
+  <li><a href="#configuring-your-ide" id="toc-configuring-your-ide" class="nav-link" data-scroll-target="#configuring-your-ide"><span class="header-section-number">1.4</span> Configuring your IDE</a>
+  <ul class="collapse">
+  <li><a href="#recommended-setup-on-macos" id="toc-recommended-setup-on-macos" class="nav-link" data-scroll-target="#recommended-setup-on-macos"><span class="header-section-number">1.4.1</span> Recommended setup on macOS</a></li>
+  <li><a href="#recommended-setup-on-windows" id="toc-recommended-setup-on-windows" class="nav-link" data-scroll-target="#recommended-setup-on-windows"><span class="header-section-number">1.4.2</span> Recommended setup on Windows</a></li>
+  <li><a href="#recommended-setup-on-linux" id="toc-recommended-setup-on-linux" class="nav-link" data-scroll-target="#recommended-setup-on-linux"><span class="header-section-number">1.4.3</span> Recommended setup on Linux</a></li>
+  <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio"><span class="header-section-number">1.4.4</span> RStudio</a></li>
+  <li><a href="#vs-code-or-positron" id="toc-vs-code-or-positron" class="nav-link" data-scroll-target="#vs-code-or-positron"><span class="header-section-number">1.4.5</span> VS Code or Positron</a></li>
+  </ul></li>
+  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">1.5</span> Hands-On Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/02-intro-nix.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -618,8 +626,105 @@ systemd=true</code></pre>
 <p>This avoids unexpected updates and lets others reproduce your environment exactly.</p>
 </section>
 </section>
-<section id="hands-on-exercises" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">1.4</span> Hands-On Exercises</h2>
+<section id="configuring-your-ide" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="configuring-your-ide"><span class="header-section-number">1.4</span> Configuring your IDE</h2>
+<p>We now need to configure an IDE to use both our Nix shells as development environments, and GitHub Copilot. You are free to use whatever IDE you want but the instructions below are going to focus on RStudio, VS Code and Positron.</p>
+<p>The following are the setups we recommend you use to work using an IDE and Nix environments. To be recommended, a setup should:</p>
+<ul>
+<li>be easy to setup;</li>
+<li>work the same on any operating system;</li>
+<li>not require any type of special maintenance.</li>
+</ul>
+<p>Regardless of your operating system, a general-purpose editor such as VS Code (or Codium), Emacs, or Neovim meets the above requirements. Recent releases of Positron also work quite well. (Note: Neovim is not covered here due to lack of experience—PRs welcome!) However, some editors perform better on certain platforms.</p>
+<p>Also, we recommend you uninstall R if it’s installed system-wide and also remove your local library of packages and instead only use dedicated Nix shells to manage your projects. While we made our possible for Nix shells to not interfere with a system-installed R, we recommend users go into the habit of taking some minutes at the start of a project to properly set up their development environment.</p>
+<section id="recommended-setup-on-macos" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="recommended-setup-on-macos"><span class="header-section-number">1.4.1</span> Recommended setup on macOS</h3>
+<p>On macOS, RStudio will only be available through Nix and only for versions 4.4.3 or more recent, or after the 2025-02-28 if you’re using dates. For older versions of R or dates, RStudio is not available for macOS through Nix so you cannot use it. As such, we recommend either VS Code (or Codium) or Positron for older dates or versions. Emacs or Neovim are also good options. See the relevant sections below to set up any of these editors. We also recommend to install the editor on macOS directly, and configure it to interact with Nix shells, instead of using Nix to install the editor, even though it does take some more effort to configure.</p>
+</section>
+<section id="recommended-setup-on-windows" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="recommended-setup-on-windows"><span class="header-section-number">1.4.2</span> Recommended setup on Windows</h3>
+<p>On Windows, since you have to use Nix through WSL, your options are limited to editors that either:</p>
+<ul>
+<li>can be installed on Windows and interact with WSL, or</li>
+<li>can be launched directly from WSL.</li>
+</ul>
+<p>We recommend to use an editor you can install directly on Windows and configure to interact nicely with WSL, and it turns out that this is mostly only VS Code (or Codium) or Positron. See <a href="#configuring-native-vs-codecodium-on-your-operating-system">this section</a> to learn how to configure VS Code (or Codium) or Positron.</p>
+<p>If you want to use RStudio, this is also possible but:</p>
+<ul>
+<li>RStudio should ideally be installed with Nix inside WSL;</li>
+<li>your version of Windows needs to support <a href="https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps">WSLg</a> which should be fine on Windows 11 or the very latest Windows 10 builds. WSLg allows you to run GUI apps from WSL.</li>
+</ul>
+<p>You should also be aware that there is currently a bug in the RStudio Nix package that makes RStudio ignore project-specific <code>.Rprofile</code> files, which can be an issue if you also have a system-level library of packages. Instead, you can sure the <code>.Rprofile</code> generated by <code>rix()</code> yourself or you can uninstall the system-level R and library of packages.</p>
+<p>Furthermore, be aware that there is a bug in WSLg that prevents modifier keys like <a href="https://github.com/microsoft/wslg/issues/890">Alt Gr</a> from working properly.</p>
+<p>If you prefer Emacs or Neovim, then we recommend to install it in WSL and use it in command line mode, not through WSLg (so starting Emacs with the <code>- nw</code> argument).</p>
+</section>
+<section id="recommended-setup-on-linux" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="recommended-setup-on-linux"><span class="header-section-number">1.4.3</span> Recommended setup on Linux</h3>
+<p>On Linux distributions, the only real limitation is that RStudio cannot interact with Nix shells (just like on the other operating systems), so if you want to use RStudio then you need to install it using Nix.</p>
+<p>You should also be aware that there is currently a bug in the RStudio Nix package that makes RStudio ignore project-specific <code>.Rprofile</code> files, which can be an issue if you also have a system-level library of packages. Instead, you can sure the <code>.Rprofile</code> generated by <code>rix()</code> yourself or you can uninstall the system-level R and library of packages.</p>
+<p>If you use another editor, just follow the relevant instructions below; the question you need to think about is whether you want to use Nix to install the editor inside of the development shell or if you prefer to install your editor yourself using your distribution’s package manager, and configure it to interact with Nix shells. We recommend the latter option, regardless of the editor you choose.</p>
+</section>
+<section id="rstudio" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="rstudio"><span class="header-section-number">1.4.4</span> RStudio</h3>
+<p>RStudio <strong>must</strong> be installed by Nix in order to <em>see</em> and use Nix shells. So you cannot use the RStudio already installed on your computer to work with Nix shells. This means you need to set <code>ide = "rstudio"</code> if you wish to use RStudio.</p>
+<p>You should also be aware that there is currently a bug in the RStudio Nix package that makes RStudio ignore project-specific <code>.Rprofile</code> files, which can be an issue if you also have a system-level library of packages. Instead, you can sure the <code>.Rprofile</code> generated by <code>rix()</code> yourself or you can uninstall the system-level R and library of packages.</p>
+<section id="rstudio-on-macos" class="level4" data-number="1.4.4.1">
+<h4 data-number="1.4.4.1" class="anchored" data-anchor-id="rstudio-on-macos"><span class="header-section-number">1.4.4.1</span> RStudio on macOS</h4>
+<p>To use RStudio on macOS simply use <code>ide = "rstudio"</code>, but be aware that this will only work for R version 4.4.3 at least, or for a date on or after the 2025-02-28. If you don’t need to work with older versions of R or older date, RStudio is an appropriate choice. Then, build the environment using <code>nix-build</code> and drop into the shell using <code>nix-shell</code>. Then, type <code>rstudio</code> to start RStudio. If you wish, you can even put the <code>rstudio</code> command in the shell hook to start it immediately as you run <code>nix-shell</code>.</p>
+</section>
+<section id="rstudio-on-linux-or-windows" class="level4" data-number="1.4.4.2">
+<h4 data-number="1.4.4.2" class="anchored" data-anchor-id="rstudio-on-linux-or-windows"><span class="header-section-number">1.4.4.2</span> RStudio on Linux or Windows</h4>
+<p>To use RStudio on Linux or Windows simply use <code>ide = "rstudio"</code>. Then, build the environment using <code>nix-build</code> and drop into the shell using <code>nix-shell</code>. Then, type <code>rstudio</code> to start RStudio.</p>
+<p>If you plan to use RStudio on Ubuntu, then you need further configuration to make it work, because of newly introduced sandboxing features in Ubuntu 24.04. You will need to create an RStudio-specific AppArmor profile. To do so create this apparmor profile:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> nano /etc/apparmor.d/nix.rstudio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Populate it with:</p>
+<pre><code>profile nix.rstudio /nix/store/*-RStudio-*-wrapper/bin/rstudio flags=(unconfined) {
+    userns,
+}</code></pre>
+<p>Save it, load the profile and start RStudio:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apparmor_parser <span class="at">-r</span> /etc/apparmor.d/nix.rstudio</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl reload apparmor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can now start RStudio from the activated Nix shell.</p>
+<p>On Windows, you need to have <code>WSLg</code> enabled, which should be the case on the latest versions of Windows. If you wish, you can even put the <code>rstudio</code> command in the shell hook to start it immediately as you run <code>nix-shell</code>.</p>
+<p>On Linux and WSL, depending on your desktop environment, and for older versions of RStudio, you might see the following error message when trying to launch RStudio:</p>
+<pre><code>qt.glx: qglx_findConfig: Failed to finding matching FBConfig for QSurfaceFormat(version 2.0, options QFlags&lt;QSurfaceFormat::FormatOption&gt;(), depthBufferSize -1, redBufferSize 1, greenBufferSize 1, blueBufferSize 1, alphaBufferSize -1, stencilBufferSize -1, samples -1, swapBehavior QSurfaceFormat::SingleBuffer, swapInterval 1, colorSpace QSurfaceFormat::DefaultColorSpace, profile  QSurfaceFormat::NoProfile)
+Could not initialize GLX
+Aborted (core dumped)</code></pre>
+<p>in this case, run the following before running RStudio:</p>
+<pre><code>export QT_XCB_GL_INTEGRATION=none</code></pre>
+<p>To use GitHub Copilot with RStudio, follow these <a href="https://docs.posit.co/ide/user/ide/guide/tools/copilot.html">instructions</a>.</p>
+</section>
+</section>
+<section id="vs-code-or-positron" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5" class="anchored" data-anchor-id="vs-code-or-positron"><span class="header-section-number">1.4.5</span> VS Code or Positron</h3>
+<p>Positron is a fork of VS Code made by Posit and tailored for data science. Henceforth, I will refer to both editors simply as <em>Code</em>.</p>
+<p>The same instructions apply whether your host operating system is Linux, macOS or Windows. The first step is of course to install Code on your operating system using the usual means of installing software.</p>
+<p>If you’re on Windows, install Code on Windows, not in WSL. Code on Windows is able to interact with WSL seamlessly and before continuing here, please follow <a href="https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode">these instructions</a> (it’s mostly about installing the right extensions after having installed Positron).</p>
+<p>On macOS, start by installing Code using the official <code>.dmg</code> installer. Start Code, and then the command palette using <code>COMMAND-SHIFT-P</code>. In the search bar, type <code>"Install 'positron' command in PATH"</code> and click on it: this will make it possible to start Positron from a terminal.</p>
+<p>Once Code is installed, you need to install a piece of software called <code>direnv</code>: <code>direnv</code> will automatically load Nix shells when you open a project that contains a <code>default.nix</code> file in an editor. It works on any operating system and many editors support it, including Code. Follow the instructions for your operating system <a href="https://direnv.net/docs/installation.html">here</a> but if you’re using Windows, install <code>direnv</code> in WSL (even though you’ve just installed Code for Windows), so follow the instructions for whatever Linux distribution you’re using there (likely Ubuntu), or use Nix to install <code>direnv</code> if you prefer (this is the way I recommend to install it on macOS, unless you already use <code>brew</code>):</p>
+<pre><code>nix-env -f '&lt;nixpkgs&gt;' -iA direnv</code></pre>
+<p>This will install <code>direnv</code> and make it available even outside of Nix shells!</p>
+<p>Then, we highly recommend to install the <code>nix-direnv</code> extension:</p>
+<pre><code>nix-env -f '&lt;nixpkgs&gt;' -iA nix-direnv</code></pre>
+<p>It is not mandatory to use <code>nix-direnv</code> if you already have <code>direnv</code>, but it’ll make loading environments much faster and seamless. Finally, if you haven’t used <code>direnv</code> before, don’t forget <a href="https://direnv.net/docs/hook.html">this last step</a>.</p>
+<p>Then, in Code, install the <a href="https://github.com/direnv/direnv-vscode">direnv</a> extension (and also the WSL extension if you’re on Windows, as explained in the official documentation linked above!). Finally, add a file called <code>.envrc</code> and simply write the following two lines in it:</p>
+<pre><code>use nix
+mkdir $TMP</code></pre>
+<p>in it. On Windows, <em>remotely connect to WSL</em> first, but on other operating systems, simply open the project’s folder using <code>File &gt; Open Folder...</code> and you will see a pop-up stating <code>direnv: /PATH/TO/PROJECT/.envrc is blocked</code> and a button to allow it. Click <code>Allow</code> and then open an R script. You might get another pop-up asking you to restart the extension, so click <code>Restart</code>. Be aware that at this point, <code>direnv</code> will run <code>nix-shell</code> and so will start building the environment. If that particular environment hasn’t been built and cached yet, it might take some time before Code will be able to interact with it. You might get yet another popup, this time from the R Code extension complaining that R can’t be found. In this case, simply restart Code and open the project folder again: now it should work every time. For a new project, simply repeat this process:</p>
+<ul>
+<li>Generate the project’s <code>default.nix</code> file;</li>
+<li>Build it using <code>nix-build</code>;</li>
+<li>Create an <code>.envrc</code> and write the two lines from above in it;</li>
+<li>Open the project’s folder in Code and click allow when prompted;</li>
+<li>Restart the extension and Code if necessary.</li>
+</ul>
+<p>Another option is to create the <code>.envrc</code> file and write <code>use nix</code> in it, then open a terminal, navigate to the project’s folder, and run <code>direnv allow</code>. Doing this before opening Code should not prompt you anymore.</p>
+<p>If you’re on Windows, using Code like this is particularly interesting, because it allows you to install Code on Windows as usual, and then you can configure it to interact with a Nix shell, even if it’s running from WSL. This is a very seamless experience.</p>
+<p>Now configure VS Code to use GitHub Copilot, <a href="https://code.visualstudio.com/docs/copilot/overview">click here</a> or for Positron <a href="https://positron.posit.co/assistant.html">click here</a>.</p>
+</section>
+</section>
+<section id="hands-on-exercises" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">1.5</span> Hands-On Exercises</h2>
 <ol type="1">
 <li>Start a temporary shell with R and <code>{rix}</code> again using <code>nix-shell -p R rPackages.rix</code>. Start an R session (by typing <code>R</code>) and then load the <code>{rix}</code> package (using <code>library(rix)</code>). Run the <code>available_dates()</code> function: using the latest available date, generate a new <code>default.nix</code>.</li>
 <li>Inside of an activated shell, type <code>which R</code> and <code>echo $PATH</code>. Explore what is being added to your environment. What is the significance of paths like <code>/nix/store/...</code>?</li>

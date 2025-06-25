@@ -404,7 +404,7 @@ To permanently revert a commit (creates a new commit that undoes changes):
 git revert <commit-hash>
 ```
 
-## Collaborating
+## Collaborating and handling conflicts
 
 Let's set up collaboration. Have a colleague invite you to their repository, or
 invite someone to yours. On GitHub, go to Settings → Manage access → Invite a
@@ -431,8 +431,6 @@ git commit -m "Add iris analysis"
 git push origin main  # This will fail!
 ```
 
-### Handling conflicts
-
 You'll get an error like `! [rejected] main -> main (non-fast-forward)`. This
 sounds scary, but it's Git's safe way of telling you: **"The remote repository
 on GitHub has changes that you don't have on your computer. I'm stopping you
@@ -442,7 +440,7 @@ To solve this, you must first pull the changes from the remote repository and
 combine them with your local work. Git gives you two primary ways to do this:
 **merging** and **rebasing**.
 
-#### Strategy 1: Merging (The Default)
+### Strategy 1: Merging (The Default)
 
 If you just run `git pull`, Git will perform a *merge*. It looks at the remote
 changes and your local changes and creates a new, special "merge commit" to tie
@@ -470,7 +468,7 @@ The history is now non-linear. While this accurately records that two lines of
 work were merged, it can clutter up the project history with many "Merge branch
 'main'..." commits, making it harder to read.
 
-#### Strategy 2: Rebasing (The Cleaner Way)
+### Strategy 2: Rebasing (The Cleaner Way)
 
 The second strategy is to *rebase*. Rebasing does something clever. It says:
 "Let me temporarily put your local changes aside. I'll download the latest
@@ -665,7 +663,7 @@ git merge feature-description
 git push origin main
 ```
 
-### **A Better Way to Collaborate: Trunk-Based Development**
+## A Better Way to Collaborate: Trunk-Based Development
 
 The "Essential Daily Workflow" you just learned is a great start, but it leaves
 one important question unanswered: how long should a feature branch live? Days?
@@ -699,15 +697,13 @@ from everyone on the team. This has huge benefits:
     version of the project, which reduces integration problems and keeps the
     project moving forward.
 
-#### How to Work with Short-Lived Branches
+### How to Work with Short-Lived Branches
 
 But how can you merge something back into `main` if the feature isn't finished?
 The `main` branch must **always be stable and runnable**. You can't merge broken
 code.
 
-Here are two key strategies to make TBD work in practice.
-
-##### Strategy 1: Feature Flags (or Toggles)
+The first way to solve this issue is to use feature flags.
 
 A feature flag is just a simple variable (like a `TRUE`/`FALSE` switch) that
 lets you turn a new, unfinished part of the code on or off. This allows you to
@@ -738,9 +734,8 @@ developers can pull your changes and won't even notice. Once you've finished the
 feature in subsequent small commits, the final change is just to flip the
 switch: `use_new_scatterplot <- TRUE`.
 
-##### Strategy 2: Stacked Pull Requests
-
-Sometimes, a feature is too big for one small change, but it can be broken down
+The second strategy is to *stack* pull requests. This is useful when a 
+feature is too big for one small change, but it can be broken down
 into a logical sequence of steps. For example, to add a new analysis, you might
 need to:
 1.  Add a new data cleaning function.

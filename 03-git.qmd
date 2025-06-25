@@ -247,7 +247,7 @@ Now that we have our key pair, our next task is to give the public key to
 GitHub. Let's display the public key:
 
 ```bash
-cat ~/.ssh/id_rsa.pub
+cat ~/.ssh/id_ed25519.pub
 ```
 
 Copy the entire output (starting with `ssh-rsa` and ending with your email).

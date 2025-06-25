@@ -584,7 +584,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Note for Older Systems:</strong> If the <code>ssh-keygen</code> command gives an error about <code>ed25519</code> being an “invalid option”, your system might be too old to support it. In that rare case, you can use the older RSA algorithm instead: <code>ssh-keygen -t rsa -b 4096 -C "your_email@example.com"</code></p>
 </blockquote>
 <p>Now that we have our key pair, our next task is to give the public key to GitHub. Let’s display the public key:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_ed25519.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Copy the entire output (starting with <code>ssh-rsa</code> and ending with your email).</p>
 <p>Go to GitHub.com, click on your profile picture, then Settings → SSH and GPG keys → New SSH key. Paste your public key and give it a descriptive title.</p>
 <p>Let’s test the connection:</p>

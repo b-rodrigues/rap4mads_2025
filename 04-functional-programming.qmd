@@ -143,7 +143,7 @@ source of impurity (the random seed) an explicit input.
 
 In R, the `{withr}` package helps create a temporary, controlled context:
 
-```{webr-r}
+```R
 library(withr)
 
 # This function is now pure! For a given seed, the output is always the same.
@@ -338,7 +338,7 @@ For data analysis, you'll often want to write functions that work with data
 frames and column names. The `{dplyr}` package uses a special technique called
 "tidy evaluation" for this.
 
-```{webr-r}
+```R
 library(dplyr)
 
 # A function that summarizes a column in a dataset
@@ -416,7 +416,7 @@ The `{purrr}` package is the gold standard for functional programming in R. The
 
 **Example:** Calculate the mean of every column in a data frame.
 
-```{webr-r}
+```R
 library(purrr)
 
 # The classic for-loop way (verbose and clunky)
@@ -477,7 +477,7 @@ the opposite.
 **Example:** From a list of data frames, keep only the ones with more than 100
 rows.
 
-```{webr-r}
+```R
 # setup: create a list of data frames
 df1 <- data.frame(x = 1:50)
 df2 <- data.frame(x = 1:200)
@@ -527,7 +527,7 @@ finding intersections, or joining a list of data frames.
 
 **Example:** Find the total sum of a vector of numbers.
 
-```{webr-r}
+```R
 # reduce() will take the first two elements (1, 2), apply `+` to get 3.
 # Then it takes the result (3) and the next element (3), applies `+` to get 6.
 # And so on.
@@ -540,7 +540,7 @@ print(total_sum)
 A more practical data science example: find all the column names that are common
 to a list of data frames.
 
-```{webr-r}
+```R
 # Get the column names of each df in the list
 list_of_colnames <- map(list_of_dfs, names)
 print(list_of_colnames)
@@ -581,7 +581,7 @@ parts. This is exactly what the pipe operators (`|>` in R, `%>%` from
 
 This R code is a sequence of function compositions:
 
-```{webr-r}
+```R
 starwars %>%
   filter(!is.na(mass)) %>%
   select(species, sex, mass) %>%

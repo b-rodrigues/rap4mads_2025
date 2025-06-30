@@ -503,17 +503,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Some operations, like generating random numbers, are inherently impure. Each time you run <code>rnorm(10)</code> or <code>numpy.random.rand(10)</code>, you get a different result.</p>
 <p>The functional approach is not to avoid this, but to <em>control</em> it by making the source of impurity (the random seed) an explicit input.</p>
 <p>In R, the <code>{withr}</code> package helps create a temporary, controlled context:</p>
-<pre class="{webr-r}"><code>library(withr)
-
-# This function is now pure! For a given seed, the output is always the same.
-pure_rnorm &lt;- function(n, seed) {
-  with_seed(seed, {
-    rnorm(n)
-  })
-}
-
-pure_rnorm(n = 5, seed = 123)
-pure_rnorm(n = 5, seed = 123)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(withr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This function is now pure! For a given seed, the output is always the same.</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>pure_rnorm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, seed) {</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with_seed</span>(seed, {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">pure_rnorm</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pure_rnorm</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In Python, <code>numpy</code> provides a more modern, object-oriented way to handle this, which is naturally functional:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -613,23 +613,23 @@ pure_rnorm(n = 5, seed = 123)</code></pre>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">1.5</span>, <span class="fl">1.8</span>, <span class="fl">1.3</span>, <span class="fl">1.6</span>, <span class="fl">1.7</span>)</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_ci</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For data analysis, you’ll often want to write functions that work with data frames and column names. The <code>{dplyr}</code> package uses a special technique called “tidy evaluation” for this.</p>
-<pre class="{webr-r}"><code>library(dplyr)
-
-# A function that summarizes a column in a dataset
-summarize_variable &lt;- function(dataset, var_to_summarize) {
-  dataset %&gt;%
-    summarise(
-      n = n(),
-      mean = mean({{ var_to_summarize }}, na.rm = TRUE),
-      sd = sd({{ var_to_summarize }}, na.rm = TRUE)
-    )
-}
-
-# The {{ }} (curly-curly) syntax tells dplyr to use the column name
-# passed into the function.
-starwars %&gt;%
-  group_by(species) %&gt;%
-  summarize_variable(height)</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A function that summarizes a column in a dataset</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>summarize_variable <span class="ot">&lt;-</span> <span class="cf">function</span>(dataset, var_to_summarize) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  dataset <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">mean</span>({{ var_to_summarize }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">sd</span>({{ var_to_summarize }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># The {{ }} (curly-curly) syntax tells dplyr to use the column name</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># passed into the function.</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">%&gt;%</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize_variable</span>(height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This is incredibly powerful for creating reusable analysis snippets. To learn more, read about programming with <code>{dplyr}</code> <a href="https://dplyr.tidyverse.org/articles/programming.html">here</a>.</p>
 </section>
 <section id="in-python" class="level4" data-number="3.3.0.2">
@@ -671,22 +671,22 @@ starwars %&gt;%
 <li><code>map_dfr()</code>: Returns a data frame by row-binding the results.</li>
 </ul>
 <p><strong>Example:</strong> Calculate the mean of every column in a data frame.</p>
-<pre class="{webr-r}"><code>library(purrr)
-
-# The classic for-loop way (verbose and clunky)
-# Allocate an empty vector with the right size
-means_loop &lt;- vector("double", ncol(mtcars))
-
-for (i in seq_along(mtcars)) {
-  means_loop[[i]] &lt;- mean(mtcars[[i]], na.rm = TRUE)
-}
-
-print(means_loop)
-
-# The functional way with map_dbl()
-means_functional &lt;- map_dbl(mtcars, mean, na.rm = TRUE)
-
-print(means_functional)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The classic for-loop way (verbose and clunky)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Allocate an empty vector with the right size</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>means_loop <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"double"</span>, <span class="fu">ncol</span>(mtcars))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(mtcars)) {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  means_loop[[i]] <span class="ot">&lt;-</span> <span class="fu">mean</span>(mtcars[[i]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(means_loop)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># The functional way with map_dbl()</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>means_functional <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(mtcars, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(means_functional)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>map()</code> version is not just shorter; it’s safer. You can’t make an off-by-one error, and you don’t have to pre-allocate <code>means_loop</code>. The code clearly states its purpose.</p>
 </section>
 <section id="in-python-with-list-comprehensions-and-map" class="level4" data-number="3.4.1.2">
@@ -711,15 +711,15 @@ print(means_functional)</code></pre>
 <h4 data-number="3.4.2.1" class="anchored" data-anchor-id="in-r-with-purrrkeep-or-purrrdiscard"><span class="header-section-number">3.4.2.1</span> In R with <code>purrr::keep()</code> or <code>purrr::discard()</code></h4>
 <p><code>keep()</code> retains elements where the function returns <code>TRUE</code>. <code>discard()</code> does the opposite.</p>
 <p><strong>Example:</strong> From a list of data frames, keep only the ones with more than 100 rows.</p>
-<pre class="{webr-r}"><code># setup: create a list of data frames
-df1 &lt;- data.frame(x = 1:50)
-df2 &lt;- data.frame(x = 1:200)
-df3 &lt;- data.frame(x = 1:75)
-list_of_dfs &lt;- list(a = df1, b = df2, c = df3)
-
-# The functional way to filter the list
-large_dfs &lt;- keep(list_of_dfs, ~ nrow(.x) &gt; 100)
-print(names(large_dfs))</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setup: create a list of data frames</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">75</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>list_of_dfs <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> df1, <span class="at">b =</span> df2, <span class="at">c =</span> df3)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The functional way to filter the list</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>large_dfs <span class="ot">&lt;-</span> <span class="fu">keep</span>(list_of_dfs, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(large_dfs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="in-python-with-list-comprehensions" class="level4" data-number="3.4.2.2">
 <h4 data-number="3.4.2.2" class="anchored" data-anchor-id="in-python-with-list-comprehensions"><span class="header-section-number">3.4.2.2</span> In Python with List Comprehensions</h4>
@@ -745,21 +745,21 @@ print(names(large_dfs))</code></pre>
 <section id="in-r-with-purrrreduce" class="level4" data-number="3.4.3.1">
 <h4 data-number="3.4.3.1" class="anchored" data-anchor-id="in-r-with-purrrreduce"><span class="header-section-number">3.4.3.1</span> In R with <code>purrr::reduce()</code></h4>
 <p><strong>Example:</strong> Find the total sum of a vector of numbers.</p>
-<pre class="{webr-r}"><code># reduce() will take the first two elements (1, 2), apply `+` to get 3.
-# Then it takes the result (3) and the next element (3), applies `+` to get 6.
-# And so on.
-total_sum &lt;- reduce(c(1, 2, 3, 4, 5), `+`)
-
-# This is equivalent to 1 + 2 + 3 + 4 + 5
-print(total_sum)</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reduce() will take the first two elements (1, 2), apply `+` to get 3.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Then it takes the result (3) and the next element (3), applies `+` to get 6.</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># And so on.</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>total_sum <span class="ot">&lt;-</span> <span class="fu">reduce</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="st">`</span><span class="at">+</span><span class="st">`</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This is equivalent to 1 + 2 + 3 + 4 + 5</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(total_sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A more practical data science example: find all the column names that are common to a list of data frames.</p>
-<pre class="{webr-r}"><code># Get the column names of each df in the list
-list_of_colnames &lt;- map(list_of_dfs, names)
-print(list_of_colnames)
-
-# Use reduce with the `intersect` function to find common elements
-common_cols &lt;- reduce(list_of_colnames, intersect)
-print(common_cols)</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the column names of each df in the list</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>list_of_colnames <span class="ot">&lt;-</span> <span class="fu">map</span>(list_of_dfs, names)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(list_of_colnames)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use reduce with the `intersect` function to find common elements</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>common_cols <span class="ot">&lt;-</span> <span class="fu">reduce</span>(list_of_colnames, intersect)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(common_cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="in-python-with-functools.reduce" class="level4" data-number="3.4.3.2">
 <h4 data-number="3.4.3.2" class="anchored" data-anchor-id="in-python-with-functools.reduce"><span class="header-section-number">3.4.3.2</span> In Python with <code>functools.reduce</code></h4>
@@ -783,11 +783,11 @@ print(common_cols)</code></pre>
 <h2 data-number="3.5" class="anchored" data-anchor-id="the-power-of-composition"><span class="header-section-number">3.5</span> The Power of Composition</h2>
 <p>The final, beautiful consequence of a functional style is <strong>composition</strong>. You can chain functions together to build complex workflows from simple, reusable parts. This is exactly what the pipe operators (<code>|&gt;</code> in R, <code>%&gt;%</code> from <code>{magrittr}</code>) and method chaining (the <code>.</code> in pandas) are designed for.</p>
 <p>This R code is a sequence of function compositions:</p>
-<pre class="{webr-r}"><code>starwars %&gt;%
-  filter(!is.na(mass)) %&gt;%
-  select(species, sex, mass) %&gt;%
-  group_by(sex, species) %&gt;%
-  summarise(mean_mass = mean(mass), .groups = "drop")</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(mass)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species, sex, mass) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, species) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_mass =</span> <span class="fu">mean</span>(mass), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This is equivalent to <code>summarise(group_by(select(filter(starwars, ...))))</code>. The pipe makes it readable.</p>
 <p>The same idea applies in Python with pandas:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (starwars_py</span></span>

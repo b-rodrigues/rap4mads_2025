@@ -497,3 +497,23 @@ barrier to adopting best practices like comprehensive testing and documentation.
 This combination doesn't just make you faster; it makes you a more reliable and
 professional data scientist, capable of producing tools that are truly
 reproducible and built to last.
+
+While a full guide to package development is beyond the scope of this course, it
+is the natural next step in your journey as a data scientist who produces
+reliable tools. When you are ready to take that step, here are the definitive
+resources to guide you:
+
+*   **For R:** The "R Packages" (2e) book by Hadley Wickham and Jennifer Bryan
+    is the essential, comprehensive guide. It covers everything from initial
+    setup with `{usethis}` to testing, documentation, and submission to CRAN.
+    [**Read it online here.**](https://r-pkgs.org/)
+*   **For Python:** The official [**Python Packaging User
+    Guide**](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+    is the place to start. For a more modern and streamlined approach that
+    handles dependency management and publishing, many developers use tools like
+    [**Poetry**](https://python-poetry.org/docs/) or
+    [**Hatch**](https://hatch.pypa.io/latest/).
+
+Treating your data analysis project like a small, internal software
+package, complete with functions and tests, is a powerful mindset that will
+elevate the quality and reliability of your work.

@@ -7,6 +7,7 @@ knitr::include_graphics("img/lambda.png")
 </div>
 
 What you'll learn by the end of this chapter:
+
 *   Why functional programming is crucial for reproducible, testable, and
     collaborative data science.
 *   How to write self-contained, "pure" functions in both R and Python.
@@ -18,6 +19,7 @@ What you'll learn by the end of this chapter:
 ## Introduction: From Scripts to Functions
 
 So far, we've established two pillars of reproducible data science:
+
 1.  **Reproducible Environments (with Nix):** Ensuring everyone has the *exact
     same tools* (R, Python, system libraries) to run the code.
 2.  **Reproducible History (with Git):** Ensuring everyone has the *exact same
@@ -72,7 +74,8 @@ level of rock-solid predictability.
 
 ### Why Does This Matter for Data Science?
 
-Adopting a functional style brings massive benefits that directly connect to our previous chapters:
+Adopting a functional style brings massive benefits that directly connect to our
+previous chapters:
 
 1.  **Unit Testing is Now Possible:** You can't easily test a 200-line script.
     But you *can* easily test a small function that does one thing. Does
@@ -96,6 +99,7 @@ Adopting a functional style brings massive benefits that directly connect to our
 ## Purity and Side Effects
 
 A **pure function** has two rules:
+
 1.  It only depends on its inputs. It doesn't use any "global" variables defined
     outside the function.
 2.  It doesn't change anything outside of its own scope. It doesn't modify a
@@ -317,7 +321,7 @@ calculate_ci <- function(x, level = 0.95) {
   # Calculate the mean and standard error
   se <- sd(x, na.rm = TRUE) / sqrt(length(x))
   mean_val <- mean(x, na.rm = TRUE)
-  
+
   # Calculate the confidence interval bounds
   alpha <- 1 - level
   lower <- mean_val - qnorm(1 - alpha/2) * se
@@ -414,6 +418,9 @@ The `{purrr}` package is the gold standard for functional programming in R. The
 *   `map_lgl()`: Returns a vector of logicals (booleans).
 *   `map_dfr()`: Returns a data frame by row-binding the results.
 
+In base R, we have `lapply()`, `vapply()`, `apply()`, but the `{purrr}`
+functions provide a more homogenous interface.
+
 **Example:** Calculate the mean of every column in a data frame.
 
 ```R
@@ -472,7 +479,7 @@ function that returns `TRUE` or `FALSE`.
 #### In R with `purrr::keep()` or `purrr::discard()`
 
 `keep()` retains elements where the function returns `TRUE`. `discard()` does
-the opposite.
+the opposite. The base function is `Filter()`.
 
 **Example:** From a list of data frames, keep only the ones with more than 100
 rows.
@@ -537,6 +544,8 @@ total_sum <- reduce(c(1, 2, 3, 4, 5), `+`)
 print(total_sum)
 ```
 
+The base R function is called `Reduce()`.
+
 A more practical data science example: find all the column names that are common
 to a list of data frames.
 
@@ -554,8 +563,9 @@ print(common_cols)
 
 The `reduce` function was moved out of the built-ins and into the `functools`
 module in Python 3 because it's often less readable than an explicit `for` loop
-for simple operations like summing. However, it's still the right tool for more
-complex iterative combinations.
+for simple operations like summing (well, at least according to Python
+users...). However, it's still the right tool for more complex iterative
+combinations.
 
 ```python
 from functools import reduce
@@ -603,8 +613,257 @@ The same idea applies in Python with pandas:
 # )
 ```
 
+The issue with *method chaining* though, is that this only works within the
+methods that are available for `pandas.DataFrame` objects. You could apply
+another function using `pandas.DataFrame.apply()` function, but you can’t
+pipe functions from different packages like you could in R (more on this
+in the next subsection).
+
 Each step is a function that takes a data frame and returns a new, transformed
 data frame. By combining `map`, `filter`, and `reduce` with this compositional
 style, you can express complex data manipulation pipelines without writing a
 single `for` loop. This makes your code more declarative, less prone to bugs,
 and easier to reason about—a perfect fit for a reproducible workflow.
+
+### The Challenge of Composition in Python
+
+The difficulty of function composition in Python, as you've noted, stems from
+fundamental differences in its primary programming paradigm compared to R. While
+both languages are powerful and versatile, their core designs influence how
+naturally they support the seamless chaining of functions. The crux of the
+matter lies in Python's primarily encapsulated Object-Oriented Programming (OOP)
+versus R's functional OOP and its use of polymorphic functions.
+
+#### Python's Encapsulated OOP: Methods Belong to Objects
+
+As already mention earlier in the chapter, Python is predominantly an
+object-oriented language where data and the functions that operate on that data
+are bundled together into objects. This concept is known as **encapsulation**. A
+class defines the blueprint for an object, and the functions defined within a
+class are called methods. These methods are intrinsically tied to the object's
+class and are typically invoked using dot notation (`.`), as seen in the `pandas`
+example.
+
+This tight coupling of methods to specific object types is the main reason why
+fluid composition can be challenging. Method chaining, while elegant, is limited
+to the methods that have been explicitly defined for a particular class. To
+apply a function from a different library or a user-defined function that isn't
+a method of the object, you often need to use workarounds like `apply()` in
+`pandas`, which can break the intuitive flow of a composition chain.
+
+Furthermore, while Python supports functional programming concepts, they are not
+always as central to the language's design as its OOP features. For instance,
+`lambda` functions in Python are limited to a single expression, which can make
+defining complex on-the-fly functions cumbersome.
+
+#### R's Functional OOP: Functions are Polymorphic and Independent
+
+In contrast, R was designed with a strong emphasis on functional programming.
+Its approach to object-orientation is described as **functional OOP**. In this
+paradigm, methods are not encapsulated within class definitions. Instead,
+functions are often "generic," meaning they can behave differently depending on
+the class of the object passed to them. This is a form of **polymorphism**.
+
+This design choice has a profound impact on composition. Because functions are
+not strictly owned by objects, they can be more easily and flexibly combined.
+The pipe operators in R (`|>` and `%>%`) are a testament to this, allowing for
+the creation of highly readable and complex data manipulation pipelines by
+passing data through a series of independent functions. Each function takes data
+as an input and returns a transformed version, which is then passed to the next
+function in the chain.
+
+#### The Core Distinction: "Has-a" vs. "Is-a" and its Impact on Composition
+
+The principle of "favor composition over inheritance" is a well-known software
+design guideline. Inheritance models an "is-a" relationship (a `Dog` is an
+`Animal`), while composition models a "has-a" relationship (a `Car` has an
+`Engine`).
+
+*   **Python's encapsulated OOP** often encourages the use of inheritance, where
+    a class inherits methods from a parent class. While powerful, this can lead
+    to rigid hierarchies.
+*   **R's functional approach** naturally favors a compositional style. You
+    build complex operations by combining simpler, single-purpose functions.
+    This aligns well with the "has-a" model, where a data analysis pipeline "has
+    a" filtering step, a selection step, and a summarization step.
+
+In essence, Python's strength lies in creating well-defined, encapsulated
+objects with specific behaviors. R's strength, particularly in data analysis, is
+in its ability to fluidly combine and apply functions to data. This makes the
+"compositional style" a more natural fit for the R ecosystem. While Python can
+achieve similar results, it often requires more deliberate effort to break out
+of the strict object-method paradigm to achieve the same level of compositional
+freedom.
+
+## Conclusion: Functions as the Bedrock of Reproducibility
+
+This chapter has laid the groundwork for the most critical pillar of
+reproducible data science: writing reproducible code. We have moved beyond the
+ephemeral, state-dependent nature of scripts and computational notebooks to
+embrace the discipline and predictability of **Functional Programming**.
+
+By treating functions as our primary unit of work, we unlock a cascade of
+benefits. **Pure functions**, which guarantee the same output for the same
+input, form the core of this approach. They are transparent, easy to reason
+about, and, most importantly, **testable**. When we encounter inherently
+"impure" operations like random number generation, we've learned to control the
+impurity by making the source of impurity (in this example the random seed) an
+explicit and managed input, rather than a hidden global state.
+
+We've replaced verbose and error-prone `for` loops with the powerful functional
+trio of **map, filter, and reduce**. These higher-order functions allow us to
+express complex data manipulations declaratively, stating *what* we want to do
+rather than detailing *how* to do it. This leads to code that is not only more
+concise but also less prone to bugs.
+
+Finally, we explored **composition**, the elegant chaining of these simple
+functions to build sophisticated analysis pipelines. We saw how this concept
+manifests differently in R and Python, a direct reflection of their core design
+philosophies. R's functional heritage makes composition via the pipe (`%>%` or
+`|>`) a natural and seamless experience. Python's object-oriented nature favors
+method chaining on objects like pandas DataFrames, a powerful but more
+constrained form of composition.
+
+Understanding this distinction is key to becoming an effective data scientist in
+any language. By mastering the functional paradigm, you are not just learning a
+new coding style; you are adopting a new way of thinking. You are building a
+foundation for code that is robust, easy to review, simple to debug, and truly
+reproducible—the ultimate goal of any serious analytical project.
+
+
+## Exercises
+
+The following exercises will help you solidify your understanding of functional
+programming concepts in both R and Python. Use built-in datasets like `iris` or
+`mtcars` for R, and you can load them into pandas DataFrames for the Python
+exercises.
+
+### 1. From Impure to Pure
+
+**Goal:** Refactor a function that relies on global state into a pure function.
+
+*   **R:** The following function filters `mtcars` to find cars with a
+    miles-per-gallon (MPG) above a certain threshold, but the threshold is a
+    global variable. Rewrite it so that it becomes a pure function.
+
+    ```R
+    # Impure function
+    mpg_threshold <- 20
+
+    get_efficient_cars_impure <- function(dataset) {
+      dplyr::filter(dataset, mpg > mpg_threshold)
+    }
+
+    # Your task: Create a pure function `get_efficient_cars_pure`
+    # that takes the dataset and the threshold as arguments.
+    # Then, call it with a threshold of 25.
+    ```
+
+*   **Python:** Do the same for the Python equivalent. Rewrite the impure
+    function into a pure one (you can find the `mtcars` dataset as a csv
+    [here](https://github.com/b-rodrigues/rap4mads_2025/tree/master/datasets).
+
+    ```python
+    import pandas as pd
+    mtcars = pd.read_csv("path/to/mtcars.csv")
+
+    # Impure function
+    mpg_threshold <- 20
+
+    def get_efficient_cars_impure(df):
+        return df[df['mpg'] > mpg_threshold]
+
+    # Your task: Create a pure function `get_efficient_cars_pure`
+    # that takes the DataFrame and the threshold as arguments.
+    # Then, call it with a threshold of 25.
+    ```
+
+### 2. Mapping
+
+**Goal:** Use mapping to apply a function to multiple elements of a list or data frame.
+
+*   **R:** Using the `iris` dataset, calculate the number of distinct values for
+    each of its four numeric columns (`Sepal.Length`, `Sepal.Width`,
+    `Petal.Length`, `Petal.Width`).
+    *   **Hint:** Use `purrr::map_int()` and the `n_distinct()` function from `dplyr`.
+
+*   **Python:**
+    You are given a list of strings. Use a list comprehension to create a new list containing the length of each string.
+
+    ```python
+    words = ["functional", "programming", "is", "powerful"]
+    # Your task: create a list `word_lengths` containing [10, 11, 2, 8]
+    ```
+
+#### 3. Filtering
+
+**Goal:** Use filtering to select elements from a list based on a condition.
+
+*   **R:** You have a list of vectors. Use `purrr::keep()` to select only the
+    vectors whose mean is greater than 5.
+
+    ```R
+    list_of_vectors <- list(
+      a = c(1, 2, 9),
+      b = c(8, 8, 9),
+      c = c(1, 1, 2)
+    )
+    # Your task: create a list `high_mean_vectors` that contains only vectors a and b.
+    ```
+
+*   **Python:**
+    You have a list of dictionaries, where each dictionary represents a product. Use a list comprehension with an `if` clause to filter for products that are on sale.
+
+    ```python
+    products = [
+        {'name': 'Laptop', 'price': 1200, 'on_sale': False},
+        {'name': 'Mouse', 'price': 25, 'on_sale': True},
+        {'name': 'Keyboard', 'price': 75, 'on_sale': True}
+    ]
+    # Your task: create a list `sale_items` containing only the mouse and keyboard dicts.
+    ```
+
+#### 4. Reducing
+
+**Goal:** Use a reduce operation to aggregate a list into a single value.
+
+*   **R:** You are given three small data frames. Use `purrr::reduce()` and a
+    `dplyr::full_join()` to combine them into a single data frame.
+
+    ```R
+    df1 <- data.frame(id = c("a", "b"), val1 = c(1, 2))
+    df2 <- data.frame(id = c("a", "c"), val2 = c(3, 4))
+    df3 <- data.frame(id = c("b", "c"), val3 = c(5, 6))
+    list_of_dfs <- list(df1, df2, df3)
+
+    # Your task: use reduce to join them all by the 'id' column.
+    ```
+
+*   **Python:**
+    Given a list of lists (a 2D matrix), use `functools.reduce` to "flatten" it into a single list.
+
+    ```python
+    from functools import reduce
+    matrix = [[1, 2, 3], [4, 5], [6]]
+    # Your task: use reduce to produce the list [1, 2, 3, 4, 5, 6]
+    # Hint: `operator.add` can concatenate lists.
+    ```
+
+#### 5. Composition Challenge: A Reusable Analysis Function
+
+**Goal:** Write a reusable function that encapsulates a common data analysis
+task.
+
+*   **R:** Write a single function named `summarize_by_group` that takes three
+    arguments: a data frame (`dataset`), a categorical column to group by
+    (`grouping_var`), and a numeric column to summarize (`summary_var`). The
+    function should return a summarized data frame with the count, mean, and
+    standard deviation for the `summary_var` within each group. Use `{dplyr}`
+    and the `{{ }}` syntax. Test it on the `iris` dataset by summarizing
+    `Sepal.Length` grouped by `Species`.
+
+*   **Python:** Write the equivalent function in Python named
+    `summarize_by_group_py`. It should take a pandas DataFrame, a `grouping_var`
+    name (string), and a `summary_var` name (string). Use `.groupby()` and
+    `.agg()` to produce the same summary table (count, mean, sd). Test it on the
+    penguins dataset by summarizing `body_mass_g` grouped by `species`.

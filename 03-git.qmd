@@ -7,6 +7,7 @@ knitr::include_graphics("img/git_header.png")
 </div>
 
 What you'll learn by the end of this chapter:
+
 - How to manage your own data science projects using Git's core command-line
   tools.
 - How to collaborate effectively with a team using professional workflows like
@@ -41,12 +42,10 @@ patches that you can review and merge, and and and...
 In my experience, learning Git is one of the most difficult things there is for
 students. And this is because Git solves a complex problem, and there is no easy
 way to solve a complex problem. But I would however say that Git is not
-unnescessarily complex. So buckle up, because this chapter is not going to be
-easy.
-
-Git is incredibly powerful, and absolutely essential in our line of work, it is
-simply not possible to not know at least some basics of Git. And this is what
-we're going to do, learn the basics, it'll keep us plenty busy already.
+unnescessarily complex, and in any case it’s absolutely essential in our line of
+work. It is simply not possible to not know at least some basics of Git. And
+this is what we're going to do, learn the basics, it'll keep us plenty busy
+already.
 
 But for now, let's pause for a brief moment and watch [this
 video](https://www.youtube.com/watch?v=2ReR1YJrNOM) that explains in 2 minutes
@@ -64,9 +63,9 @@ For this course, you should create an account on
 [github.com](https://github.com). This should be easy enough. Then you should
 install Git on your computer.
 
-Another advantage of using GitHub is that, as students, you will have access
-to Copilot for free. We will be using Copilot as our LLM for pair programming
-throughout the rest of this course. Get GitHub education 
+Another advantage of using GitHub is that, as students, you will have access to
+Copilot for free. We will be using Copilot as our LLM for pair programming
+throughout the rest of this course. Get GitHub education
 [here](https://github.com/education/students).
 
 ## Installing Git
@@ -193,6 +192,7 @@ we are who we say we are. While you can use a username and password (HTTPS), a
 more secure and professional method is to use SSH (Secure Shell) keys.
 
 Think of it this way:
+
 *   **HTTPS (Password):** Like using a password to unlock a door. You have to
     type it in frequently.
 *   **SSH (Key):** Like having a special key that unlocks the door
@@ -232,6 +232,7 @@ convenience by simply pressing `Enter`.
 
 After running the command, two files have been created in a hidden directory in
 your home folder called `.ssh`:
+
 1.  `id_ed25519`: This is your **private key**. **NEVER share this file with
     anyone or upload it anywhere.** It must remain secret on your computer.
 2.  `id_ed25519.pub`: This is your **public key**. The `.pub` stands for
@@ -265,9 +266,9 @@ You should see a message confirming successful authentication.
 
 ## Your first commit
 
-Let's create a simple script and add some code to it (in what follows,
-all the code is going to get written into files using the command line,
-but you can also use your text editor to do it):
+Let's create a simple script and add some code to it (in what follows, all the
+code is going to get written into files using the command line, but you can also
+use your text editor to do it):
 
 ```bash
 echo 'print("Hello, Git!")' > hello.py
@@ -447,6 +448,7 @@ changes and your local changes and creates a new, special "merge commit" to tie
 the two histories together.
 
 Imagine the history looks like this:
+
 *   Your colleague pushed commit `D`.
 *   You worked locally and created commit `C`.
 
@@ -476,6 +478,7 @@ remote changes first. Then, I'll take your changes and re-apply them one-by-one
 on top of the new remote history."
 
 Using the same scenario:
+
 *   Start:
     ```
           C (Your local work)
@@ -490,7 +493,6 @@ Using the same scenario:
         `C'`.
 
 *   The final result is a clean, single, linear history:
-
     ```
     A---B---D---C' (Your work is now on top)
     ```
@@ -688,6 +690,7 @@ that each take a few hours or a day at most.
 
 The goal is to keep the `main` branch constantly updated with the latest code
 from everyone on the team. This has huge benefits:
+
 *   **Fewer Merge Conflicts:** Because you are merging small changes frequently,
     the chance of conflicting with a teammate's work is dramatically lower.
 *   **Easier Code Reviews:** Reviewing a small change that adds one function is
@@ -734,10 +737,10 @@ developers can pull your changes and won't even notice. Once you've finished the
 feature in subsequent small commits, the final change is just to flip the
 switch: `use_new_scatterplot <- TRUE`.
 
-The second strategy is to *stack* pull requests. This is useful when a 
-feature is too big for one small change, but it can be broken down
-into a logical sequence of steps. For example, to add a new analysis, you might
-need to:
+The second strategy is to *stack* pull requests. This is useful when a feature
+is too big for one small change, but it can be broken down into a logical
+sequence of steps. For example, to add a new analysis, you might need to:
+
 1.  Add a new data cleaning function.
 2.  Use that function to process the data.
 3.  Generate a new plot from the processed data.
@@ -947,6 +950,7 @@ Stage this hunk [y,n,q,a,d,s,e,?]?
 ```
 
 You might decide:
+
 - `y` if you want the additional libraries
 - `n` if you think they're unnecessary
 - `s` to split this into smaller chunks if you want only one library
@@ -967,6 +971,7 @@ Stage this hunk [y,n,q,a,d,s,e,?]? e
 ```
 
 This opens your editor where you can:
+
 - Remove lines you don't want (delete the entire line)
 - Keep lines by leaving them as-is
 - Lines starting with `+` are additions

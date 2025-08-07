@@ -131,7 +131,7 @@ systemd=true
 Save the file with CTRL-O and then quit nano with CTRL-X.
 Then, type the following line in powershell:
 
-```
+```sh
 wsl --shutdown
 ```
 
@@ -537,7 +537,7 @@ On Linux and WSL, depending on your desktop environment, and for older versions
 of RStudio, you might see the following error message when trying to launch
 RStudio:
 
-```
+```bash
 qt.glx: qglx_findConfig: Failed to finding matching FBConfig for QSurfaceFormat(version 2.0, options QFlags<QSurfaceFormat::FormatOption>(), depthBufferSize -1, redBufferSize 1, greenBufferSize 1, blueBufferSize 1, alphaBufferSize -1, stencilBufferSize -1, samples -1, swapBehavior QSurfaceFormat::SingleBuffer, swapInterval 1, colorSpace QSurfaceFormat::DefaultColorSpace, profile  QSurfaceFormat::NoProfile)
 Could not initialize GLX
 Aborted (core dumped)
@@ -545,7 +545,7 @@ Aborted (core dumped)
 
 in this case, run the following before running RStudio:
 
-```
+```bash
 export QT_XCB_GL_INTEGRATION=none
 ```
 
@@ -583,7 +583,7 @@ for Windows), so follow the instructions for whatever Linux distribution you're
 using there (likely Ubuntu), or use Nix to install `direnv` if you prefer (this
 is the way I recommend to install it on macOS, unless you already use `brew`):
 
-```
+```bash
 nix-env -f '<nixpkgs>' -iA direnv
 ```
 
@@ -591,7 +591,7 @@ This will install `direnv` and make it available even outside of Nix shells!
 
 Then, we highly recommend to install the `nix-direnv` extension:
 
-```
+```bash
 nix-env -f '<nixpkgs>' -iA nix-direnv
 ```
 
@@ -605,7 +605,7 @@ WSL extension if you're on Windows, as explained in the official documentation
 linked above!). Finally, add a file called `.envrc` and simply write the 
 following two lines in it:
 
-```
+```bash
 use nix
 mkdir $TMP
 ```

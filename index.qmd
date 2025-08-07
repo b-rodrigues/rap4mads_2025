@@ -27,14 +27,13 @@ that are discussed in greater detail in the book.*
 
 ## Schedule
 
-- 2025/09/04 - 4 hours,
-- 2025/09/11 - 4 hours,
-- 2025/09/14 - 4 hours,
-- 2025/09/02 - 4 hours,
-- 2025/09/05 - 2 hours,
-- 2025/09/09 - 5 hours,
-- 2025/09/16 - 4 hours,
-- 2025/09/19 - 3 hours,
+- 2025/09/15 - 4 hours, Intro (1 hour) and Nix (3 hours)
+- 2025/09/22 - 4 hours, Git (4 hours)
+- 2025/10/06 - 4 hours, Functional programming (1 hour), Unit testing (3 hours)
+- 2025/10/13 - 4 hours, Pipelines using Nix and rixpress
+- 2025/10/15 - 4 hours, Packaging
+- 2025/10/20 - 4 hours, Docker
+- 2025/10/27 - 4 hours, GitHub Actions
 
 ## Reproducible analytical pipelines?
 
@@ -56,9 +55,13 @@ other projects as well.
 In this course each of you will develop a *data product*. A data product is
 anything that requires data as an input. This can be a very simple report in PDF
 or Word format or a complex web app. This website is actually also a data
-product, which I made using the R programming language. In this course we will
-not focus too much on how to create automated reports or web apps (but I'll give
-an introduction to these, don't worry) but our focus will be on how to set up a
+product, which I made using the R programming language and Quarto. Dependencies
+are managed by the Nix package manager and the build runs on GitHub Actions, and
+the website you’re seeing his hosted on GitHub Pages. By the end of the course,
+you’ll have all the basic knowledge to achieve something similar.
+
+The focus on the course will not be about the end product itself, which you will
+have to choose for your project, but instead we will focus on how to set up a
 pipeline that results in these data products in a reproducible way.
 
 ## Machine learning?
@@ -90,7 +93,7 @@ a lot, you also have to care about everything else.
 
 So in this course we're going to learn a bit of all of this. We're going to
 learn how to write reusable code, learn some basics of the Linux command line,
-Git and Docker.
+Nix, Git and Docker.
 
 ## What actually is reproducibility?
 
@@ -105,13 +108,12 @@ For something to be truly reproducible, it has to respect the following bullet
 points:
 
 - Source code must obviously be available and thoroughly tested and documented
-  (which is why we will be using Git and Github);
+  (which is why we will be using Git and GitHub);
 - All the dependencies must be easy to find and install (we are going to deal
-  with this using dependency management tools);
+  with this using Nix);
 - To be written with an open source programming language (nocode tools like
   Excel are by default non-reproducible because they can't be used
-  non-interactively, and which is why we are going to use the R programming
-  language);
+  non-interactively);
 - The project needs to be run on an open source operating system (thankfully, we
   can deal with this without having to install and learn to use a new operating
   system, thanks to Docker);
@@ -131,7 +133,7 @@ reproducible your project truly is:
 - And even the hardware architecture that you run all that software stack on.
 
 So by "reproducibility is on a continuum", what I mean is that you could set up
-your project in a way that none, one, two, three, four or all of the preceding
+your project in a way that none, one, two, three, four or all of the preceeding
 items are taken into consideration when making your project reproducible.
 
 This is not a novel, or new idea. @peng2011 already discussed this concept
@@ -185,6 +187,16 @@ knitr::include_graphics("img/dependency_hell.png")
 ```
 </div>
 
+The reason this is the case is that anyone can push anything on to Pypi, and no
+package gets checked against its dependencies or reverse dependencies. That is
+not the case for R, where published packages need to declare their dependencies
+and can’t break any of their reverse dependencies (when this happens, authors of
+reverse dependencies get two weeks to fix their packages or they get removed
+from CRAN).
+
+Furthermore, and this is surprising to many people, R offers a much better
+package developing experience than Python.
+
 That doesn’t mean that R does not have any issues. Quite the contrary, R
 sometimes behaves in seemingly truly bizarre ways (as an example, try running
 `nchar("1000000000")` and then `nchar(1000000000)` and try to make sense of it).
@@ -196,11 +208,13 @@ sucks less than the alternatives (again, in my absolutely objective opinion).
 nchar("1000000000")
 ```
 
-That being said, the reality of data science is that the future is becoming
-more and more polyglot. Data products are evermore complex, and necessity are
-built using many languages; so ideally we would like to find a way to use whatever
-tool is best fit for the job at hand. Sometimes it can be R, sometimes Python,
-sometimes shell scripts, or any other language. This is where Nix will help us.
+That being said, Python remains extremely popular, and it is likely that you
+will continue writing Python. In my opinion, the future of data science is going
+to be more and more polyglot. Data products are evermore complex, and require
+being built using many languages; so ideally we would like to find a way to use
+whatever tool is best fit for the job at hand. Sometimes it can be R, sometimes
+Python, sometimes shell scripts, or any other language. This is where Nix will
+help us.
 
 ## Nix
 
@@ -223,18 +237,18 @@ sudo apt-get install firefox
 ```
 
 (there's also graphical interfaces that make this process "more user-friendly").
-In Linux jargon, `packages` are simply what we call software (or I guess
-it's all "apps" these days). These packages get downloaded from so-called
+In Linux jargon, `packages` are simply what we call software (or I guess it's
+all "apps" these days). These packages get downloaded from so-called
 repositories (think of CRAN, the repository of R packages, or Pypi, in the case
-of Python) but for any type of
-software that you might need to make your computer work: web browsers, office
-suites, multimedia software and so on.
+of Python) but for any type of software that you might need to make your
+computer work: web browsers, office suites, multimedia software and so on.
 
 So Nix is just another package manager that you can use to install software.
 
 But what interests us is not using Nix to install Firefox, but instead to
-install R, Python and the R and Python packages that we require for our analysis. 
-But why use Nix instead of the usual ways to install software on our operating systems?
+install R, Python and the R and Python packages that we require for our
+analysis. But why use Nix instead of the usual ways to install software on our
+operating systems?
 
 The first thing that you should know is that Nix's repository, `nixpkgs`, is
 huge. Humongously huge. As I'm writing these lines, [there's more than 120'000
@@ -264,18 +278,15 @@ along](https://learn.microsoft.com/en-us/windows/wsl/install).
 The way grading works in this course is as follows: during lecture hours you
 will follow along. At home, you'll be working on setting up your own pipeline.
 For this, choose a dataset that ideally would need some cleaning and/or tweaking
-to be usable. We are going first to learn how to package this dataset alongside
-some functions to make it clean. If time allows, I'll leave some time during
-lecture hours for you to work on it and ask me and your colleagues for help. At
-the end of the semester, I will need to download your code and get it running.
-The less effort this takes me, the better your score. Here is a tentative
-breakdown:
+to be usable. If time allows, I'll leave some time during lecture hours for you
+to work on it and ask me and your colleagues for help. At the end of the
+semester, I will need to download your code and get it running. The less effort
+this takes me, the better your score. Here is a tentative breakdown:
 
 - Code is on github.com and the repository is documented with a Readme.md file: 5 points;
 - Data and functions to run pipeline are documented and tested: 5 points;
 - Every software dependency is easily installed: 5 points;
-- Pipeline can be executed in one command: 5 points;
-- Bonus points: pipeline is dockerized, or uses Nix, and/or uses Github Actions to run? 5 points
+- Pipeline can be executed in one command: 5 points.
 
 The way to fail this class is to write an undocumented script that only runs on
 your machine and expect me to debug it to get it to run.
@@ -320,6 +331,4 @@ Here’s a non-exhaustive list to get you started:
 
 This course is licensed under the [WTFPL](http://www.wtfpl.net/txt/copying/).
 
-<a href="http://www.wtfpl.net/"><img
-       src="img/wtfpl-badge-4.png"
-       width="80" height="15" alt="WTFPL" /></a>
+<a href="http://www.wtfpl.net/"><img src="img/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/> </a>

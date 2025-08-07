@@ -1,6 +1,6 @@
 let
 
-  pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-06-02.tar.gz") {};
+  pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-08-04.tar.gz") {};
 
   rpkgs = builtins.attrValues {
    inherit (pkgs.rPackages)
@@ -11,10 +11,12 @@ let
   };
 
   pyconf = builtins.attrValues {
-    inherit (pkgs.python312Packages) 
+    inherit (pkgs.python313Packages) 
+      pandas
+      pip
       polars
       pyarrow
-      pandas
+      pytest
       scikit-learn
       ;
   };
@@ -39,6 +41,7 @@ let
      R
      glibcLocalesUtf8
      quarto
+     uv
      ;
   };
 
@@ -62,6 +65,19 @@ let
 
   ];
 
+  pyclean = pkgs.python313Packages.buildPythonPackage rec {
+    pname = "pyclean";
+    version = "0.1.0";
+    src = pkgs.fetchgit {
+      url = "https://github.com/b-rodrigues/pyclean";
+      rev = "174d4d482d400536bb0d987a3e25ae80cd81ef3c";
+      sha256 = "sha256-xTYydkuduPpZsCXE2fv5qZCnYYCRoNFpV7lQBM3LMSg=";
+    };
+    pyproject = true;
+    propagatedBuildInputs = [ pkgs.python313Packages.pandas pkgs.python313Packages.setuptools ];
+    # Add more dependencies to propagatedBuildInputs as needed
+  };
+
 in
   pkgs.mkShell {
     LOCALE_ARCHIVE = if pkgs.system == "x86_64-linux" then  "${pkgs.glibcLocalesUtf8}/lib/locale/locale-archive" else "";
@@ -72,6 +88,10 @@ in
     LC_PAPER = "en_US.UTF-8";
     LC_MEASUREMENT = "en_US.UTF-8";
 
-    buildInputs = [ rpkgs tex system_packages github_pkgs ];
+    buildInputs = [ rpkgs pyconf pyclean tex system_packages github_pkgs ];
+
+  shellHook = ''
+    export PYTHONPATH=$PWD/pyclean/src:$PYTHONPATH
+  '';
       
   }

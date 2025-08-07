@@ -13,6 +13,13 @@ book:
   downloads: [pdf, epub]
   chapters:
     - index.qmd
+    - 02-intro-nix.qmd
+    - 03-git.qmd
+    - 04-functional-programming.qmd
+    - 05-unit-testing.qmd
+    - 06-rixpress.qmd
+    - 07-packages.qmd
+    - 08-docker.qmd
   page-navigation: true
 
 bibliography: references.bib

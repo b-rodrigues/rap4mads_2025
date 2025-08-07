@@ -3,3 +3,4 @@ _book
 result
 *.tex
 /.direnv/
+.aider*

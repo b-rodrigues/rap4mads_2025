@@ -1,0 +1,445 @@
+# Building Reproducible Pipelines with Nix and `{rixpress}`
+
+<div style="text-align:center;">
+```{r, echo = F}
+# Using a Nix-themed image would be great here, but let's stick to the pipeline theme.
+knitr::include_graphics("img/pipeline.png")
+```
+</div>
+
+What you'll have learned by the end of the chapter: how to orchestrate a fully
+reproducible, polyglot analytical pipeline using Nix as a build automation tool,
+and why this is a fundamentally more robust approach than using computational
+notebooks or other common workflow tools.
+
+## Introduction: From Scripts and Notebooks to Pipelines
+
+So far, we have learned about the 3 main necessary pillars for building
+reproducible pipelines:
+
+1.  **Define Reproducible Environments** with Nix and `{rix}` to ensure everyone
+    uses the exact same versions of R, Python, and all system-level
+    dependencies.
+2.  **Manage Reproducible History** with Git to track every change to our code
+    and collaborate effectively.
+3.  **Write Reproducible Logic** with Functional Programming to create clean,
+    testable, and predictable functions.
+
+The last pillar is orchestration.
+
+How do we take our collection of functions and data files and run them in the
+correct order to produce our final data product? This problem of managing
+computational workflows is not new, and a whole category of **build automation
+tools** has been created to solve it.
+
+The original solution to this problem, dating back to the 1970s, is **`make`**.
+Created by Stuart Feldman at Bell Labs in 1976, `make` was born out of
+frustration. Feldman, working on his Fortran programs, was tired of the tedious
+and error-prone process of manually re-compiling only the necessary parts of his
+code after making a change. He designed `make` to read a `Makefile` that
+describes the dependency graph of a project. You tell it that `report.pdf`
+depends on `plot.png`. If you change the code that generates `plot.png`, `make`
+is smart enough to only re-run the steps needed to rebuild the plot and the
+final report. General-purpose tools like `waf` follow a similar philosophy.
+
+The strength of these tools is their language-agnosticism, but their weakness is
+that they only track files and know nothing about the *software environment*
+needed to create those files. Another limitaton of these generic tools is that
+they are **file-centric**. This means that *you* are responsible for manually
+handling all input and output. Your first script must explicitly save its result
+as `data.csv`, and your second script must explicitly load `data.csv`. This adds
+boilerplate code and creates a new surface for errors.
+
+This is where a specialized tool like R's **`{targets}`** package shines.
+`{targets}` tracks dependencies between **R objects directly**, not just files.
+When you pass a data frame from one step to the next, `{targets}` automatically
+handles the **serialization** for you (serialization is the process of saving an
+object into a binary to disk) behind the scenes and loads it back when needed.
+This is a massive ergonomic improvement, allowing you to think in terms of data
+objects, not file paths.
+
+The Python ecosystem, while rich in tools, lacks a single, dominant tool that
+offers the same lightweight, object-centric feel as `{targets}` for everyday
+analysis. Tools like **`Snakemake`** are powerful but often follow the `make`
+model of file-based I/O. Others like **`Luigi`** or **`Airflow`** are typically
+used for large-scale data engineering but can be overkill for a typical
+analytical project. This gap highlights the need for a solution that combines an
+ergonomic, object-passing interface with robust reproducibility.
+
+Furthermore, all these tools, from `make` to `{targets}` to `Airflow`, separate
+workflow management from environment management. You use one tool to run the
+pipeline and another (like `conda`, Docker, or `{renv}`) to set up the software.
+But what if we could use a single, declarative system to manage *both*?
+
+This is why we will also be using Nix for build automation. Nix is not just a
+package manager; it is a full-fledged build system. When Nix builds a pipeline,
+it controls the entire dependency graph, from your input data files all the way
+down to the C compiler used to build R itself. It unifies the "what to run and
+when" problem with the "what tools to use" problem into a single, cohesive
+framework.
+
+However, writing build instructions directly in the Nix language can be complex.
+This is where **`{rixpress}`** comes in. It provides a user-friendly R
+interface, heavily inspired by `{targets}`, that lets us define our pipeline in
+familiar R code. `{rixpress}` then translates this into the necessary Nix
+expressions for us. We get the ergonomic, object-passing feel of `{targets}`
+with the unparalleled, bit-for-bit reproducibility of the Nix build system. It
+is the perfect tool to complete our reproducible workflow.
+
+## Our First Polyglot Pipeline
+
+<div style="text-align:center;">
+```{r, echo = F}
+knitr::include_graphics("img/mario.png")
+```
+</div>
+
+Let's start with a simple pipeline. Our goal will be to read the `mtcars`
+dataset, perform some initial filtering in Python with `{polars}`, pass the
+result to R for further manipulation with `{dplyr}`, and finally compile a
+Quarto document that presents the results.
+
+First, let's create a new project directory. Inside, we'll bootstrap our
+project. If you're in a terminal, you can get a temporary shell with the
+necessary tools by running:
+
+```bash
+nix-shell --expr "$(curl -sl https://raw.githubusercontent.com/ropensci/rix/main/inst/extdata/default.nix)"
+```
+
+Once inside this temporary shell, start R and run:
+
+```{r, eval = FALSE}
+rixpress::rxp_init()
+```
+
+This handy function creates two essential plain text files: `gen-env.R` and
+`gen-pipeline.R`.
+
+### Step 0: Use Git
+
+This might be the right time to start a Git repository. Either start by creating
+an empty project on GitHub, or start from your command line, locally:
+
+```bash
+git init
+```
+
+### Step 1: Defining the Environment
+
+Open `gen-env.R`. This is where we use `{rix}` to define the tools our pipeline
+needs.
+
+```{r, eval=FALSE}
+# In gen-env.R
+library(rix)
+
+# Define execution environment for our polyglot pipeline
+rix(
+  date = "2025-06-02",
+  r_pkgs = c("dplyr", "quarto", "reticulate", "jsonlite"),
+  py_conf = list(
+    py_version = "3.13",
+    py_pkgs = c("polars", "pyarrow", "pandas")
+  ),
+  git_pkgs = list(
+    package_name = "rixpress",
+    repo_url = "https://github.com/b-rodrigues/rixpress",
+    commit = "HEAD"
+  ),
+  ide = "none",
+  project_path = ".",
+  overwrite = TRUE
+)
+```
+
+Run this script (`source("gen-env.R")`) to generate the `default.nix` file that
+describes our complete environment. Now, exit the temporary shell, build your
+project environment with `nix-build`, and enter it with `nix-shell`.
+
+### Step 2: Defining the Pipeline
+
+Now, open `gen-pipeline.R`. This plain text file is where we'll define the
+actual pipeline. `{rixpress}` offers several ways to pass data between
+languages.
+
+A pipeline is a list of derivations. A derivation is defined using functions
+such as `rxp_r()`, `rxp_py()`, etc. Most of the time, we start by importing
+data. In this case, we will be importing a `.csv` file (which you can download
+[here](https://raw.githubusercontent.com/b-rodrigues/rixpress_demos/refs/heads/master/r_py_json/data/mtcars.csv)
+and save it in the `data/` folder) using `polars`:
+
+
+```r
+# In gen-pipeline.R
+library(rixpress)
+
+list(
+  rxp_py_file(
+    name = mtcars_pl,
+    path = "data/mtcars.csv",
+    read_function = "lambda x: polars.read_csv(x, separator='|')"
+  ),
+  ...
+)
+```
+
+We use the `rxp_py_file()` function to define a derivation that reads in the
+`.csv` file using the `read_csv()` function from `polars`. When importing data
+using `rxp_py_file()` or (`rxp_r_file()`), the `read_function` argument must be
+a function of a single argument, the path to the data.
+
+Next, we want to filter the dataset:
+
+```{r, eval=FALSE}
+# In gen-pipeline.R
+library(rixpress)
+
+list(
+  rxp_py_file(
+    name = mtcars_pl,
+    path = 'data/mtcars.csv',
+    read_function = "lambda x: polars.read_csv(x, separator='|')"
+  ),
+  # Note: polars must be converted to pandas for reticulate
+  rxp_py(
+    name = mtcars_pl_am,
+    py_expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
+  ),
+  ...
+```
+
+The next derivation is defined using `rxp_py()` which runs Pyton code. As you
+can see, the `py_expr` argument is literal Python code, where `polars` is
+used to filter data and then convert the result to a `pandas` data frame.
+
+To pass data to R, we have two methods available.
+
+#### Method 1: Using Language-Specific Converters
+
+The `rxp_r2py()` and `rxp_py2r()` functions are convenient wrappers that use the
+`{reticulate}` package behind the scenes to convert objects:
+
+```r
+  rxp_py2r(
+    name = mtcars_am_r,
+    expr = mtcars_pl_am
+  ),
+  ...
+```
+
+This converts the `mtcars_pl_am` data frame (which is a `pandas` data frame)
+into an R data frame using the R package `{reticulate}`.
+
+We can then continue with an R derivation:
+
+```r
+  rxp_r(
+    name = mtcars_head,
+    expr = head(mtcars_am_r)
+  ),
+  ...
+```
+
+This works well, but it tightly couples your pipeline to `{reticulate}`'s
+conversion capabilities, which in some cases could be overkill.
+
+#### Method 2: A lighter Approach with Universal Data Formats
+
+A lighter and language-agnostic approach is to use a universal data format like
+**JSON**. This makes your pipeline more modular, as any language that can read
+and write JSON could be added in the future. `{rixpress}` supports this via the
+`serialize_function` and `unserialize_function` arguments.
+
+Let's rewrite our pipeline to use JSON. First, we need simple helper functions
+in our project.
+
+Create a script called `functions.py` that will contain all the Python helper
+functions we might need. In it, add:
+
+```python
+# A function to save a polars DataFrame to a JSON file
+def serialize_to_json(pl_df, path):
+    with open(path, 'w') as f:
+        f.write(pl_df.write_json())
+```
+
+Do the same for R functions, in `functions.R`:
+
+```r
+# Just aliasing head for demonstration
+my_head <- head
+```
+
+Now, we can update `gen-pipeline.R` to use these helpers:
+
+```{r, eval=FALSE}
+library(rixpress)
+
+list(
+  ....
+
+  rxp_py(
+    name = mtcars_pl_am,
+    py_expr = "mtcars_pl.filter(polars.col('am') == 1)",
+    additional_files = "functions.py",
+    serialize_function = "serialize_to_json" # Use our Python helper
+  ),
+
+  rxp_r(
+    name = mtcars_head,
+    expr = my_head(mtcars_pl_am),
+    additional_files = "functions.R",
+    unserialize_function = "jsonlite::fromJSON" # Use R's jsonlite
+  ),
+  ...
+)
+```
+
+This approach works well in simple cases like passing data frames between
+languages, but may not work for more complex objects for which `{reticulate}`
+may have specialized code for conversion.
+
+### Step 3: Building and Inspecting the Pipeline
+
+The complete pipeline will look like this:
+
+```{r, eval=FALSE}
+library(rixpress)
+
+list(
+  rxp_py_file(
+    name = mtcars_pl,
+    path = 'data/mtcars.csv',
+    read_function = "lambda x: polars.read_csv(x, separator='|')"
+  ),
+  # Note: polars must be converted to pandas for reticulate
+  rxp_py(
+    name = mtcars_pl_am,
+    py_expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
+  ),
+  rxp_py(
+    name = mtcars_pl_am,
+    py_expr = "mtcars_pl.filter(polars.col('am') == 1)",
+    additional_files = "functions.py",
+    serialize_function = "serialize_to_json" # Use our Python helper
+  ),
+
+  rxp_r(
+    name = mtcars_head,
+    expr = my_head(mtcars_pl_am),
+    additional_files = "functions.R",
+    unserialize_function = "jsonlite::fromJSON" # Use R's jsonlite
+  ),
+) |>
+  rixpress()
+```
+
+The very last function, `rixpress()` takes a list of derivations as input and
+will translate the list of derivations into a `pipeline.nix` file and instruct
+Nix to build the entire pipeline. Once it's done, you can use `rxp_inspect()` to
+check which artifacts where built, and you can easily access the any of them:
+
+```{r, eval=FALSE}
+# Check out all artifacts
+rxp_inspect()
+
+# Load the mtcars_head data frame into your R session
+rxp_load("mtcars_head")
+
+# You can now inspect it
+head(mtcars_head)
+```
+
+You can also only generate the required code, but not run the pipeline yet,
+by setting `build = FALSE` in `rixpress()`.
+
+## Caching
+
+First, visualize your pipeline's dependency graph:
+
+```{r, eval=FALSE}
+# You'll need to firts generate the required files by running
+# `rixpress(...)` or `rixpress(..., build = FALSE)` first
+# Then you can visualize the graph
+rxp_ggdag()
+```
+
+This will show you a clear, unambiguous graph of your workflow.
+
+Now, modify a step. Open `gen-pipeline.R` and change the `my_head` function in
+`functions.R` to use `tail()` for example. Save the file and re-run
+`rixpress()`. Nix will detect that the data loading and Python filtering steps
+are unchanged and instantly use the cached results from the `/nix/store/`. It
+will **only** re-build the final R step that was affected by the change.
+
+This is the incredible power of a proper build automation tool. The cognitive
+load of tracking what to re-run is gone. You are free to experiment, confident
+that the tool will efficiently and correctly rebuild only what is necessary.
+
+## Debugging and Working with Build Logs
+
+But what happens to the *old* results? What if you want to compare the `head()`
+version of your data to the `tail()` version? This is where `{rixpress}`'s build
+logging becomes a superpower.
+
+Every time you run `rixpress()`, a timestamped log of that specific build is
+saved in the `_rixpress/` directory. This is like having a Git history for your
+pipeline's *outputs*.
+
+You can list all the past builds you've run:
+
+```{r, eval=FALSE}
+rxp_list_logs()
+#>                                                          filename   modification_time
+#> 1 build_log_20250602_143015_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6.rds 2025-06-02 14:30:15
+#> 2 build_log_20250602_142500_z9y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4.rds 2025-06-02 14:25:00
+```
+
+Let's say the first log (`...a1b2c3d...`) is our new `tail()` run, and the
+second (`...z9y8x7w...`) is our original `head()` run. You can now pull the
+artifact from the *old* run directly into your current session for comparison:
+
+```{r, eval=FALSE}
+# Load the result from the MOST RECENT build
+new_result <- rxp_read("mtcars_head")
+
+# Load the result from the PREVIOUS build by matching part of its log name
+old_result <- rxp_read("mtcars_head", which_log = "z9y8x")
+
+# Now you can compare them!
+new_result
+old_result
+```
+
+This is an incredibly powerful debugging and validation tool. You can go back in
+time to inspect the state of any output from any previous pipeline run, as long
+as it's still in the Nix store. This provides a safety net and traceability that
+is simply absent in a notebook-based workflow.
+
+## Running Someone Else's Pipeline: The Ultimate Test of Reproducibility
+
+Imagine a collaborator wants to run your pipeline. If you had sent them a
+Jupyter notebook, they would face a series of questions: "Which version of
+Python did you use? What packages do I need? In what order do I run the cells?
+What is this variable that's used but never defined?"
+
+With our Nix-based workflow, the process is radically simpler and more robust.
+All they need to do is:
+
+1. `git clone` your repository (which, unlike a notebook, has a clean, readable history).
+2. Run `nix-build`, then `nix-shell` in the project directory.
+3. Start an R session, and build the pipeline by running the `gen-pipeline.R`
+   script, or by running `rxp_make()`.
+
+That's it. Nix reads your `default.nix` and `pipeline.nix` files and builds the
+*exact* same environment and the *exact* same data product, bit-for-bit. It
+solves all the problems we identified with other approaches: it controls the
+language versions, the operating system libraries, and all dependencies in one
+unified, declarative system.
+
+You now have the knowledge to build robust, efficient, polyglot, and truly
+reproducible analytical pipelines. By abandoning the chaos of notebooks for
+production work and embracing the structured, automatable world of plain text
+files and build automation, your work becomes more reliable, more scalable, and
+fundamentally more scientific.

@@ -458,7 +458,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>What you’ll learn by the end of this chapter: * What unit tests are and why they are essential for reliable data analysis. * How to write and run unit tests for your functions in both R (with <code>{testthat}</code>) and Python (with <code>pytest</code>). * How to use testing to improve the design and robustness of your code. * How to leverage LLMs to accelerate test writing and embrace your role as a code reviewer.</p>
+<p>What you’ll learn by the end of this chapter:</p>
+<ul>
+<li>What unit tests are and why they are essential for reliable data analysis.</li>
+<li>How to write and run unit tests for your functions in both R (with <code>{testthat}</code>) and Python (with <code>pytest</code>).</li>
+<li>How to use testing to improve the design and robustness of your code.</li>
+<li>How to leverage LLMs to accelerate test writing and embrace your role as a code reviewer.</li>
+</ul>
 <section id="introduction-proving-your-code-works" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="introduction-proving-your-code-works"><span class="header-section-number">4.1</span> Introduction: Proving Your Code Works</h2>
 <p>I hope you are starting to see the pieces of our reproducible workflow coming together. We now have:</p>
@@ -509,10 +515,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 1. Setup: Create input and expected output</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  input_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  expected_output <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 2. Action: Run the function</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  actual_output <span class="ot">&lt;-</span> <span class="fu">normalize_vector</span>(input_vector)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3. Expectation: Check if the actual output matches the expected output</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(actual_output, expected_output)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>})</span>
@@ -520,9 +526,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"Normalization handles NA values correctly"</span>, {</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  input_with_na <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="cn">NA</span>)</span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  expected_output <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="cn">NA</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  actual_output <span class="ot">&lt;-</span> <span class="fu">normalize_vector</span>(input_with_na)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We need to use expect_equal because it knows how to compare NAs</span></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(actual_output, expected_output)</span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -540,10 +546,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Setup</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    input_vector <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>])</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    expected_output <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span>])</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Action</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    actual_output <span class="op">=</span> normalize_vector(input_vector)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Expectation</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For floating point numbers, it's better to check for "close enough"</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> np.allclose(actual_output, expected_output)</span>
@@ -551,9 +557,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_normalize_vector_with_nas():</span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    input_with_na <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, np.nan])</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    expected_output <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span>, np.nan])</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    actual_output <span class="op">=</span> normalize_vector(input_with_na)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `np.allclose` doesn't handle NaNs, but `np.testing.assert_allclose` does!</span></span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    np.testing.assert_allclose(actual_output, expected_output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To run your tests, you simply navigate to your project’s root directory in the terminal and run the command <code>pytest</code>. It will automatically discover and run all your tests for you.</p>
@@ -561,7 +567,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="testing-as-a-design-tool" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="testing-as-a-design-tool"><span class="header-section-number">4.4</span> Testing as a Design Tool</h2>
-<p>Here is where testing becomes a superpower. What happens if we try to normalize a vector where all the elements are the same? The standard deviation will be 0, leading to a division by zero!</p>
+<p>Testing can also help you with programming, by thinking about edge cases. For example, what happens if we try to normalize a vector where all the elements are the same?</p>
 <p>Let’s write a test for this edge case first.</p>
 <p><strong><code>pytest</code> version:</strong></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tests/test_utils.py</span></span>
@@ -571,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The current function will return `[nan, nan, nan, nan]`</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Let's assert that we expect a vector of zeros instead.</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> np.allclose(actual_output, np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If we run <code>pytest</code> now, this test will <strong>fail</strong>. This is great! Our test has just revealed a flaw in our function’s design. This process is a core part of <strong>Test-Driven Development (TDD)</strong>: write a failing test, then write the code to make it pass.</p>
+<p>If we run <code>pytest</code> now, this test will <strong>fail</strong>. Our test has just revealed a flaw in our function’s design. This process is a core part of <strong>Test-Driven Development (TDD)</strong>: write a failing test, then write the code to make it pass.</p>
 <p>Let’s improve our function:</p>
 <p>Improved Python version (<code>utils.py</code>):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -608,12 +614,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="4.5.3" class="anchored" data-anchor-id="a-note-on-packaging-and-project-structure"><span class="header-section-number">4.5.3</span> A Note on Packaging and Project Structure</h3>
 <p>Throughout this chapter, we’ve focused on testing individual functions within a simple project structure (<code>utils.R</code> and <code>tests/test-utils.R</code>). This is the fundamental skill. It’s important to recognize, however, that this entire process becomes even more streamlined and robust when your code is organized into a formal <strong>package</strong>.</p>
 <p>Packaging your code provides a standardized structure for your functions, documentation, and tests. It solves many logistical problems automatically: testing frameworks know exactly where to find your source code without needing manual <code>source()</code> or <code>from utils import ...</code> statements, and tools can easily run all tests with a single command. It also makes your code installable, versionable, and distributable, which is the ultimate form of reproducibility.</p>
-<p>While a full guide to package development is beyond the scope of this course, it is the natural next step in your journey as a data scientist who produces reliable tools. When you are ready to take that step, here are the definitive resources to guide you:</p>
-<ul>
-<li><strong>For R:</strong> The “R Packages” (2e) book by Hadley Wickham and Jennifer Bryan is the essential, comprehensive guide. It covers everything from initial setup with <code>{usethis}</code> to testing, documentation, and submission to CRAN. <a href="https://r-pkgs.org/"><strong>Read it online here.</strong></a></li>
-<li><strong>For Python:</strong> The official <a href="https://packaging.python.org/en/latest/tutorials/packaging-projects/"><strong>Python Packaging User Guide</strong></a> is the place to start. For a more modern and streamlined approach that handles dependency management and publishing, many developers use tools like <a href="https://python-poetry.org/docs/"><strong>Poetry</strong></a> or <a href="https://hatch.pypa.io/latest/"><strong>Hatch</strong></a>.</li>
-</ul>
-<p>Treating your data analysis project like a small, internal software package, complete with functions and tests, is a powerful mindset that will elevate the quality and reliability of your work.</p>
+<p>In chapter 7, we will learn some packaging basics for Python and R.</p>
 </section>
 <section id="hands-on-exercises" class="level3" data-number="4.5.4">
 <h3 data-number="4.5.4" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">4.5.4</span> Hands-On Exercises</h3>
@@ -627,7 +628,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  sorted_x <span class="ot">&lt;-</span> <span class="fu">sort</span>(x)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(sorted_x)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  mid <span class="ot">&lt;-</span> <span class="fu">floor</span>(n <span class="sc">/</span> <span class="dv">2</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>) {</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Odd number of elements</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(sorted_x[mid <span class="sc">+</span> <span class="dv">1</span>])</span>
@@ -643,14 +644,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  sorted_x <span class="op">=</span> np.sort(np.array(x))</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> <span class="bu">len</span>(sorted_x)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  mid <span class="op">=</span> n <span class="op">//</span> <span class="dv">2</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> n <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">1</span>:</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Odd number of elements</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sorted_x[mid]</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Even number of elements</span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (sorted_x[mid <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> sorted_x[mid]) <span class="op">/</span> <span class="fl">2.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Your Task:</strong> 1. Create a test file (<code>test-my_functions.R</code> or <code>tests/test_my_functions.py</code>). 2. Write a test that checks if <code>calculate_median</code> gives the correct result for a vector with an <strong>odd</strong> number of elements (e.g., <code>c(10, 20, 40)</code>). 3. Write a second test that checks if <code>calculate_median</code> gives the correct result for a vector with an <strong>even</strong> number of elements (e.g., <code>[1, 2, 8,     10]</code>).</p>
+<p><strong>Your Task:</strong></p>
+<ol type="1">
+<li>Create a test file (<code>test-my_functions.R</code> or <code>tests/test_my_functions.py</code>).</li>
+<li>Write a test that checks if <code>calculate_median</code> gives the correct result for a vector with an <strong>odd</strong> number of elements (e.g., <code>c(10, 20, 40)</code>).</li>
+<li>Write a second test that checks if <code>calculate_median</code> gives the correct result for a vector with an <strong>even</strong> number of elements (e.g., <code>[1, 2, 8,     10]</code>).</li>
+</ol>
 </section>
 <section id="exercise-2-testing-edge-cases-and-expected-errors" class="level4" data-number="4.5.4.2">
 <h4 data-number="4.5.4.2" class="anchored" data-anchor-id="exercise-2-testing-edge-cases-and-expected-errors"><span class="header-section-number">4.5.4.2</span> Exercise 2: Testing Edge Cases and Expected Errors</h4>
@@ -669,7 +675,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> np.<span class="bu">any</span>(np.array(x) <span class="op">&lt;</span> <span class="dv">0</span>):</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Geometric mean is not defined for negative numbers."</span>)</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.prod(x)<span class="op">**</span>(<span class="dv">1</span> <span class="op">/</span> <span class="bu">len</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Your Task:</strong> Write three tests for this function: 1. A “happy path” test with a simple vector of positive numbers (e.g., <code>c(1, 2,     4)</code> should result in <code>2</code>). 2. An <strong>edge case</strong> test for a vector that includes <code>0</code>. The expected result should be <code>0</code>. 3. An <strong>error test</strong> that confirms the function fails correctly when given a vector with a negative number. * In R, use <code>testthat::expect_error()</code>. * In Python, use <code>pytest.raises()</code>. Example: <code>with         pytest.raises(ValueError): your_function_call()</code></p>
+<p><strong>Your Task:</strong></p>
+<p>Write three tests for this function:</p>
+<ol type="1">
+<li>A “happy path” test with a simple vector of positive numbers (e.g., <code>c(1, 2,     4)</code> should result in <code>2</code>).</li>
+<li>An <strong>edge case</strong> test for a vector that includes <code>0</code>. The expected result should be <code>0</code>.</li>
+<li>An <strong>error test</strong> that confirms the function fails correctly when given a vector with a negative number.
+<ul>
+<li>In R, use <code>testthat::expect_error()</code>.</li>
+<li>In Python, use <code>pytest.raises()</code>. Example: <code>with     pytest.raises(ValueError): your_function_call()</code></li>
+</ul></li>
+</ol>
 </section>
 <section id="exercise-3-test-driven-development-in-miniature" class="level4" data-number="4.5.4.3">
 <h4 data-number="4.5.4.3" class="anchored" data-anchor-id="exercise-3-test-driven-development-in-miniature"><span class="header-section-number">4.5.4.3</span> Exercise 3: Test-Driven Development (in miniature)</h4>
@@ -685,7 +701,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_longest_string(string_list):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># This will break on an empty list!</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="bu">max</span>(string_list, key<span class="op">=</span><span class="bu">len</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Your Task:</strong> 1. <strong>Part A:</strong> Write a simple test to prove the function works for a standard case (e.g., <code>c("a", "b", "abc")</code> should return <code>"abc"</code>). 2. <strong>Part B:</strong> Write a new test for an <strong>empty input</strong> (<code>c()</code> or <code>[]</code>). Run your tests. <strong>This test should fail with an error.</strong> 3. <strong>Part C:</strong> Modify the original <code>find_longest_string</code> function in your source file to handle the empty input gracefully (e.g., it could return <code>NULL</code> in R, or <code>None</code> in Python). 4. Run your tests again. Now all tests should pass. You have just completed a mini-cycle of Test-Driven Development!</p>
+<p><strong>Your Task:</strong></p>
+<ol type="1">
+<li><strong>Part A:</strong> Write a simple test to prove the function works for a standard case (e.g., <code>c("a", "b", "abc")</code> should return <code>"abc"</code>).</li>
+<li><strong>Part B:</strong> Write a new test for an <strong>empty input</strong> (<code>c()</code> or <code>[]</code>). Run your tests. <strong>This test should fail with an error.</strong></li>
+<li><strong>Part C:</strong> Modify the original <code>find_longest_string</code> function in your source file to handle the empty input gracefully (e.g., it could return <code>NULL</code> in R, or <code>None</code> in Python).</li>
+<li>Run your tests again. Now all tests should pass. You have just completed a mini-cycle of Test-Driven Development!</li>
+</ol>
 </section>
 <section id="exercise-4-the-ai-collaborator" class="level4" data-number="4.5.4.4">
 <h4 data-number="4.5.4.4" class="anchored" data-anchor-id="exercise-4-the-ai-collaborator"><span class="header-section-number">4.5.4.4</span> Exercise 4: The AI Collaborator</h4>
@@ -708,9 +730,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  df[<span class="st">'timestamp'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'timestamp'</span>])</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  df[<span class="st">'sale_value'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'sale_value'</span>])</span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Your Task:</strong> 1. <strong>Prompt your LLM:</strong> Copy the function above and give your LLM a prompt like this: &gt; “You are a helpful assistant writing tests for a Python data science project. Here is a function. Please write a <code>pytest</code> test file for it. Include a test for the happy path where everything works correctly. Also, include a test that verifies the function raises a <code>KeyError</code> if the ‘ts’ column is missing.”</p>
-<ol start="2" type="1">
-<li><strong>Act as the Reviewer:</strong>
+<p><strong>Your Task:</strong></p>
+<ol type="1">
+<li><p><strong>Prompt your LLM:</strong> Copy the function above and give your LLM a prompt like this: &gt; “You are a helpful assistant writing tests for a Python data science project. Here is a function. Please write a <code>pytest</code> test file for it. Include a test for the happy path where everything works correctly. Also, include a test that verifies the function raises a <code>KeyError</code> if the ‘ts’ column is missing.”</p></li>
+<li><p><strong>Act as the Reviewer:</strong></p>
 <ul>
 <li>Create a new test file (<code>tests/test_data_cleaning.py</code>) and paste the LLM’s response.</li>
 <li>Read every line of the generated test code. Is the logic correct? Is the <code>expected_output</code> data frame what you would actually expect?</li>

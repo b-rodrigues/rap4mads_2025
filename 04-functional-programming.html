@@ -422,7 +422,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#filtering-keeping-elements-that-match-a-condition" id="toc-filtering-keeping-elements-that-match-a-condition" class="nav-link" data-scroll-target="#filtering-keeping-elements-that-match-a-condition"><span class="header-section-number">3.4.2</span> 2. Filtering: Keeping Elements That Match a Condition</a></li>
   <li><a href="#reducing-combining-all-elements-into-a-single-value" id="toc-reducing-combining-all-elements-into-a-single-value" class="nav-link" data-scroll-target="#reducing-combining-all-elements-into-a-single-value"><span class="header-section-number">3.4.3</span> 3. Reducing: Combining All Elements into a Single Value</a></li>
   </ul></li>
-  <li><a href="#the-power-of-composition" id="toc-the-power-of-composition" class="nav-link" data-scroll-target="#the-power-of-composition"><span class="header-section-number">3.5</span> The Power of Composition</a></li>
+  <li><a href="#the-power-of-composition" id="toc-the-power-of-composition" class="nav-link" data-scroll-target="#the-power-of-composition"><span class="header-section-number">3.5</span> The Power of Composition</a>
+  <ul class="collapse">
+  <li><a href="#the-challenge-of-composition-in-python" id="toc-the-challenge-of-composition-in-python" class="nav-link" data-scroll-target="#the-challenge-of-composition-in-python"><span class="header-section-number">3.5.1</span> The Challenge of Composition in Python</a></li>
+  </ul></li>
+  <li><a href="#conclusion-functions-as-the-bedrock-of-reproducibility" id="toc-conclusion-functions-as-the-bedrock-of-reproducibility" class="nav-link" data-scroll-target="#conclusion-functions-as-the-bedrock-of-reproducibility"><span class="header-section-number">3.6</span> Conclusion: Functions as the Bedrock of Reproducibility</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.7</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#from-impure-to-pure" id="toc-from-impure-to-pure" class="nav-link" data-scroll-target="#from-impure-to-pure"><span class="header-section-number">3.7.1</span> 1. From Impure to Pure</a></li>
+  <li><a href="#mapping" id="toc-mapping" class="nav-link" data-scroll-target="#mapping"><span class="header-section-number">3.7.2</span> 2. Mapping</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/04-functional-programming.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -460,10 +469,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>What you’ll learn by the end of this chapter: * Why functional programming is crucial for reproducible, testable, and collaborative data science. * How to write self-contained, “pure” functions in both R and Python. * How to use functional concepts like <code>map</code>, <code>filter</code>, and <code>reduce</code> to replace error-prone loops. * How writing functions makes your code easier to review, debug, and even generate with LLMs.</p>
+<p>What you’ll learn by the end of this chapter:</p>
+<ul>
+<li>Why functional programming is crucial for reproducible, testable, and collaborative data science.</li>
+<li>How to write self-contained, “pure” functions in both R and Python.</li>
+<li>How to use functional concepts like <code>map</code>, <code>filter</code>, and <code>reduce</code> to replace error-prone loops.</li>
+<li>How writing functions makes your code easier to review, debug, and even generate with LLMs.</li>
+</ul>
 <section id="introduction-from-scripts-to-functions" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="introduction-from-scripts-to-functions"><span class="header-section-number">3.1</span> Introduction: From Scripts to Functions</h2>
-<p>So far, we’ve established two pillars of reproducible data science: 1. <strong>Reproducible Environments (with Nix):</strong> Ensuring everyone has the <em>exact same tools</em> (R, Python, system libraries) to run the code. 2. <strong>Reproducible History (with Git):</strong> Ensuring everyone has the <em>exact same version</em> of the code and can collaborate effectively.</p>
+<p>So far, we’ve established two pillars of reproducible data science:</p>
+<ol type="1">
+<li><strong>Reproducible Environments (with Nix):</strong> Ensuring everyone has the <em>exact same tools</em> (R, Python, system libraries) to run the code.</li>
+<li><strong>Reproducible History (with Git):</strong> Ensuring everyone has the <em>exact same version</em> of the code and can collaborate effectively.</li>
+</ol>
 <p>Now we turn to the third and arguably most important pillar: <strong>writing reproducible code itself.</strong> A common way to start a data analysis is by writing a script: a sequence of commands that are executed from top to bottom.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># R script example</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -493,7 +512,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="purity-and-side-effects" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="purity-and-side-effects"><span class="header-section-number">3.2</span> Purity and Side Effects</h2>
-<p>A <strong>pure function</strong> has two rules: 1. It only depends on its inputs. It doesn’t use any “global” variables defined outside the function. 2. It doesn’t change anything outside of its own scope. It doesn’t modify a global variable or write a file to disk. This is called having “no side effects.”</p>
+<p>A <strong>pure function</strong> has two rules:</p>
+<ol type="1">
+<li>It only depends on its inputs. It doesn’t use any “global” variables defined outside the function.</li>
+<li>It doesn’t change anything outside of its own scope. It doesn’t modify a global variable or write a file to disk. This is called having “no side effects.”</li>
+</ol>
 <p>Consider this “impure” function in Python:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IMPURE: Relies on a global variable</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>discount_rate <span class="op">=</span> <span class="fl">0.10</span></span>
@@ -615,7 +638,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the mean and standard error</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  mean_val <span class="ot">&lt;-</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the confidence interval bounds</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  alpha <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> level</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> mean_val <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> se</span>
@@ -688,6 +711,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>map_lgl()</code>: Returns a vector of logicals (booleans).</li>
 <li><code>map_dfr()</code>: Returns a data frame by row-binding the results.</li>
 </ul>
+<p>In base R, we have <code>lapply()</code>, <code>vapply()</code>, <code>apply()</code>, but the <code>{purrr}</code> functions provide a more homogenous interface.</p>
 <p><strong>Example:</strong> Calculate the mean of every column in a data frame.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -727,7 +751,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>The pattern:</strong> You have a list of things, and you want to keep only the elements that satisfy a certain condition. The condition is defined by a function that returns <code>TRUE</code> or <code>FALSE</code>.</p>
 <section id="in-r-with-purrrkeep-or-purrrdiscard" class="level4" data-number="3.4.2.1">
 <h4 data-number="3.4.2.1" class="anchored" data-anchor-id="in-r-with-purrrkeep-or-purrrdiscard"><span class="header-section-number">3.4.2.1</span> In R with <code>purrr::keep()</code> or <code>purrr::discard()</code></h4>
-<p><code>keep()</code> retains elements where the function returns <code>TRUE</code>. <code>discard()</code> does the opposite.</p>
+<p><code>keep()</code> retains elements where the function returns <code>TRUE</code>. <code>discard()</code> does the opposite. The base function is <code>Filter()</code>.</p>
 <p><strong>Example:</strong> From a list of data frames, keep only the ones with more than 100 rows.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setup: create a list of data frames</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>)</span>
@@ -770,6 +794,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This is equivalent to 1 + 2 + 3 + 4 + 5</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(total_sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The base R function is called <code>Reduce()</code>.</p>
 <p>A more practical data science example: find all the column names that are common to a list of data frames.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the column names of each df in the list</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>list_of_colnames <span class="ot">&lt;-</span> <span class="fu">map</span>(list_of_dfs, names)</span>
@@ -781,7 +806,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="in-python-with-functools.reduce" class="level4" data-number="3.4.3.2">
 <h4 data-number="3.4.3.2" class="anchored" data-anchor-id="in-python-with-functools.reduce"><span class="header-section-number">3.4.3.2</span> In Python with <code>functools.reduce</code></h4>
-<p>The <code>reduce</code> function was moved out of the built-ins and into the <code>functools</code> module in Python 3 because it’s often less readable than an explicit <code>for</code> loop for simple operations like summing. However, it’s still the right tool for more complex iterative combinations.</p>
+<p>The <code>reduce</code> function was moved out of the built-ins and into the <code>functools</code> module in Python 3 because it’s often less readable than an explicit <code>for</code> loop for simple operations like summing (well, at least according to Python users…). However, it’s still the right tool for more complex iterative combinations.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> operator</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -815,9 +840,135 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  ['mass'].mean()</span></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  .reset_index()</span></span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The issue with <em>method chaining</em> though, is that this only works within the methods that are available for <code>pandas.DataFrame</code> objects. You could apply another function using <code>pandas.DataFrame.apply()</code> function, but you can’t pipe functions from different packages like you could in R (more on this in the next subsection).</p>
 <p>Each step is a function that takes a data frame and returns a new, transformed data frame. By combining <code>map</code>, <code>filter</code>, and <code>reduce</code> with this compositional style, you can express complex data manipulation pipelines without writing a single <code>for</code> loop. This makes your code more declarative, less prone to bugs, and easier to reason about—a perfect fit for a reproducible workflow.</p>
+<section id="the-challenge-of-composition-in-python" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="the-challenge-of-composition-in-python"><span class="header-section-number">3.5.1</span> The Challenge of Composition in Python</h3>
+<p>The difficulty of function composition in Python, as you’ve noted, stems from fundamental differences in its primary programming paradigm compared to R. While both languages are powerful and versatile, their core designs influence how naturally they support the seamless chaining of functions. The crux of the matter lies in Python’s primarily encapsulated Object-Oriented Programming (OOP) versus R’s functional OOP and its use of polymorphic functions.</p>
+<section id="pythons-encapsulated-oop-methods-belong-to-objects" class="level4" data-number="3.5.1.1">
+<h4 data-number="3.5.1.1" class="anchored" data-anchor-id="pythons-encapsulated-oop-methods-belong-to-objects"><span class="header-section-number">3.5.1.1</span> Python’s Encapsulated OOP: Methods Belong to Objects</h4>
+<p>As already mention earlier in the chapter, Python is predominantly an object-oriented language where data and the functions that operate on that data are bundled together into objects. This concept is known as <strong>encapsulation</strong>. A class defines the blueprint for an object, and the functions defined within a class are called methods. These methods are intrinsically tied to the object’s class and are typically invoked using dot notation (<code>.</code>), as seen in the <code>pandas</code> example.</p>
+<p>This tight coupling of methods to specific object types is the main reason why fluid composition can be challenging. Method chaining, while elegant, is limited to the methods that have been explicitly defined for a particular class. To apply a function from a different library or a user-defined function that isn’t a method of the object, you often need to use workarounds like <code>apply()</code> in <code>pandas</code>, which can break the intuitive flow of a composition chain.</p>
+<p>Furthermore, while Python supports functional programming concepts, they are not always as central to the language’s design as its OOP features. For instance, <code>lambda</code> functions in Python are limited to a single expression, which can make defining complex on-the-fly functions cumbersome.</p>
+</section>
+<section id="rs-functional-oop-functions-are-polymorphic-and-independent" class="level4" data-number="3.5.1.2">
+<h4 data-number="3.5.1.2" class="anchored" data-anchor-id="rs-functional-oop-functions-are-polymorphic-and-independent"><span class="header-section-number">3.5.1.2</span> R’s Functional OOP: Functions are Polymorphic and Independent</h4>
+<p>In contrast, R was designed with a strong emphasis on functional programming. Its approach to object-orientation is described as <strong>functional OOP</strong>. In this paradigm, methods are not encapsulated within class definitions. Instead, functions are often “generic,” meaning they can behave differently depending on the class of the object passed to them. This is a form of <strong>polymorphism</strong>.</p>
+<p>This design choice has a profound impact on composition. Because functions are not strictly owned by objects, they can be more easily and flexibly combined. The pipe operators in R (<code>|&gt;</code> and <code>%&gt;%</code>) are a testament to this, allowing for the creation of highly readable and complex data manipulation pipelines by passing data through a series of independent functions. Each function takes data as an input and returns a transformed version, which is then passed to the next function in the chain.</p>
+</section>
+<section id="the-core-distinction-has-a-vs.-is-a-and-its-impact-on-composition" class="level4" data-number="3.5.1.3">
+<h4 data-number="3.5.1.3" class="anchored" data-anchor-id="the-core-distinction-has-a-vs.-is-a-and-its-impact-on-composition"><span class="header-section-number">3.5.1.3</span> The Core Distinction: “Has-a” vs.&nbsp;“Is-a” and its Impact on Composition</h4>
+<p>The principle of “favor composition over inheritance” is a well-known software design guideline. Inheritance models an “is-a” relationship (a <code>Dog</code> is an <code>Animal</code>), while composition models a “has-a” relationship (a <code>Car</code> has an <code>Engine</code>).</p>
+<ul>
+<li><strong>Python’s encapsulated OOP</strong> often encourages the use of inheritance, where a class inherits methods from a parent class. While powerful, this can lead to rigid hierarchies.</li>
+<li><strong>R’s functional approach</strong> naturally favors a compositional style. You build complex operations by combining simpler, single-purpose functions. This aligns well with the “has-a” model, where a data analysis pipeline “has a” filtering step, a selection step, and a summarization step.</li>
+</ul>
+<p>In essence, Python’s strength lies in creating well-defined, encapsulated objects with specific behaviors. R’s strength, particularly in data analysis, is in its ability to fluidly combine and apply functions to data. This makes the “compositional style” a more natural fit for the R ecosystem. While Python can achieve similar results, it often requires more deliberate effort to break out of the strict object-method paradigm to achieve the same level of compositional freedom.</p>
+</section>
+</section>
+</section>
+<section id="conclusion-functions-as-the-bedrock-of-reproducibility" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="conclusion-functions-as-the-bedrock-of-reproducibility"><span class="header-section-number">3.6</span> Conclusion: Functions as the Bedrock of Reproducibility</h2>
+<p>This chapter has laid the groundwork for the most critical pillar of reproducible data science: writing reproducible code. We have moved beyond the ephemeral, state-dependent nature of scripts and computational notebooks to embrace the discipline and predictability of <strong>Functional Programming</strong>.</p>
+<p>By treating functions as our primary unit of work, we unlock a cascade of benefits. <strong>Pure functions</strong>, which guarantee the same output for the same input, form the core of this approach. They are transparent, easy to reason about, and, most importantly, <strong>testable</strong>. When we encounter inherently “impure” operations like random number generation, we’ve learned to control the impurity by making the source of impurity (in this example the random seed) an explicit and managed input, rather than a hidden global state.</p>
+<p>We’ve replaced verbose and error-prone <code>for</code> loops with the powerful functional trio of <strong>map, filter, and reduce</strong>. These higher-order functions allow us to express complex data manipulations declaratively, stating <em>what</em> we want to do rather than detailing <em>how</em> to do it. This leads to code that is not only more concise but also less prone to bugs.</p>
+<p>Finally, we explored <strong>composition</strong>, the elegant chaining of these simple functions to build sophisticated analysis pipelines. We saw how this concept manifests differently in R and Python, a direct reflection of their core design philosophies. R’s functional heritage makes composition via the pipe (<code>%&gt;%</code> or <code>|&gt;</code>) a natural and seamless experience. Python’s object-oriented nature favors method chaining on objects like pandas DataFrames, a powerful but more constrained form of composition.</p>
+<p>Understanding this distinction is key to becoming an effective data scientist in any language. By mastering the functional paradigm, you are not just learning a new coding style; you are adopting a new way of thinking. You are building a foundation for code that is robust, easy to review, simple to debug, and truly reproducible—the ultimate goal of any serious analytical project.</p>
+</section>
+<section id="exercises" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.7</span> Exercises</h2>
+<p>The following exercises will help you solidify your understanding of functional programming concepts in both R and Python. Use built-in datasets like <code>iris</code> or <code>mtcars</code> for R, and you can load them into pandas DataFrames for the Python exercises.</p>
+<section id="from-impure-to-pure" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="from-impure-to-pure"><span class="header-section-number">3.7.1</span> 1. From Impure to Pure</h3>
+<p><strong>Goal:</strong> Refactor a function that relies on global state into a pure function.</p>
+<ul>
+<li><p><strong>R:</strong> The following function filters <code>mtcars</code> to find cars with a miles-per-gallon (MPG) above a certain threshold, but the threshold is a global variable. Rewrite it so that it becomes a pure function.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Impure function</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mpg_threshold <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>get_efficient_cars_impure <span class="ot">&lt;-</span> <span class="cf">function</span>(dataset) {</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(dataset, mpg <span class="sc">&gt;</span> mpg_threshold)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: Create a pure function `get_efficient_cars_pure`</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># that takes the dataset and the threshold as arguments.</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Then, call it with a threshold of 25.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Python:</strong> Do the same for the Python equivalent. Rewrite the impure function into a pure one (you can find the <code>mtcars</code> dataset as a csv <a href="https://github.com/b-rodrigues/rap4mads_2025/tree/master/datasets">here</a>.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>mtcars <span class="op">=</span> pd.read_csv(<span class="st">"path/to/mtcars.csv"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Impure function</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>mpg_threshold <span class="op">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_efficient_cars_impure(df):</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df[df[<span class="st">'mpg'</span>] <span class="op">&gt;</span> mpg_threshold]</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: Create a pure function `get_efficient_cars_pure`</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># that takes the DataFrame and the threshold as arguments.</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Then, call it with a threshold of 25.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="mapping" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="mapping"><span class="header-section-number">3.7.2</span> 2. Mapping</h3>
+<p><strong>Goal:</strong> Use mapping to apply a function to multiple elements of a list or data frame.</p>
+<ul>
+<li><p><strong>R:</strong> Using the <code>iris</code> dataset, calculate the number of distinct values for each of its four numeric columns (<code>Sepal.Length</code>, <code>Sepal.Width</code>, <code>Petal.Length</code>, <code>Petal.Width</code>).</p>
+<ul>
+<li><strong>Hint:</strong> Use <code>purrr::map_int()</code> and the <code>n_distinct()</code> function from <code>dplyr</code>.</li>
+</ul></li>
+<li><p><strong>Python:</strong> You are given a list of strings. Use a list comprehension to create a new list containing the length of each string.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> [<span class="st">"functional"</span>, <span class="st">"programming"</span>, <span class="st">"is"</span>, <span class="st">"powerful"</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: create a list `word_lengths` containing [10, 11, 2, 8]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<section id="filtering" class="level4" data-number="3.7.2.1">
+<h4 data-number="3.7.2.1" class="anchored" data-anchor-id="filtering"><span class="header-section-number">3.7.2.1</span> 3. Filtering</h4>
+<p><strong>Goal:</strong> Use filtering to select elements from a list based on a condition.</p>
+<ul>
+<li><p><strong>R:</strong> You have a list of vectors. Use <code>purrr::keep()</code> to select only the vectors whose mean is greater than 5.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>list_of_vectors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">9</span>),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">b =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">9</span>),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: create a list `high_mean_vectors` that contains only vectors a and b.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Python:</strong> You have a list of dictionaries, where each dictionary represents a product. Use a list comprehension with an <code>if</code> clause to filter for products that are on sale.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>products <span class="op">=</span> [</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Laptop'</span>, <span class="st">'price'</span>: <span class="dv">1200</span>, <span class="st">'on_sale'</span>: <span class="va">False</span>},</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Mouse'</span>, <span class="st">'price'</span>: <span class="dv">25</span>, <span class="st">'on_sale'</span>: <span class="va">True</span>},</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: <span class="st">'Keyboard'</span>, <span class="st">'price'</span>: <span class="dv">75</span>, <span class="st">'on_sale'</span>: <span class="va">True</span>}</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: create a list `sale_items` containing only the mouse and keyboard dicts.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="reducing" class="level4" data-number="3.7.2.2">
+<h4 data-number="3.7.2.2" class="anchored" data-anchor-id="reducing"><span class="header-section-number">3.7.2.2</span> 4. Reducing</h4>
+<p><strong>Goal:</strong> Use a reduce operation to aggregate a list into a single value.</p>
+<ul>
+<li><p><strong>R:</strong> You are given three small data frames. Use <code>purrr::reduce()</code> and a <code>dplyr::full_join()</code> to combine them into a single data frame.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="at">val1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"c"</span>), <span class="at">val2 =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"c"</span>), <span class="at">val3 =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>list_of_dfs <span class="ot">&lt;-</span> <span class="fu">list</span>(df1, df2, df3)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: use reduce to join them all by the 'id' column.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Python:</strong> Given a list of lists (a 2D matrix), use <code>functools.reduce</code> to “flatten” it into a single list.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> [[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>], [<span class="dv">6</span>]]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Your task: use reduce to produce the list [1, 2, 3, 4, 5, 6]</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Hint: `operator.add` can concatenate lists.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="composition-challenge-a-reusable-analysis-function" class="level4" data-number="3.7.2.3">
+<h4 data-number="3.7.2.3" class="anchored" data-anchor-id="composition-challenge-a-reusable-analysis-function"><span class="header-section-number">3.7.2.3</span> 5. Composition Challenge: A Reusable Analysis Function</h4>
+<p><strong>Goal:</strong> Write a reusable function that encapsulates a common data analysis task.</p>
+<ul>
+<li><p><strong>R:</strong> Write a single function named <code>summarize_by_group</code> that takes three arguments: a data frame (<code>dataset</code>), a categorical column to group by (<code>grouping_var</code>), and a numeric column to summarize (<code>summary_var</code>). The function should return a summarized data frame with the count, mean, and standard deviation for the <code>summary_var</code> within each group. Use <code>{dplyr}</code> and the <code>{ }</code> syntax. Test it on the <code>iris</code> dataset by summarizing <code>Sepal.Length</code> grouped by <code>Species</code>.</p></li>
+<li><p><strong>Python:</strong> Write the equivalent function in Python named <code>summarize_by_group_py</code>. It should take a pandas DataFrame, a <code>grouping_var</code> name (string), and a <code>summary_var</code> name (string). Use <code>.groupby()</code> and <code>.agg()</code> to produce the same summary table (count, mean, sd). Test it on the penguins dataset by summarizing <code>body_mass_g</code> grouped by <code>species</code>.</p></li>
+</ul>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

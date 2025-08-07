@@ -767,14 +767,13 @@ div.csl-indent {
 <section id="schedule" class="level2">
 <h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
 <ul>
-<li>2025/09/04 - 4 hours,</li>
-<li>2025/09/11 - 4 hours,</li>
-<li>2025/09/14 - 4 hours,</li>
-<li>2025/09/02 - 4 hours,</li>
-<li>2025/09/05 - 2 hours,</li>
-<li>2025/09/09 - 5 hours,</li>
-<li>2025/09/16 - 4 hours,</li>
-<li>2025/09/19 - 3 hours,</li>
+<li>2025/09/15 - 4 hours, Intro (1 hour) and Nix (3 hours)</li>
+<li>2025/09/22 - 4 hours, Git (4 hours)</li>
+<li>2025/10/06 - 4 hours, Functional programming (1 hour), Unit testing (3 hours)</li>
+<li>2025/10/13 - 4 hours, Pipelines using Nix and rixpress</li>
+<li>2025/10/15 - 4 hours, Packaging</li>
+<li>2025/10/20 - 4 hours, Docker</li>
+<li>2025/10/27 - 4 hours, GitHub Actions</li>
 </ul>
 </section>
 <section id="reproducible-analytical-pipelines" class="level2">
@@ -785,7 +784,8 @@ div.csl-indent {
 </section>
 <section id="data-products" class="level2">
 <h2 class="anchored" data-anchor-id="data-products">Data products?</h2>
-<p>In this course each of you will develop a <em>data product</em>. A data product is anything that requires data as an input. This can be a very simple report in PDF or Word format or a complex web app. This website is actually also a data product, which I made using the R programming language. In this course we will not focus too much on how to create automated reports or web apps (but I’ll give an introduction to these, don’t worry) but our focus will be on how to set up a pipeline that results in these data products in a reproducible way.</p>
+<p>In this course each of you will develop a <em>data product</em>. A data product is anything that requires data as an input. This can be a very simple report in PDF or Word format or a complex web app. This website is actually also a data product, which I made using the R programming language and Quarto. Dependencies are managed by the Nix package manager and the build runs on GitHub Actions, and the website you’re seeing his hosted on GitHub Pages. By the end of the course, you’ll have all the basic knowledge to achieve something similar.</p>
+<p>The focus on the course will not be about the end product itself, which you will have to choose for your project, but instead we will focus on how to set up a pipeline that results in these data products in a reproducible way.</p>
 </section>
 <section id="machine-learning" class="level2">
 <h2 class="anchored" data-anchor-id="machine-learning">Machine learning?</h2>
@@ -798,7 +798,7 @@ div.csl-indent {
 <li>the Internet works (what’s a firewall? what’s a reverse proxy? what’s a domain name? etc, etc…);</li>
 </ul>
 <p>But what about machine learning? Well, depending what you’ll end up doing, you might indeed focus a lot on machine learning and/or statistical modeling. That being said, in practice, it is very often much more efficient to let some automl algorithm figure out the best hyperparameters of a XGBoost model and simply use that, at least as a starting point (but good luck improving upon automl…). What matters, is that the data you’re feeding to your model is clean, that your analysis is sensible, and most importantly, that it could be understood by someone taking over (imagine you get sick) and rerun with minimal effort in the future. The model here should simply be a piece that could be replaced by another model without much impact. The model is rarely central… but of course there are exceptions to this, especially in research, but every other point I’ve made still stands. It’s just that not only do you have to care about your model a lot, you also have to care about everything else.</p>
-<p>So in this course we’re going to learn a bit of all of this. We’re going to learn how to write reusable code, learn some basics of the Linux command line, Git and Docker.</p>
+<p>So in this course we’re going to learn a bit of all of this. We’re going to learn how to write reusable code, learn some basics of the Linux command line, Nix, Git and Docker.</p>
 </section>
 <section id="what-actually-is-reproducibility" class="level2">
 <h2 class="anchored" data-anchor-id="what-actually-is-reproducibility">What actually is reproducibility?</h2>
@@ -807,9 +807,9 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="the-requirements-of-a-rap">The requirements of a RAP</h3>
 <p>For something to be truly reproducible, it has to respect the following bullet points:</p>
 <ul>
-<li>Source code must obviously be available and thoroughly tested and documented (which is why we will be using Git and Github);</li>
-<li>All the dependencies must be easy to find and install (we are going to deal with this using dependency management tools);</li>
-<li>To be written with an open source programming language (nocode tools like Excel are by default non-reproducible because they can’t be used non-interactively, and which is why we are going to use the R programming language);</li>
+<li>Source code must obviously be available and thoroughly tested and documented (which is why we will be using Git and GitHub);</li>
+<li>All the dependencies must be easy to find and install (we are going to deal with this using Nix);</li>
+<li>To be written with an open source programming language (nocode tools like Excel are by default non-reproducible because they can’t be used non-interactively);</li>
 <li>The project needs to be run on an open source operating system (thankfully, we can deal with this without having to install and learn to use a new operating system, thanks to Docker);</li>
 <li>Data and the paper/report need obviously to be accessible as well, if not publicly as is the case for research, then within your company.</li>
 </ul>
@@ -821,7 +821,7 @@ div.csl-indent {
 <li>Versions of the underlying system libraries (which often go hand in hand with OS version, but not necessarily).</li>
 <li>And even the hardware architecture that you run all that software stack on.</li>
 </ul>
-<p>So by “reproducibility is on a continuum”, what I mean is that you could set up your project in a way that none, one, two, three, four or all of the preceding items are taken into consideration when making your project reproducible.</p>
+<p>So by “reproducibility is on a continuum”, what I mean is that you could set up your project in a way that none, one, two, three, four or all of the preceeding items are taken into consideration when making your project reproducible.</p>
 <p>This is not a novel, or new idea. <span class="citation" data-cites="peng2011">Peng (<a href="#ref-peng2011" role="doc-biblioref">2011</a>)</span> already discussed this concept but named it the <em>reproducibility spectrum</em>.</p>
 <figure class="figure">
 <img src="img/repro_spectrum.png" alt="The reproducibility spectrum from Peng's 2011 paper." class="figure-img">
@@ -863,6 +863,8 @@ The reproducibility spectrum from Peng’s 2011 paper.
 </div>
 </div>
 </div>
+<p>The reason this is the case is that anyone can push anything on to Pypi, and no package gets checked against its dependencies or reverse dependencies. That is not the case for R, where published packages need to declare their dependencies and can’t break any of their reverse dependencies (when this happens, authors of reverse dependencies get two weeks to fix their packages or they get removed from CRAN).</p>
+<p>Furthermore, and this is surprising to many people, R offers a much better package developing experience than Python.</p>
 <p>That doesn’t mean that R does not have any issues. Quite the contrary, R sometimes behaves in seemingly truly bizarre ways (as an example, try running <code>nchar("1000000000")</code> and then <code>nchar(1000000000)</code> and try to make sense of it). To know more about such bizarre behaviour, I recommend you read <em>The R Inferno</em> (linked at the end of this chapter). So, yes, R is far from perfect, but it sucks less than the alternatives (again, in my absolutely objective opinion).</p>
 <div id="qwebr-interactive-area-1" class="qwebr-interactive-area">
   <button class="btn btn-default qwebr-button-run" disabled="" type="button" id="qwebr-button-run-1">🟡 Loading
@@ -1142,7 +1144,7 @@ The reproducibility spectrum from Peng’s 2011 paper.
     executeCode(editor.getValue());
   };
 </script>
-<p>That being said, the reality of data science is that the future is becoming more and more polyglot. Data products are evermore complex, and necessity are built using many languages; so ideally we would like to find a way to use whatever tool is best fit for the job at hand. Sometimes it can be R, sometimes Python, sometimes shell scripts, or any other language. This is where Nix will help us.</p>
+<p>That being said, Python remains extremely popular, and it is likely that you will continue writing Python. In my opinion, the future of data science is going to be more and more polyglot. Data products are evermore complex, and require being built using many languages; so ideally we would like to find a way to use whatever tool is best fit for the job at hand. Sometimes it can be R, sometimes Python, sometimes shell scripts, or any other language. This is where Nix will help us.</p>
 </section>
 <section id="nix" class="level2">
 <h2 class="anchored" data-anchor-id="nix">Nix</h2>
@@ -1162,13 +1164,12 @@ The reproducibility spectrum from Peng’s 2011 paper.
 </section>
 <section id="grading" class="level2">
 <h2 class="anchored" data-anchor-id="grading">Grading</h2>
-<p>The way grading works in this course is as follows: during lecture hours you will follow along. At home, you’ll be working on setting up your own pipeline. For this, choose a dataset that ideally would need some cleaning and/or tweaking to be usable. We are going first to learn how to package this dataset alongside some functions to make it clean. If time allows, I’ll leave some time during lecture hours for you to work on it and ask me and your colleagues for help. At the end of the semester, I will need to download your code and get it running. The less effort this takes me, the better your score. Here is a tentative breakdown:</p>
+<p>The way grading works in this course is as follows: during lecture hours you will follow along. At home, you’ll be working on setting up your own pipeline. For this, choose a dataset that ideally would need some cleaning and/or tweaking to be usable. If time allows, I’ll leave some time during lecture hours for you to work on it and ask me and your colleagues for help. At the end of the semester, I will need to download your code and get it running. The less effort this takes me, the better your score. Here is a tentative breakdown:</p>
 <ul>
 <li>Code is on github.com and the repository is documented with a Readme.md file: 5 points;</li>
 <li>Data and functions to run pipeline are documented and tested: 5 points;</li>
 <li>Every software dependency is easily installed: 5 points;</li>
-<li>Pipeline can be executed in one command: 5 points;</li>
-<li>Bonus points: pipeline is dockerized, or uses Nix, and/or uses Github Actions to run? 5 points</li>
+<li>Pipeline can be executed in one command: 5 points.</li>
 </ul>
 <p>The way to fail this class is to write an undocumented script that only runs on your machine and expect me to debug it to get it to run.</p>
 </section>
@@ -1201,7 +1202,7 @@ The reproducibility spectrum from Peng’s 2011 paper.
 <section id="license" class="level2">
 <h2 class="anchored" data-anchor-id="license">License</h2>
 <p>This course is licensed under the <a href="http://www.wtfpl.net/txt/copying/">WTFPL</a>.</p>
-<p><a href="http://www.wtfpl.net/"><img src="img/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"></a></p>
+<p><a href="http://www.wtfpl.net/"><img src="img/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"> </a></p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">

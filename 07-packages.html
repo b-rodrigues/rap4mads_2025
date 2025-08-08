@@ -482,7 +482,13 @@ window.Quarto = {
 <div style="text-align:center;">
 <p><img src="https://img.icons8.com/plasticine/200/000000/box.png" title="Package icon" width="30%"></p>
 </div>
-<p>What you’ll learn by the end of this chapter: * Why organizing your code into a formal package is the ultimate form of reproducibility and reusability. * How to create, document, and test a basic R package using <code>{devtools}</code> and <code>{usethis}</code>. * How to create, document, and test a modern Python package using <code>uv</code> and <code>pytest</code>. * How to install your own packages directly from GitHub, enabling you to share your tools with colleagues and your future self.</p>
+<p>What you’ll learn by the end of this chapter:</p>
+<ul>
+<li>Why organizing your code into a formal package is the ultimate form of reproducibility and reusability.</li>
+<li>How to create, document, and test a basic R package using <code>{devtools}</code> and <code>{usethis}</code>.</li>
+<li>How to create, document, and test a modern Python package using <code>uv</code> and <code>pytest</code>.</li>
+<li>How to install your own packages directly from GitHub, enabling you to share your tools with colleagues and your future self.</li>
+</ul>
 <section id="introduction-why-bother-packaging" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="introduction-why-bother-packaging"><span class="header-section-number">6.1</span> Introduction: Why Bother Packaging?</h2>
 <p>So far, we have built a robust workflow based on three pillars: reproducible environments with Nix, reproducible history with Git, and reproducible logic with functional programming. We’ve organized our code into functions, which are a massive improvement over messy scripts.</p>
@@ -499,7 +505,11 @@ window.Quarto = {
 </section>
 <section id="part-1-creating-an-r-package-with-usethis-and-devtools" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="part-1-creating-an-r-package-with-usethis-and-devtools"><span class="header-section-number">6.2</span> Part 1: Creating an R Package with <code>{usethis}</code> and <code>{devtools}</code></h2>
-<p>The R community has developed an outstanding set of tools that make package development incredibly streamlined. The two essential packages are: * <strong><code>{devtools}</code>:</strong> Provides core development tools like <code>install()</code>, <code>test()</code>, and <code>check()</code>. * <strong><code>{usethis}</code>:</strong> A workflow package that automates all the boilerplate. It creates files, sets up infrastructure, and guides you through the process.</p>
+<p>The R community has developed an outstanding set of tools that make package development incredibly streamlined. The two essential packages are:</p>
+<ul>
+<li><strong><code>{devtools}</code>:</strong> Provides core development tools like <code>install()</code>, <code>test()</code>, and <code>check()</code>.</li>
+<li><strong><code>{usethis}</code>:</strong> A workflow package that automates all the boilerplate. It creates files, sets up infrastructure, and guides you through the process.</li>
+</ul>
 <p>Let’s build a package called <code>cleanR</code>, which will contain a function to standardize column names.</p>
 <section id="step-1-project-setup" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="step-1-project-setup"><span class="header-section-number">6.2.1</span> Step 1: Project Setup</h3>
@@ -539,7 +549,13 @@ window.Quarto = {
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(df) <span class="ot">&lt;-</span> new_names</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The key tags here are: * <code>@param</code>: Describes a function argument. * <code>@return</code>: Describes what the function returns. * <code>@export</code>: This is crucial. It tells R that you want this function to be available to users when they load your package with <code>library(cleanR)</code>. * <code>@examples</code>: Provides runnable examples that will appear in the help file.</p>
+<p>The key tags here are:</p>
+<ul>
+<li><code>@param</code>: Describes a function argument.</li>
+<li><code>@return</code>: Describes what the function returns.</li>
+<li><code>@export</code>: This is crucial. It tells R that you want this function to be available to users when they load your package with <code>library(cleanR)</code>.</li>
+<li><code>@examples</code>: Provides runnable examples that will appear in the help file.</li>
+</ul>
 <p>Now, run the magic command to process these comments:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">document</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This updates the <code>NAMESPACE</code> file and creates the help file (<code>man/clean_names.Rd</code>). You can now see your function’s help page with <code>?clean_names</code>.</p>
@@ -579,7 +595,12 @@ window.Quarto = {
 </section>
 <section id="step-5-install-from-github" class="level3" data-number="6.2.5">
 <h3 data-number="6.2.5" class="anchored" data-anchor-id="step-5-install-from-github"><span class="header-section-number">6.2.5</span> Step 5: Install from GitHub</h3>
-<p>To share your package, the easiest way is with GitHub. 1. Create a new, empty repository on GitHub (e.g., <code>cleanR</code>). 2. In your local project, follow the instructions GitHub provides to link your local repository and push your code. This usually involves commands like: <code>bash     git remote add origin git@github.com:yourusername/cleanR.git     git branch -M main     git push -u origin main</code> 3. Now, anyone (including you on a different machine) can install your package with a single command: <code>R     # You might need to install {remotes} first     # install.packages("remotes")     remotes::install_github("yourusername/cleanR")</code></p>
+<p>To share your package, the easiest way is with GitHub.</p>
+<ol type="1">
+<li>Create a new, empty repository on GitHub (e.g., <code>cleanR</code>).</li>
+<li>In your local project, follow the instructions GitHub provides to link your local repository and push your code. This usually involves commands like: <code>bash     git remote add origin git@github.com:yourusername/cleanR.git     git branch -M main     git push -u origin main</code></li>
+<li>Now, anyone (including you on a different machine) can install your package with a single command: <code>R     # You might need to install {remotes} first     # install.packages("remotes")     remotes::install_github("yourusername/cleanR")</code></li>
+</ol>
 <p>Congratulations, you have created and shared a fully functional R package!</p>
 </section>
 </section>
@@ -686,7 +707,12 @@ window.Quarto = {
 </section>
 <section id="step-5-install-from-github-1" class="level3" data-number="6.3.5">
 <h3 data-number="6.3.5" class="anchored" data-anchor-id="step-5-install-from-github-1"><span class="header-section-number">6.3.5</span> Step 5: Install from GitHub</h3>
-<p>Sharing via GitHub is the most common way to distribute packages that aren’t on the official Python Package Index (PyPI). 1. Create a new, empty repository on GitHub. 2. Push your local project to the remote repository. 3. Now, anyone can install your package directly from GitHub using <code>pip</code>, which is smart enough to find and process your <code>pyproject.toml</code> file: <code>bash     pip install git+https://github.com/yourusername/pyclean.git</code></p>
+<p>Sharing via GitHub is the most common way to distribute packages that aren’t on the official Python Package Index (PyPI):</p>
+<ol type="1">
+<li>Create a new, empty repository on GitHub.</li>
+<li>Push your local project to the remote repository.</li>
+<li>Now, anyone can install your package directly from GitHub using <code>pip</code>, which is smart enough to find and process your <code>pyproject.toml</code> file: <code>bash     pip install git+https://github.com/yourusername/pyclean.git</code></li>
+</ol>
 <p>For Nix environments, add this to your <code>default.nix</code>:</p>
 <pre><code>pyclean = pkgs.python313Packages.buildPythonPackage rec {
   pname = "pyclean";

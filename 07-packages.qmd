@@ -5,6 +5,7 @@
 </div>
 
 What you'll learn by the end of this chapter:
+
 *   Why organizing your code into a formal package is the ultimate form of
     reproducibility and reusability.
 *   How to create, document, and test a basic R package using `{devtools}` and
@@ -61,6 +62,7 @@ to understand the structure and benefits so you can apply this powerful
 
 The R community has developed an outstanding set of tools that make package
 development incredibly streamlined. The two essential packages are:
+
 *   **`{devtools}`:** Provides core development tools like `install()`,
     `test()`, and `check()`.
 *   **`{usethis}`:** A workflow package that automates all the boilerplate. It
@@ -130,6 +132,7 @@ clean_names <- function(df) {
 ```
 
 The key tags here are:
+
 *   `@param`: Describes a function argument.
 *   `@return`: Describes what the function returns.
 *   `@export`: This is crucial. It tells R that you want this function to be
@@ -206,6 +209,7 @@ You can now use your package in any R session with `library(cleanR)`.
 ### Step 5: Install from GitHub
 
 To share your package, the easiest way is with GitHub.
+
 1.  Create a new, empty repository on GitHub (e.g., `cleanR`).
 2.  In your local project, follow the instructions GitHub provides to link your
     local repository and push your code. This usually involves commands like:
@@ -401,9 +405,10 @@ interpreter and then typing `import pyclean` will work without any issues.
 ### Step 5: Install from GitHub
 
 Sharing via GitHub is the most common way to distribute packages that aren't on
-the official Python Package Index (PyPI).
-1.  Create a new, empty repository on GitHub.
-2.  Push your local project to the remote repository.
+the official Python Package Index (PyPI):
+
+1. Create a new, empty repository on GitHub.
+2. Push your local project to the remote repository.
 3. Now, anyone can install your package directly from GitHub using `pip`, which
 is smart enough to find and process your `pyproject.toml` file:
     ```bash

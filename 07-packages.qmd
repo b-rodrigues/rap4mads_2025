@@ -213,6 +213,7 @@ To share your package, the easiest way is with GitHub.
 1.  Create a new, empty repository on GitHub (e.g., `cleanR`).
 2.  In your local project, follow the instructions GitHub provides to link your
     local repository and push your code. This usually involves commands like:
+
     ```bash
     git remote add origin git@github.com:yourusername/cleanR.git
     git branch -M main
@@ -220,6 +221,7 @@ To share your package, the easiest way is with GitHub.
     ```
 3.  Now, anyone (including you on a different machine) can install your package
     with a single command:
+
     ```R
     # You might need to install {remotes} first
     # install.packages("remotes")
@@ -394,9 +396,11 @@ But we are working from a Nix shell. Instead, we will simply edit our
 can easily be found. If you look at the `default.nix` file of the course you’ve
 been using, you’ll see the following at the bottom:
 
+```nix
 shellHook = ''
   export PYTHONPATH=$PWD/pyclean/src:$PYTHONPATH
 '';
+```
 
 (you may need to adapt the path depending on where you’re developing the
 package). With this, dropping into the Nix shell, starting the Python

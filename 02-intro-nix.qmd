@@ -113,7 +113,6 @@ other users than `root` running Nix. To set this up, please do as outlined [this
 official Ubuntu blog entry](https://ubuntu.com/blog/ubuntu-wsl-enable-systemd):
 
 ```sh
-
 # in WSL2 Ubuntu shell
 
 sudo -i
@@ -123,7 +122,7 @@ nano /etc/wsl.conf
 This will open the `/etc/wsl.conf` in a nano, a command line text editor. Add
 the following line:
 
-```
+```toml
 [boot]
 systemd=true
 ```
@@ -514,7 +513,7 @@ sudo nano /etc/apparmor.d/nix.rstudio
 
 Populate it with:
 
-```
+```bash
 profile nix.rstudio /nix/store/*-RStudio-*-wrapper/bin/rstudio flags=(unconfined) {
     userns,
 }

@@ -17,8 +17,8 @@ book:
     - 03-git.qmd
     - 04-functional-programming.qmd
     - 05-unit-testing.qmd
-    - 06-rixpress.qmd
-    - 07-packages.qmd
+    - 06-packages.qmd
+    - 07-rixpress.qmd
     - 08-docker.qmd
   page-navigation: true
 

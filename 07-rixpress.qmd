@@ -443,3 +443,8 @@ reproducible analytical pipelines. By abandoning the chaos of notebooks for
 production work and embracing the structured, automatable world of plain text
 files and build automation, your work becomes more reliable, more scalable, and
 fundamentally more scientific.
+
+## Hands-On Exercises
+Check out the [rixpress_demos](https://github.com/b-rodrigues/rixpress_demos)
+GitHub repository and, by taking inspiration from them, write a pipeline that
+uses the packages you wrote for the exercises of Chapter 6 *Packages*.

@@ -1,4 +1,4 @@
-# Docker
+# Containerization With Docker
 
 <div style="text-align:center;">
 ```{r, echo = F}
@@ -71,16 +71,16 @@ that building the same `Dockerfile` twice will yield an identical image.
 ### Installing Docker
 
 The first step is to install Docker.
-You'll find the instructions for Ubuntu 
+You'll find the instructions for Ubuntu
 [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository),
 for Windows [here](https://docs.docker.com/desktop/install/windows-install/) (read the
-system requirements section as well!) and for macOS 
+system requirements section as well!) and for macOS
 [here](https://docs.docker.com/desktop/install/mac-install/) (make sure to choose the right
 version for the architecture of your Mac, if you have an M1 Mac use *Mac with Apple silicon*).
 
 After installation, it might be a good idea to restart your computer, if the installation wizard
 does not invite you to do so. To check whether Docker was installed successfully, run the following
-command in a terminal (or on the desktop app on Windows): 
+command in a terminal (or on the desktop app on Windows):
 
 ```bash
 docker run --rm hello-world
@@ -447,9 +447,11 @@ docker run --rm --name my-project-container -v /path/to/your/local/project-folde
 ```
 
 This will mount a folder called `workspace` inside a running Docker container
-that will map to a folder called `workspace` on your current project folder.
-This acts as a kind of tunnel between the two, any file put there will be
-available and editabale on the other side.
+that will map to a folder called `workspace` on your current project folder. The
+`-w /workspace` flag sets the working directory inside the container to
+`/workspace`, so any commands you run will execute from there. This acts as a
+kind of tunnel between the two; any file put there will be available and
+editable on the other side.
 
 While this is good to know, I don’t recommend using Docker to work
 interactively. Use Nix for this instead, and use Docker to then deploy whatever
@@ -687,442 +689,156 @@ to update your code as well. Using Nix, you can stay on `ubuntu:latest`.
 To summarise, if you can’t use Nix inside of Docker, you will have to deal with
 the same issues you face when trying to setup environment on your computer.
 
+## Dockerizing a `{rixpress}` Pipeline
 
-## Building data products using Docker
+In the previous chapter, we learned how to build a fully reproducible, polyglot
+pipeline using Nix and `{rixpress}`. This workflow is perfect for development,
+ensuring that every run is bit-for-bit identical. However, what if you need to
+share your final data product with a collaborator or deploy it to a server where
+installing Nix is not an option?
 
-We now know how to save files to our computer from Docker. But as the container
-gets stopped (and removed because of --rm) if we install R packages, we would
-need to reinstall them each time. The solution is thus to create our own Docker
-image, and as you will see, it is quite simple to get started. Create a folder
-somewhere on your computer, and add a text file called `Dockerfile` (without any
-extension). In this file add, the following lines:
+This is the ideal use case for Docker. We can package our entire `{rixpress}`
+project (the Nix environment definition, the pipeline logic, and all source
+files) into a single Docker image. This image can then be run by anyone with
+Docker installed, regardless of their host operating system or whether they have
+Nix. The user doesn't build the pipeline; they run the container, and the
+pre-built results are extracted. If they wish, they can "log-in" to an interactive
+session to acces the environment within a running Docker container and "play around"
+with the data and code.
 
-```
-FROM rocker/tidyverse
-
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
-```
-
-Then we need to build the image. For this, run the following line:
-
-```
-docker build -t my_package .
-```
-
-This will build the image right in this folder and call it `my_package`.
+Let's take the `{rixpress}` project we created in the last chapter and dockerize
+it. Assume your project directory has the following structure:
 
 ```
-Sending build context to Docker daemon  2.048kB
-Step 1/2 : FROM rocker/tidyverse
- ---> a838ee142831
-Step 2/2 : RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
- ---> Using cache
- ---> 17d5d3179293
-Successfully built 17d5d3179293
-Successfully tagged my_package:latest
+.
+├── data/
+│   └── mtcars.csv
+├── gen-env.R
+├── gen-pipeline.R
+├── functions.R
+├── functions.py
+├── default.nix
+└── pipeline.nix
 ```
 
-By running `docker images` you should see all the images that are on your PC (with running containers
-or not):
+### Step 1: The Dockerfile
 
-```
-docker images
-```
+Create a new file named `Dockerfile` in your project's root
+directory. We will use the `nix-base` image we built earlier as our foundation.
 
-```
-REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
-my_package         latest    17d5d3179293   13 minutes ago   2.16GB
-rocker/tidyverse   latest    a838ee142831   11 days ago      2.15GB
-rocker/rstudio     latest    d110bab4d154   11 days ago      1.79GB
-hello-world        latest    feb5d9fea6a5   13 months ago    13.3kB
-```
+```dockerfile
+# Use the base image with Nix pre-installed.
+# If you built the image locally, you can use its local tag:
+FROM nix-base:latest
 
-You should see that each image takes up a lot of space: but this is misleading. Each image
-that builds upon another does not duplicate the same layers. So this means that our image,
-`my_package`, only add the `{myPackage}` package to the `rocker/tidyverse` image, which in
-turn only adds the `{tidyverse}` packages to `rocker/rstudio`. This means unlike what
-is shown here, all the images to not need 6GB of space, but only 2.16GB in total. So let's now
-make sure that every other container is stopped (because we will run our container on the 
-same port) and let's run our container using this command:
+# If you pushed it to Docker Hub, you (or a collaborator) can use that.
+# This is the more portable and recommended approach for sharing.
+# FROM your-username/nix-base:latest
 
-```
-docker run --rm -d --name my_package_container -e PASSWORD=yourpassword -p 8787:8787 my_package
-```
+# Optionally
+# Set a working directory inside the container
+WORKDIR /app
 
-You should now see `{myPackage}` available in the list of packages in the RStudio pane.
-Let's now go one step further. Let's create one plot from within Docker, and make it available to
-the person running it. Let's stop again our container:
+# Copy all your project files into the image's working directory
+COPY . .
 
-```
-docker stop my_package_container
-```
+# Build the pipeline
+# This single command leverages the 'pipeline.nix' file.
+# Nix will first build the environment defined in 'default.nix',
+# then it will execute the pipeline defined in 'pipeline.nix'.
+# The results are stored immutably in the /nix/store inside the image.
+# Instead, you can also only copy the R files, and regenerate the
+# pipeline.nix file during the build process
+RUN nix-build pipeline.nix
 
-Now, in the same folder where your `Dockerfile` resides, add the following `R` script
-(save this inside `my_graph.R`):
-
-```
-library(ggplot2)
-library(myPackage)
-
-data("unemp")
-
-canton_data <- clean_unemp(unemp,
-                           level_of_interest = "Canton",
-                           col_of_interest = active_population)
-
-my_plot <- ggplot(canton_data) +
-  geom_col(
-    aes(
-      y = active_population,
-      x = year,
-      fill = place_name
-    )
-  ) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-
-ggsave("/home/rstudio/scripts/my_plot.pdf", my_plot)
+# The CMD will define what happens when the container is run.
+# We will create a small R script to export the final artifact
+# from the Nix store to a mounted volume.
+COPY export-results.R .
+CMD ["Rscript", "export-results.R"]
 ```
 
-This script loads the data, and saves it to the scripts folder (as you see, this is a path inside of
-the Docker image). We will also need to update the `Dockerfile`. Edit it to look like this:
+This `Dockerfile` is elegant and concise because it delegates the heavy lifting
+of environment and pipeline management to Nix, which is its specialty.
 
-```
-FROM rocker/tidyverse
+### Step 2: The Export Script
 
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
+The `RUN nix-build` command has already executed our entire pipeline during the
+image build process. This is ideal when your data can be bundled with the image.
+The user running the container doesn't need to re-run the pipeline; they just
+need the output. (Note: If your data is too large or sensitive to be included in
+the image, an alternative approach is to remove the `RUN nix-build` step from the
+Dockerfile and instead execute the pipeline at runtime, using a mounted volume
+to provide the input data.)
 
-RUN mkdir /home/rstudio/graphs
+In our case however, we can bundle the data in the image. The final artifacts,
+like our `mtcars_head` data frame, are now stored in the Nix store within the
+image. The user running the container doesn't need to re-run the pipeline; they
+just need the output.
 
-COPY my_graph.R /home/rstudio/graphs/my_graph.R
+Create a small R script named `export-results.R` to extract these results:
 
-CMD R -e "source('/home/rstudio/graphs/my_graph.R')"
-```
+```R
+# export-results.R
+# This script runs inside the container after the pipeline has been built.
 
-We added three commands at the end; one to create a folder (using `mkdir`) another to copy our 
-script to this folder (so for this, remember that you should put the R script that creates the plot
-next to the `Dockerfile`) and finally an R command to source (or run) the script we've just copied.
-Save the `Dockerfile` and build it again:
+# Ensure {rixpress} is available to find the results
+# The environment is activated via the Nix build process.
+library(rixpress)
+library(jsonlite)
 
-```
-docker build -t my_package .
-```
+# Define the directory where Docker will mount the output volume.
+# This path MUST match the target path in the `docker run -v` command.
+output_dir <- "/output"
+dir.create(output_dir, showWarnings = FALSE)
 
-Let's now run our container with the following command (notice that we do not use `-p` nor the `-e`
-flags anymore, because we're not interested in running RStudio in the browser anymore):
+# Read the final artifact from the completed pipeline
+message("Reading target 'mtcars_head'...")
+final_data <- rxp_read("mtcars_head")
 
-```
-docker run --rm --name my_package_container -v /path/to/your/local/folder:/home/rstudio/scripts:rw my_package
-```
+# Save the final data to the mounted directory in a universal format
+# You could also save the data in a `.csv` file
+output_path <- file.path(output_dir, "mtcars_analysis_result.json")
+write_json(final_data, output_path, pretty = TRUE)
 
-After some seconds, you should see a PDF in the folder that you set up. This is the output of the 
-script! You probably see now where this is going: we are going to define a `{targets}` pipeline
-that will be run each time the container is run. But one problem remains.
-
-## Reproducibility with Docker
-
-Our `Dockerfile`, as it is now, is not suited for reproducibility. This is because each time the image
-gets built, the latest version of R and package will get pulled from the Internet. We need to use
-a `Dockerfile` that builds exactly the same image, regardless of when it gets built.
-Thankfully, the Rocker Project is here to help. A series of `Dockerfiles` are available that:
-
-- always use the exact same version of R;
-- a frozen CRAN repository will be used to pull the packages;
-- a long term support of Ubuntu is used as a base image.
-
-You can read about it more [here](https://github.com/rocker-org/rocker-versioned2/wiki/Versions). As
-I'm writing this, the latest stable image uses R v4.2.1 on Ubuntu 20.04. The latest image,
-based on Ubuntu 22.04 and which uses the latest version of R (v4.2.2) still uses the default CRAN
-repository, not a frozen one. So for our purposes, we will be using the `rocker/r-ver:4.2.1` image,
-which you can find [here](https://hub.docker.com/layers/rocker/r-ver/4.2.1/images/sha256-3636493af7028d899a6598ee4aabe70d231fb0ff60f61a70f8ea0ea24a51c3e6?context=explore). What's quite important,
-is to check that the CRAN mirror is frozen. Look for the line in the `Dockerfile` that starts
-with `ENV CRAN...` and you should see this:
-
-
-<div style="text-align:center;">
-```{r, echo = F}
-knitr::include_graphics("img/docker_1.png")
-```
-</div>
-
-
-As you can see in the screenshot, we see that the CRAN mirror is set to the 28 of October 2022.
-Let's now edit our `Dockerfile` like so:
-
-```
-FROM rocker/r-ver:4.2.1
-
-RUN R -e "install.packages(c('devtools', 'ggplot2'))"
-
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
-
-RUN mkdir /home/graphs
-
-COPY my_graph.R /home/graphs/my_graph.R
-
-CMD R -e "source('/home/graphs/my_graph.R')"
+message(paste("Successfully exported result to", output_path))
 ```
 
-As you can see, we've changed to first line to `rocker/r-ver:4.2.1`, added a line to install the 
-required packages, and we've removed `rstudio` from the paths in the other commands. This is because
-`r-ver` does not launch an RStudio session in browser, so there's no `rstudio` user. Before
-building the image, you should also update the script that creates the plot. This is because in the
-last line of our script, we save the plot to `"/home/rstudio/scripts/my_plot.pdf"`, but remember, there's
-no `rstudio` user. So remove this from the `ggsave()` function. Also, add another line to the script,
-right at the bottom:
+### Step 3: Build and Run
 
-```
-writeLines(capture.output(sessionInfo()), "/home/scripts/sessionInfo.txt")
-```
+With the `Dockerfile` and `export-results.R` in place, you can now build your
+self-contained data product.
 
-so the script finally looks like this:
+1.  **Build the Docker image:** Open a terminal in your project directory and run:
+    ```bash
+    docker build -t my-reproducible-pipeline .
+    ```
 
-```
-library(ggplot2)
-library(myPackage)
+2.  **Run the container to get the results:** Now, anyone can get the result of
+    your analysis with a single command. We will create a local `output` folder
+    and mount it into the container. (In case you couldn't bundle the raw data
+    into the image, then this is also how you would provide the data at run time.
+    The pipeline would only be executed then).
+    ```bash
+    # Create a directory on your host machine to receive the output
+    mkdir -p ./output
 
-data("unemp")
+    # Run the container
+    docker run --rm --name my_pipeline_run \
+      -v "$(pwd)/output":/output \
+      my-reproducible-pipeline
+    ```
 
-canton_data <- clean_unemp(unemp,
-                           level_of_interest = "Canton",
-                           col_of_interest = active_population)
+After the container runs and exits, check your local output directory. You will
+find the `mtcars_analysis_result.json` file, containing the exact, reproducible
+result of your pipeline. The docker run command automatically executed the `CMD
+["Rscript", "export-results.R"]` we defined in our Dockerfile, which extracted
+the pre-built artifact.
 
-my_plot <- ggplot(canton_data) +
-  geom_col(
-    aes(
-      y = active_population,
-      x = year,
-      fill = place_name
-    )
-  ) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-
-ggsave("/home/scripts/my_plot.pdf", my_plot)
-
-writeLines(capture.output(sessionInfo()), "/home/scripts/sessionInfo.txt")
-```
-
-Now, build this image using:
-
-```
-docker build -t my_package .
-```
-
-and this will run R and install the packages. This should take some time, because `r-ver` images do not
-come with any packages preinstalled. Once this is done, we can run a container from this image using:
-
-```
-docker run --rm --name my_package_container -v /path/to/your/local/folder:/home/scripts:rw my_package
-```
-
-You should see two files now: the plot, and a `sessionInfo.txt` file. Open this file, and you should see
-the following:
-
-```
-R version 4.2.1 (2022-06-23)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 20.04.5 LTS
-```
-
-This confirms that the code ran indeed on R 4.2.1 under Ubuntu 20.04.5 LTS. You should also
-see that the `{ggplot2}` version used is `{ggplot2}` version 3.3.6, which is older than the 
-version you could get now (as of November 2022), which is 3.4.0.
-
-We now have all the ingredients and basic knowledge to build a fully reproducible pipeline.
-
-## Building a truly reproducible pipeline
-
-Ok so we are almost there; we now know how to run code in an environment that is completely
-stable, so our results are 100% reproducible. However, there are still some things that
-we can learn in order to make our pipeline even better. First of all, we can make it run 
-faster by creating an image that has already all the packages that we need installed.
-This way, whenever we will need to build it, no packages will need to be installed. We will 
-also put this image on Docker Hub, so in the future, people that want to run our pipeline
-can do so by pulling the pre-built image from Docker, instead of having to rebuild it 
-using the `Dockerfile`. In order to get an image on Docker Hub, you first need to create
-an account [there](https://hub.docker.com/). Once logged in, you can click on 
-`Create repository`:
-
-<div style="text-align:center;">
-```{r, echo = F}
-knitr::include_graphics("img/docker_2.png")
-```
-</div>
-
-You can then give a name to this repository. Let's now create an image that we will push.
-Let's restart from the `Dockerfile` that we used, and add a bunch of stuff:
-
-```
-FROM rocker/r-ver:4.2.1
-
-RUN apt-get update && apt-get install -y \
-    libglpk-dev \
-    libxml2-dev \
-    libcairo2-dev \
-    libgit2-dev \
-    default-libmysqlclient-dev \
-    libpq-dev \
-    libsasl2-dev \
-    libsqlite3-dev \
-    libssh2-1-dev \
-    libxtst6 \
-    libcurl4-openssl-dev \
-    libharfbuzz-dev \
-    libfribidi-dev \
-    libfreetype6-dev \
-    libpng-dev \
-    libtiff5-dev \
-    libjpeg-dev \
-    unixodbc-dev \
-    wget
-
-RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.2.269/quarto-1.2.269-linux-amd64.deb -O /home/quarto.deb
-RUN apt-get install --yes /home/quarto.deb
-RUN rm /home/quarto.deb
-
-RUN R -e "install.packages(c('devtools', 'tidyverse', 'janitor', \
-   'shiny', 'targets', 'tarchetypes', \
-   'quarto', 'shiny', 'testthat', \
-   'usethis', 'rio'))"
-
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
-
-CMD ["R"]
-```
-
-This `Dockerfile` starts off with `r-ver:4.2.1` and adds the dependencies that we will need for our
-pipelines. Then, I install development libraries, these are required to run the R packages (maybe
-not all of them though). I found the list
-[here](https://github.com/rocker-org/rocker-versioned2/blob/master/scripts/install_tidyverse.sh);
-this is a script that gets used by some of the `Dockerfile`s provided by the Rocker Project. I only
-copied the parts I needed. Then I download the Quarto installer for Ubuntu, and install it. Finally
-I install the packages for R, as well as the package we've developed together. This `Dockerfile`
-should not look too intimidating IF you're familiar with Ubuntu. If not... well this is why I said
-in the intro that familiarity with Ubuntu would be helpful. Now you probably see why Rocker is so
-useful; if you start from an `rstudio` image all of these dependencies come already installed. But
-because we're using an image made specifically for reproducibility, *only* the frozen repos were
-set up, which is why I had to add all of this manually. But no worries, you can now use this
-`Dockerfile` as a reference.
-
-Anyways, we can now build this image using:
-
-```
-docker build -t r421_rap .
-```
-
-And now we need to wait for the process to be done. Once it's finished, we can run it using:
-
-```
-docker run --rm -ti --name r421_rap_container r421_rap 
-```
-
-(notice the `-ti` argument here; this is needed because we want to have an interactive session with
-R opened, if you omit this flag, R will get launched, but then immediately close). We can test it
-by loading some packages and see that everything is alright.
-
-Let's now get this image on Dockerhub; this way, we can pull it instead of having to build it in
-the future. First logging to Docker Hub from the terminal:
-
-```
-docker login 
-```
-
-You should then enter your username and password. We are now ready to push, so check the image id
-using `docker images`:
-
-```
-docker images
-REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
-r421_rap           latest    864350bf1143   5 minutes ago    1.98GB
-```
-
-Tag the image, in this case the tag I've used is `version1`:
-
-```
-docker tag 864350bf1143 your_username_on_docker_hub/r421_rap:version1
-```
-
-And now I can push it, so that everyone can use it:
-
-```
-docker push brodriguesco/r421_rap:version1
-```
-
-We can now use this as a base for our pipelines! Let's now create a new `Dockerfile` that will use
-this image as a base and run the plot from before:
-
-```
-FROM brodriguesco/r421_rap:version1
-
-RUN mkdir /home/graphs
-
-COPY my_graph.R /home/graphs/my_graph.R
-
-CMD R -e "source('/home/graphs/my_graph.R')"
-```
-
-save this `Dockerfile` in a new folder, and don't forget to add the `my_graph.R` script with it.
-You can now build the image using:
-
-```
-docker build -t my_pipeline .
-```
-
-You should see this:
-
-```
-Sending build context to Docker daemon  3.584kB
-Step 1/4 : FROM brodriguesco/r421_rap:version1
-version1: Pulling from brodriguesco/r421_rap
-eaead16dc43b: Pull complete 
-```
-
-As you can see, now Docker is pulling the image I've uploaded... and what's great is that this
-image already contains the correct versions of the required packages and R.
-
-Before continuing now, let's make something very clear: the image that I made available on
-Docker Hub is prebuilt, which means that anyone building a project on top of it, will not
-have to rebuild it. This means also, that in theory, there would be no need to create an image
-built on top of an image like `rocker/r-ver:4.2.1` with frozen repositories. Because most
-users of the `brodriguesco/r421_rap` image would have no need to rebuild it. However, in cases
-where users would need to rebuild it, it is best practice to use such a stable image as 
-`rocker/r-ver:4.2.1`. This makes sure that if the image gets rebuilt in the future, then 
-it still pulls the exact same R and packages versions as today.
-
-Ok, so now to run the pipeline this line will do the job:
-
-```
-docker run --rm --name my_pipeline_container -v /home/cbrunos/docker_folder:/home/scripts:rw my_pipeline
-```
-
-So basically, all you need for your project to be reproducible is a Github repo, where you
-make the `Dockerfile` available, as well as the required scripts, and give some basic instructions
-in a `Readme`.
-
-To conclude this section, take a look at 
-[this repository](https://github.com/b-rodrigues/dockerized_pipeline_demo/tree/main).
-This repository defines in three files a pipeline that uses Docker for reproducibility:
-
-- A `Dockerfile`;
-- `_targets.R` defining a `{targets}` pipeline;
-- `functions.R` which includes needed functions for the pipeline.
-
-Try to run the pipeline, and study the different files. You should recognize the commands used
-in the `Dockerfile`. 
-
-Now it's your turn to build reproducible pipelines!
-
-## One last thing
-
-It should be noted that you can also use `{renv}` in combination with Docker.
-What you could do is copy an `{renv}` lockfile into Docker, and restore the
-packages with `{renv}`. You could then push this image, which would contain
-every package, to Docker Hub, and then provide this image to your future users
-instead. This way, you wouldn’t need to use a base image with frozen CRAN repos
-as we did. That’s up to you.
-
-If you want an example of this, look [here](https://github.com/b-rodrigues/rpi_docker_rap).
+You have successfully packaged a complex, polyglot pipeline into a simple,
+portable Docker image. This workflow combines the best of both worlds: Nix's
+unparalleled power for creating reproducible builds and Docker's universal
+standard for distributing and running applications.
 
 ## Further reading
 

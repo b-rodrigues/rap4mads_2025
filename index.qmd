@@ -30,8 +30,8 @@ that are discussed in greater detail in the book.*
 - 2025/09/15 - 4 hours, Intro (1 hour) and Nix (3 hours)
 - 2025/09/22 - 4 hours, Git (4 hours)
 - 2025/10/06 - 4 hours, Functional programming (1 hour), Unit testing (3 hours)
-- 2025/10/13 - 4 hours, Pipelines using Nix and rixpress
-- 2025/10/15 - 4 hours, Packaging
+- 2025/10/13 - 4 hours, Packaging
+- 2025/10/15 - 4 hours, Pipelines using Nix and rixpress
 - 2025/10/20 - 4 hours, Docker
 - 2025/10/27 - 4 hours, GitHub Actions
 
@@ -151,8 +151,9 @@ but named it the *reproducibility spectrum*.
 
 LLMs have rapidly become an essential powertool in the data scientist’s toolbox.
 But as with any powertool, beginners risk cutting their fingers if they're not
-careful. So it is important to learn how to use them. This course will give
-you some pointers on how to integrate LLMs into your workflow.
+careful. So it is important to learn how to use them. This course will give you
+some pointers on how to integrate LLMs into your workflow. All of the exercises
+can and should be tackled using LLMs.
 
 ## Why R? Why not [insert your favourite programming language]
 
@@ -289,7 +290,11 @@ this takes me, the better your score. Here is a tentative breakdown:
 - Pipeline can be executed in one command: 5 points.
 
 The way to fail this class is to write an undocumented script that only runs on
-your machine and expect me to debug it to get it to run.
+your machine and expect me to debug it to get it to run, there is no excuse
+for this, especially in the age of LLMs.
+
+At the end of each chapter, there are exercises that should help you solidify
+your knowledge. These are not graded, and there purely for you to learn more.
 
 ## Jargon
 

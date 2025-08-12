@@ -1,4 +1,4 @@
-# From Scripts to Tools: Packaging Your Code in R and Python
+# A Short Intro to Packaging Your Code in R and Python
 
 <div style="text-align:center;">
 <img src="https://img.icons8.com/plasticine/200/000000/box.png" title="Package icon" width="30%">
@@ -526,3 +526,137 @@ resources to guide you:
 Treating your data analysis project like a small, internal software
 package, complete with functions and tests, is a powerful mindset that will
 elevate the quality and reliability of your work.
+
+Here are two new exercises to add to the end of the chapter.
+
+## Hands-on Exercises
+
+### Exercise 1: Build Your First Python Package with Nix
+
+**Goal:** To build a complete, testable, and documented Python package and make
+it available in a reproducible Nix environment.
+
+You will create a small Python package called `statstools`. This package will
+contain a single function that calculates descriptive statistics for a list of
+numbers.
+
+**Requirements:**
+
+1.  **Project Structure:** Create the following directory structure for your package:
+    ```bash
+    statstools/
+    ├── pyproject.toml
+    ├── default.nix
+    ├── src/
+    │   └── statstools/
+    │       ├── __init__.py
+    │       └── calculations.py
+    └── tests/
+        └── test_calculations.py
+    ```
+
+2.  **Functionality:** In `src/statstools/calculations.py`, create a function
+    `descriptive_stats(numbers: list) -> dict`. This function should take a list
+    of numbers and return a dictionary containing the mean and standard
+    deviation. Use the `numpy` library for the calculations.
+
+3.  **Documentation:** Write a clear docstring for your `descriptive_stats`
+    function explaining what it does, its parameters (`Args`), and what it
+    returns (`Returns`).
+
+4.  **Dependencies:** In your `pyproject.toml` file:
+    *   Define the project name as `statstools` and give it a version of `0.1.0`.
+    *   Add `numpy` as a runtime dependency.
+    *   Add `pytest` as an optional dependency for testing.
+    *   Add the `[tool.pytest.ini_options]` block to set the `pythonpath`
+        correctly so `pytest` can find your `src` directory.
+
+5.  **Unit Tests:** In `tests/test_calculations.py`, write at least two tests for your function using `pytest`:
+    *   A "happy path" test with a simple list like `[1, 2, 3, 4, 5]`.
+    *   A test with negative numbers and floats.
+
+6.  **GitHub Repository:** Push your completed package to a new public repository on GitHub.
+
+7.  **Nix Expression:** This is the most critical part. Create a `default.nix`
+    file in the root of your project. This file should:
+    *   Fetch your package's source code from your GitHub repository using
+        `pkgs.fetchgit`. You will need to get the commit hash (`rev`) and the
+        `sha256` hash (remember, you can get the correct `sha256` from the error
+        message when you first try to build with an empty `sha256 = "";`).
+    *   Define your package using `pkgs.python3Packages.buildPythonPackage`.
+        Ensure you set `pyproject = true;` and list its dependencies (`numpy`,
+        `pytest`) in `propagatedBuildInputs`.
+    *   Create a reproducible shell using `pkgs.mkShell` that includes both your
+        `statstools` package and the Python interpreter.
+    *   **Hint:** Look closely at the `default.nix` file from the main course
+        repository for a complete example of how a Python package is fetched
+        from GitHub and built.
+
+**To verify your work:**
+*   Run `pytest` from within the Nix shell to ensure all your tests pass.
+*   Start a Python interpreter inside the Nix shell and successfully run `from
+    statstools import descriptive_stats`.
+
+### Exercise 2: Build and Package an R Tool with Nix
+
+**Goal:** To apply R's best practices for package development (`usethis`,
+`devtools`, `roxygen2`) and integrate the final product into a reproducible Nix
+environment.
+
+You will create a small R package called `datasummary`. This package will
+provide a function to quickly summarize a data frame.
+
+**Requirements:**
+
+1.  **Project Setup:** Use `usethis::create_package("datasummary")` to generate
+    the standard R package structure.
+
+2.  **Functionality:**
+    *   Use `usethis::use_r("summarize_df")` to create a new file for your function.
+    *   The function, `summarize_df(df)`, should take a data frame as input.
+    *   It should return a new data frame with two columns: `column_name` and
+        `missing_values`, showing the count of `NA`s in each column of the input
+        data frame.
+    *   This function will require the `{dplyr}` package. Use
+        `usethis::use_package("dplyr")` to declare this dependency in your
+        `DESCRIPTION` file.
+
+3.  **Documentation:**
+    *   Use `roxygen2` comments to document your `summarize_df` function.
+    *   Include `@param`, `@return`, and `@export` tags.
+    *   Provide a working example in the `@examples` tag.
+    *   Since your function will use functions from `{dplyr}`, add the
+        appropriate `@importFrom` tags (e.g., `@importFrom dplyr %>%
+        summarise_all`).
+    *   Run `devtools::document()` to generate the documentation.
+
+4.  **Unit Tests:**
+    *   Set up testing with `usethis::use_testthat()`.
+    *   Create a test file with `usethis::use_test("summarize_df")`.
+    *   In the test file, write at least one test using `test_that()` that
+        creates a sample data frame with missing values and checks if your
+        function returns the correct counts.
+    *   Run `devtools::test()` to execute your tests.
+
+5.  **Quality Check:** Run `devtools::check()` to ensure your package is free of errors, warnings, and notes.
+
+6.  **GitHub Repository:** Push your completed R package to a new public repository on GitHub.
+
+7.  **Nix Expression:** Create a `default.nix` file in the root of your
+    `datasummary` project. This file must:
+    *   Define a custom R environment.
+    *   Define your `datasummary` package by using `buildRPackage`. Fetch the
+        source from your GitHub repository using `pkgs.fetchgit` (you will need
+        the `rev` and `sha256`).
+    *   Make sure to list its R dependencies (like `{dplyr}` and its own
+        dependencies) in `propagatedBuildInputs`.
+    *   Create a final shell with `pkgs.mkShell` that drops you into an R session where your `datasummary` package is installed and available.
+    *   **Hint:** Refer to the main course repository's `default.nix` file to
+        see how R packages are defined with `buildRPackage` and included in the
+        final R environment. Using `{rix}` is also an option.
+
+**To verify your work:**
+*   Drop into the Nix shell provided by your `default.nix`.
+*   Start an R session.
+*   Successfully run `library(datasummary)` and test your `summarize_df()`
+    function on a data frame like `iris`.

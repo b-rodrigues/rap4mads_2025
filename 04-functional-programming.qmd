@@ -1,4 +1,4 @@
-# Functional Programming: The Cornerstone of Reproducible Analysis
+# Functional Programming
 
 <div style="text-align:center;">
 ```{r, echo = F}

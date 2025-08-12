@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Docker – Building Reproducible Analytical Pipelines</title>
+<title>7&nbsp; Containerization With Docker – Building Reproducible Analytical Pipelines</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./07-packages.html" rel="prev">
+<link href="./07-rixpress.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -284,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-docker.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Docker</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-docker.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Containerization With Docker</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -362,13 +362,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-git.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Version Control with Git</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-functional-programming.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functional Programming: The Cornerstone of Reproducible Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functional Programming</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -379,20 +379,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-rixpress.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span></a>
+  <a href="./06-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Short Intro to Packaging Your Code in R and Python</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">From Scripts to Tools: Packaging Your Code in R and Python</span></span></a>
+  <a href="./07-rixpress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-docker.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Docker</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Containerization With Docker</span></span></a>
   </div>
 </li>
     </ul>
@@ -416,11 +416,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sharing-a-compressed-archive-of-your-image" id="toc-sharing-a-compressed-archive-of-your-image" class="nav-link" data-scroll-target="#sharing-a-compressed-archive-of-your-image"><span class="header-section-number">7.2.6</span> Sharing a compressed archive of your image</a></li>
   <li><a href="#what-if-you-dont-use-nix" id="toc-what-if-you-dont-use-nix" class="nav-link" data-scroll-target="#what-if-you-dont-use-nix"><span class="header-section-number">7.2.7</span> What if you don’t use Nix?</a></li>
   </ul></li>
-  <li><a href="#building-data-products-using-docker" id="toc-building-data-products-using-docker" class="nav-link" data-scroll-target="#building-data-products-using-docker"><span class="header-section-number">7.3</span> Building data products using Docker</a></li>
-  <li><a href="#reproducibility-with-docker" id="toc-reproducibility-with-docker" class="nav-link" data-scroll-target="#reproducibility-with-docker"><span class="header-section-number">7.4</span> Reproducibility with Docker</a></li>
-  <li><a href="#building-a-truly-reproducible-pipeline" id="toc-building-a-truly-reproducible-pipeline" class="nav-link" data-scroll-target="#building-a-truly-reproducible-pipeline"><span class="header-section-number">7.5</span> Building a truly reproducible pipeline</a></li>
-  <li><a href="#one-last-thing" id="toc-one-last-thing" class="nav-link" data-scroll-target="#one-last-thing"><span class="header-section-number">7.6</span> One last thing</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">7.7</span> Further reading</a></li>
+  <li><a href="#dockerizing-a-rixpress-pipeline" id="toc-dockerizing-a-rixpress-pipeline" class="nav-link" data-scroll-target="#dockerizing-a-rixpress-pipeline"><span class="header-section-number">7.3</span> Dockerizing a <code>{rixpress}</code> Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#step-1-the-dockerfile" id="toc-step-1-the-dockerfile" class="nav-link" data-scroll-target="#step-1-the-dockerfile"><span class="header-section-number">7.3.1</span> Step 1: The Dockerfile</a></li>
+  <li><a href="#step-2-the-export-script" id="toc-step-2-the-export-script" class="nav-link" data-scroll-target="#step-2-the-export-script"><span class="header-section-number">7.3.2</span> Step 2: The Export Script</a></li>
+  <li><a href="#step-3-build-and-run" id="toc-step-3-build-and-run" class="nav-link" data-scroll-target="#step-3-build-and-run"><span class="header-section-number">7.3.3</span> Step 3: Build and Run</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">7.4</span> Further reading</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/08-docker.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -430,7 +432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Docker</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Containerization With Docker</span></h1>
 </div>
 
 
@@ -651,7 +653,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This should drop you in an interactive Nix shell running inside Docker! As Docker is more popular than Nix, in particular in enterprise settings, this makes sharing development environments easier.</p>
 <p>Remember, anything you do in this container will be lost after you stop it. So if you want to use it to work interactively on files, you should mount a volume:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--name</span> my-project-container <span class="at">-v</span> /path/to/your/local/project-folder/workspace:/workspace:rw <span class="at">-w</span> /workspace my-project</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will mount a folder called <code>workspace</code> inside a running Docker container that will map to a folder called <code>workspace</code> on your current project folder. This acts as a kind of tunnel between the two, any file put there will be available and editabale on the other side.</p>
+<p>This will mount a folder called <code>workspace</code> inside a running Docker container that will map to a folder called <code>workspace</code> on your current project folder. The <code>-w /workspace</code> flag sets the working directory inside the container to <code>/workspace</code>, so any commands you run will execute from there. This acts as a kind of tunnel between the two; any file put there will be available and editable on the other side.</p>
 <p>While this is good to know, I don’t recommend using Docker to work interactively. Use Nix for this instead, and use Docker to then deploy whatever product you’ve been working on once you’re done.</p>
 <p>Before moving on to actually build projects using Docker, let’s first publish the base Nix image on Docker Hub to easily re-use it across projects.</p>
 </section>
@@ -763,243 +765,103 @@ RUN mkdir ...
 <p>To summarise, if you can’t use Nix inside of Docker, you will have to deal with the same issues you face when trying to setup environment on your computer.</p>
 </section>
 </section>
-<section id="building-data-products-using-docker" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="building-data-products-using-docker"><span class="header-section-number">7.3</span> Building data products using Docker</h2>
-<p>We now know how to save files to our computer from Docker. But as the container gets stopped (and removed because of –rm) if we install R packages, we would need to reinstall them each time. The solution is thus to create our own Docker image, and as you will see, it is quite simple to get started. Create a folder somewhere on your computer, and add a text file called <code>Dockerfile</code> (without any extension). In this file add, the following lines:</p>
-<pre><code>FROM rocker/tidyverse
-
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"</code></pre>
-<p>Then we need to build the image. For this, run the following line:</p>
-<pre><code>docker build -t my_package .</code></pre>
-<p>This will build the image right in this folder and call it <code>my_package</code>.</p>
-<pre><code>Sending build context to Docker daemon  2.048kB
-Step 1/2 : FROM rocker/tidyverse
- ---&gt; a838ee142831
-Step 2/2 : RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
- ---&gt; Using cache
- ---&gt; 17d5d3179293
-Successfully built 17d5d3179293
-Successfully tagged my_package:latest</code></pre>
-<p>By running <code>docker images</code> you should see all the images that are on your PC (with running containers or not):</p>
-<pre><code>docker images</code></pre>
-<pre><code>REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
-my_package         latest    17d5d3179293   13 minutes ago   2.16GB
-rocker/tidyverse   latest    a838ee142831   11 days ago      2.15GB
-rocker/rstudio     latest    d110bab4d154   11 days ago      1.79GB
-hello-world        latest    feb5d9fea6a5   13 months ago    13.3kB</code></pre>
-<p>You should see that each image takes up a lot of space: but this is misleading. Each image that builds upon another does not duplicate the same layers. So this means that our image, <code>my_package</code>, only add the <code>{myPackage}</code> package to the <code>rocker/tidyverse</code> image, which in turn only adds the <code>{tidyverse}</code> packages to <code>rocker/rstudio</code>. This means unlike what is shown here, all the images to not need 6GB of space, but only 2.16GB in total. So let’s now make sure that every other container is stopped (because we will run our container on the same port) and let’s run our container using this command:</p>
-<pre><code>docker run --rm -d --name my_package_container -e PASSWORD=yourpassword -p 8787:8787 my_package</code></pre>
-<p>You should now see <code>{myPackage}</code> available in the list of packages in the RStudio pane. Let’s now go one step further. Let’s create one plot from within Docker, and make it available to the person running it. Let’s stop again our container:</p>
-<pre><code>docker stop my_package_container</code></pre>
-<p>Now, in the same folder where your <code>Dockerfile</code> resides, add the following <code>R</code> script (save this inside <code>my_graph.R</code>):</p>
-<pre><code>library(ggplot2)
-library(myPackage)
-
-data("unemp")
-
-canton_data &lt;- clean_unemp(unemp,
-                           level_of_interest = "Canton",
-                           col_of_interest = active_population)
-
-my_plot &lt;- ggplot(canton_data) +
-  geom_col(
-    aes(
-      y = active_population,
-      x = year,
-      fill = place_name
-    )
-  ) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-
-ggsave("/home/rstudio/scripts/my_plot.pdf", my_plot)</code></pre>
-<p>This script loads the data, and saves it to the scripts folder (as you see, this is a path inside of the Docker image). We will also need to update the <code>Dockerfile</code>. Edit it to look like this:</p>
-<pre><code>FROM rocker/tidyverse
-
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
-
-RUN mkdir /home/rstudio/graphs
-
-COPY my_graph.R /home/rstudio/graphs/my_graph.R
-
-CMD R -e "source('/home/rstudio/graphs/my_graph.R')"</code></pre>
-<p>We added three commands at the end; one to create a folder (using <code>mkdir</code>) another to copy our script to this folder (so for this, remember that you should put the R script that creates the plot next to the <code>Dockerfile</code>) and finally an R command to source (or run) the script we’ve just copied. Save the <code>Dockerfile</code> and build it again:</p>
-<pre><code>docker build -t my_package .</code></pre>
-<p>Let’s now run our container with the following command (notice that we do not use <code>-p</code> nor the <code>-e</code> flags anymore, because we’re not interested in running RStudio in the browser anymore):</p>
-<pre><code>docker run --rm --name my_package_container -v /path/to/your/local/folder:/home/rstudio/scripts:rw my_package</code></pre>
-<p>After some seconds, you should see a PDF in the folder that you set up. This is the output of the script! You probably see now where this is going: we are going to define a <code>{targets}</code> pipeline that will be run each time the container is run. But one problem remains.</p>
+<section id="dockerizing-a-rixpress-pipeline" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="dockerizing-a-rixpress-pipeline"><span class="header-section-number">7.3</span> Dockerizing a <code>{rixpress}</code> Pipeline</h2>
+<p>In the previous chapter, we learned how to build a fully reproducible, polyglot pipeline using Nix and <code>{rixpress}</code>. This workflow is perfect for development, ensuring that every run is bit-for-bit identical. However, what if you need to share your final data product with a collaborator or deploy it to a server where installing Nix is not an option?</p>
+<p>This is the ideal use case for Docker. We can package our entire <code>{rixpress}</code> project (the Nix environment definition, the pipeline logic, and all source files) into a single Docker image. This image can then be run by anyone with Docker installed, regardless of their host operating system or whether they have Nix. The user doesn’t build the pipeline; they run the container, and the pre-built results are extracted. If they wish, they can “log-in” to an interactive session to acces the environment within a running Docker container and “play around” with the data and code.</p>
+<p>Let’s take the <code>{rixpress}</code> project we created in the last chapter and dockerize it. Assume your project directory has the following structure:</p>
+<pre><code>.
+├── data/
+│   └── mtcars.csv
+├── gen-env.R
+├── gen-pipeline.R
+├── functions.R
+├── functions.py
+├── default.nix
+└── pipeline.nix</code></pre>
+<section id="step-1-the-dockerfile" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="step-1-the-dockerfile"><span class="header-section-number">7.3.1</span> Step 1: The Dockerfile</h3>
+<p>Create a new file named <code>Dockerfile</code> in your project’s root directory. We will use the <code>nix-base</code> image we built earlier as our foundation.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the base image with Nix pre-installed.</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># If you built the image locally, you can use its local tag:</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nix-base:latest</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># If you pushed it to Docker Hub, you (or a collaborator) can use that.</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the more portable and recommended approach for sharing.</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># FROM your-username/nix-base:latest</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Set a working directory inside the container</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /app</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy all your project files into the image's working directory</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> . .</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the pipeline</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="co"># This single command leverages the 'pipeline.nix' file.</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Nix will first build the environment defined in 'default.nix',</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a><span class="co"># then it will execute the pipeline defined in 'pipeline.nix'.</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="co"># The results are stored immutably in the /nix/store inside the image.</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead, you can also only copy the R files, and regenerate the</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="co"># pipeline.nix file during the build process</span></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">nix-build</span> pipeline.nix</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="co"># The CMD will define what happens when the container is run.</span></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a><span class="co"># We will create a small R script to export the final artifact</span></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a><span class="co"># from the Nix store to a mounted volume.</span></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> export-results.R .</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> [<span class="st">"Rscript"</span>, <span class="st">"export-results.R"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This <code>Dockerfile</code> is elegant and concise because it delegates the heavy lifting of environment and pipeline management to Nix, which is its specialty.</p>
 </section>
-<section id="reproducibility-with-docker" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="reproducibility-with-docker"><span class="header-section-number">7.4</span> Reproducibility with Docker</h2>
-<p>Our <code>Dockerfile</code>, as it is now, is not suited for reproducibility. This is because each time the image gets built, the latest version of R and package will get pulled from the Internet. We need to use a <code>Dockerfile</code> that builds exactly the same image, regardless of when it gets built. Thankfully, the Rocker Project is here to help. A series of <code>Dockerfiles</code> are available that:</p>
-<ul>
-<li>always use the exact same version of R;</li>
-<li>a frozen CRAN repository will be used to pull the packages;</li>
-<li>a long term support of Ubuntu is used as a base image.</li>
-</ul>
-<p>You can read about it more <a href="https://github.com/rocker-org/rocker-versioned2/wiki/Versions">here</a>. As I’m writing this, the latest stable image uses R v4.2.1 on Ubuntu 20.04. The latest image, based on Ubuntu 22.04 and which uses the latest version of R (v4.2.2) still uses the default CRAN repository, not a frozen one. So for our purposes, we will be using the <code>rocker/r-ver:4.2.1</code> image, which you can find <a href="https://hub.docker.com/layers/rocker/r-ver/4.2.1/images/sha256-3636493af7028d899a6598ee4aabe70d231fb0ff60f61a70f8ea0ea24a51c3e6?context=explore">here</a>. What’s quite important, is to check that the CRAN mirror is frozen. Look for the line in the <code>Dockerfile</code> that starts with <code>ENV CRAN...</code> and you should see this:</p>
-<div style="text-align:center;">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="img/docker_1.png" class="img-fluid figure-img" width="906"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<p>As you can see in the screenshot, we see that the CRAN mirror is set to the 28 of October 2022. Let’s now edit our <code>Dockerfile</code> like so:</p>
-<pre><code>FROM rocker/r-ver:4.2.1
-
-RUN R -e "install.packages(c('devtools', 'ggplot2'))"
-
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
-
-RUN mkdir /home/graphs
-
-COPY my_graph.R /home/graphs/my_graph.R
-
-CMD R -e "source('/home/graphs/my_graph.R')"</code></pre>
-<p>As you can see, we’ve changed to first line to <code>rocker/r-ver:4.2.1</code>, added a line to install the required packages, and we’ve removed <code>rstudio</code> from the paths in the other commands. This is because <code>r-ver</code> does not launch an RStudio session in browser, so there’s no <code>rstudio</code> user. Before building the image, you should also update the script that creates the plot. This is because in the last line of our script, we save the plot to <code>"/home/rstudio/scripts/my_plot.pdf"</code>, but remember, there’s no <code>rstudio</code> user. So remove this from the <code>ggsave()</code> function. Also, add another line to the script, right at the bottom:</p>
-<pre><code>writeLines(capture.output(sessionInfo()), "/home/scripts/sessionInfo.txt")</code></pre>
-<p>so the script finally looks like this:</p>
-<pre><code>library(ggplot2)
-library(myPackage)
-
-data("unemp")
-
-canton_data &lt;- clean_unemp(unemp,
-                           level_of_interest = "Canton",
-                           col_of_interest = active_population)
-
-my_plot &lt;- ggplot(canton_data) +
-  geom_col(
-    aes(
-      y = active_population,
-      x = year,
-      fill = place_name
-    )
-  ) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank())
-
-ggsave("/home/scripts/my_plot.pdf", my_plot)
-
-writeLines(capture.output(sessionInfo()), "/home/scripts/sessionInfo.txt")</code></pre>
-<p>Now, build this image using:</p>
-<pre><code>docker build -t my_package .</code></pre>
-<p>and this will run R and install the packages. This should take some time, because <code>r-ver</code> images do not come with any packages preinstalled. Once this is done, we can run a container from this image using:</p>
-<pre><code>docker run --rm --name my_package_container -v /path/to/your/local/folder:/home/scripts:rw my_package</code></pre>
-<p>You should see two files now: the plot, and a <code>sessionInfo.txt</code> file. Open this file, and you should see the following:</p>
-<pre><code>R version 4.2.1 (2022-06-23)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 20.04.5 LTS</code></pre>
-<p>This confirms that the code ran indeed on R 4.2.1 under Ubuntu 20.04.5 LTS. You should also see that the <code>{ggplot2}</code> version used is <code>{ggplot2}</code> version 3.3.6, which is older than the version you could get now (as of November 2022), which is 3.4.0.</p>
-<p>We now have all the ingredients and basic knowledge to build a fully reproducible pipeline.</p>
+<section id="step-2-the-export-script" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="step-2-the-export-script"><span class="header-section-number">7.3.2</span> Step 2: The Export Script</h3>
+<p>The <code>RUN nix-build</code> command has already executed our entire pipeline during the image build process. This is ideal when your data can be bundled with the image. The user running the container doesn’t need to re-run the pipeline; they just need the output. (Note: If your data is too large or sensitive to be included in the image, an alternative approach is to remove the <code>RUN nix-build</code> step from the Dockerfile and instead execute the pipeline at runtime, using a mounted volume to provide the input data.)</p>
+<p>In our case however, we can bundle the data in the image. The final artifacts, like our <code>mtcars_head</code> data frame, are now stored in the Nix store within the image. The user running the container doesn’t need to re-run the pipeline; they just need the output.</p>
+<p>Create a small R script named <code>export-results.R</code> to extract these results:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># export-results.R</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This script runs inside the container after the pipeline has been built.</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure {rixpress} is available to find the results</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The environment is activated via the Nix build process.</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rixpress)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the directory where Docker will mount the output volume.</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># This path MUST match the target path in the `docker run -v` command.</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>output_dir <span class="ot">&lt;-</span> <span class="st">"/output"</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(output_dir, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the final artifact from the completed pipeline</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Reading target 'mtcars_head'..."</span>)</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span> <span class="fu">rxp_read</span>(<span class="st">"mtcars_head"</span>)</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the final data to the mounted directory in a universal format</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="co"># You could also save the data in a `.csv` file</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output_dir, <span class="st">"mtcars_analysis_result.json"</span>)</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="fu">write_json</span>(final_data, output_path, <span class="at">pretty =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="fu">paste</span>(<span class="st">"Successfully exported result to"</span>, output_path))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="building-a-truly-reproducible-pipeline" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="building-a-truly-reproducible-pipeline"><span class="header-section-number">7.5</span> Building a truly reproducible pipeline</h2>
-<p>Ok so we are almost there; we now know how to run code in an environment that is completely stable, so our results are 100% reproducible. However, there are still some things that we can learn in order to make our pipeline even better. First of all, we can make it run faster by creating an image that has already all the packages that we need installed. This way, whenever we will need to build it, no packages will need to be installed. We will also put this image on Docker Hub, so in the future, people that want to run our pipeline can do so by pulling the pre-built image from Docker, instead of having to rebuild it using the <code>Dockerfile</code>. In order to get an image on Docker Hub, you first need to create an account <a href="https://hub.docker.com/">there</a>. Once logged in, you can click on <code>Create repository</code>:</p>
-<div style="text-align:center;">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="img/docker_2.png" class="img-fluid figure-img" width="832"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<p>You can then give a name to this repository. Let’s now create an image that we will push. Let’s restart from the <code>Dockerfile</code> that we used, and add a bunch of stuff:</p>
-<pre><code>FROM rocker/r-ver:4.2.1
-
-RUN apt-get update &amp;&amp; apt-get install -y \
-    libglpk-dev \
-    libxml2-dev \
-    libcairo2-dev \
-    libgit2-dev \
-    default-libmysqlclient-dev \
-    libpq-dev \
-    libsasl2-dev \
-    libsqlite3-dev \
-    libssh2-1-dev \
-    libxtst6 \
-    libcurl4-openssl-dev \
-    libharfbuzz-dev \
-    libfribidi-dev \
-    libfreetype6-dev \
-    libpng-dev \
-    libtiff5-dev \
-    libjpeg-dev \
-    unixodbc-dev \
-    wget
-
-RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.2.269/quarto-1.2.269-linux-amd64.deb -O /home/quarto.deb
-RUN apt-get install --yes /home/quarto.deb
-RUN rm /home/quarto.deb
-
-RUN R -e "install.packages(c('devtools', 'tidyverse', 'janitor', \
-   'shiny', 'targets', 'tarchetypes', \
-   'quarto', 'shiny', 'testthat', \
-   'usethis', 'rio'))"
-
-RUN R -e "devtools::install_github('b-rodrigues/myPackage', ref = 'e9d9129de3047c1ecce26d09dff429ec078d4dae')"
-
-CMD ["R"]</code></pre>
-<p>This <code>Dockerfile</code> starts off with <code>r-ver:4.2.1</code> and adds the dependencies that we will need for our pipelines. Then, I install development libraries, these are required to run the R packages (maybe not all of them though). I found the list <a href="https://github.com/rocker-org/rocker-versioned2/blob/master/scripts/install_tidyverse.sh">here</a>; this is a script that gets used by some of the <code>Dockerfile</code>s provided by the Rocker Project. I only copied the parts I needed. Then I download the Quarto installer for Ubuntu, and install it. Finally I install the packages for R, as well as the package we’ve developed together. This <code>Dockerfile</code> should not look too intimidating IF you’re familiar with Ubuntu. If not… well this is why I said in the intro that familiarity with Ubuntu would be helpful. Now you probably see why Rocker is so useful; if you start from an <code>rstudio</code> image all of these dependencies come already installed. But because we’re using an image made specifically for reproducibility, <em>only</em> the frozen repos were set up, which is why I had to add all of this manually. But no worries, you can now use this <code>Dockerfile</code> as a reference.</p>
-<p>Anyways, we can now build this image using:</p>
-<pre><code>docker build -t r421_rap .</code></pre>
-<p>And now we need to wait for the process to be done. Once it’s finished, we can run it using:</p>
-<pre><code>docker run --rm -ti --name r421_rap_container r421_rap </code></pre>
-<p>(notice the <code>-ti</code> argument here; this is needed because we want to have an interactive session with R opened, if you omit this flag, R will get launched, but then immediately close). We can test it by loading some packages and see that everything is alright.</p>
-<p>Let’s now get this image on Dockerhub; this way, we can pull it instead of having to build it in the future. First logging to Docker Hub from the terminal:</p>
-<pre><code>docker login </code></pre>
-<p>You should then enter your username and password. We are now ready to push, so check the image id using <code>docker images</code>:</p>
-<pre><code>docker images
-REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
-r421_rap           latest    864350bf1143   5 minutes ago    1.98GB</code></pre>
-<p>Tag the image, in this case the tag I’ve used is <code>version1</code>:</p>
-<pre><code>docker tag 864350bf1143 your_username_on_docker_hub/r421_rap:version1</code></pre>
-<p>And now I can push it, so that everyone can use it:</p>
-<pre><code>docker push brodriguesco/r421_rap:version1</code></pre>
-<p>We can now use this as a base for our pipelines! Let’s now create a new <code>Dockerfile</code> that will use this image as a base and run the plot from before:</p>
-<pre><code>FROM brodriguesco/r421_rap:version1
-
-RUN mkdir /home/graphs
-
-COPY my_graph.R /home/graphs/my_graph.R
-
-CMD R -e "source('/home/graphs/my_graph.R')"</code></pre>
-<p>save this <code>Dockerfile</code> in a new folder, and don’t forget to add the <code>my_graph.R</code> script with it. You can now build the image using:</p>
-<pre><code>docker build -t my_pipeline .</code></pre>
-<p>You should see this:</p>
-<pre><code>Sending build context to Docker daemon  3.584kB
-Step 1/4 : FROM brodriguesco/r421_rap:version1
-version1: Pulling from brodriguesco/r421_rap
-eaead16dc43b: Pull complete </code></pre>
-<p>As you can see, now Docker is pulling the image I’ve uploaded… and what’s great is that this image already contains the correct versions of the required packages and R.</p>
-<p>Before continuing now, let’s make something very clear: the image that I made available on Docker Hub is prebuilt, which means that anyone building a project on top of it, will not have to rebuild it. This means also, that in theory, there would be no need to create an image built on top of an image like <code>rocker/r-ver:4.2.1</code> with frozen repositories. Because most users of the <code>brodriguesco/r421_rap</code> image would have no need to rebuild it. However, in cases where users would need to rebuild it, it is best practice to use such a stable image as <code>rocker/r-ver:4.2.1</code>. This makes sure that if the image gets rebuilt in the future, then it still pulls the exact same R and packages versions as today.</p>
-<p>Ok, so now to run the pipeline this line will do the job:</p>
-<pre><code>docker run --rm --name my_pipeline_container -v /home/cbrunos/docker_folder:/home/scripts:rw my_pipeline</code></pre>
-<p>So basically, all you need for your project to be reproducible is a Github repo, where you make the <code>Dockerfile</code> available, as well as the required scripts, and give some basic instructions in a <code>Readme</code>.</p>
-<p>To conclude this section, take a look at <a href="https://github.com/b-rodrigues/dockerized_pipeline_demo/tree/main">this repository</a>. This repository defines in three files a pipeline that uses Docker for reproducibility:</p>
-<ul>
-<li>A <code>Dockerfile</code>;</li>
-<li><code>_targets.R</code> defining a <code>{targets}</code> pipeline;</li>
-<li><code>functions.R</code> which includes needed functions for the pipeline.</li>
-</ul>
-<p>Try to run the pipeline, and study the different files. You should recognize the commands used in the <code>Dockerfile</code>.</p>
-<p>Now it’s your turn to build reproducible pipelines!</p>
+<section id="step-3-build-and-run" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="step-3-build-and-run"><span class="header-section-number">7.3.3</span> Step 3: Build and Run</h3>
+<p>With the <code>Dockerfile</code> and <code>export-results.R</code> in place, you can now build your self-contained data product.</p>
+<ol type="1">
+<li><p><strong>Build the Docker image:</strong> Open a terminal in your project directory and run: <code>bash     docker build -t my-reproducible-pipeline .</code></p></li>
+<li><p><strong>Run the container to get the results:</strong> Now, anyone can get the result of your analysis with a single command. We will create a local <code>output</code> folder and mount it into the container. (In case you couldn’t bundle the raw data into the image, then this is also how you would provide the data at run time. The pipeline would only be executed then).</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a directory on your host machine to receive the output</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ./output</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the container</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">--name</span> my_pipeline_run <span class="dt">\</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> <span class="st">"</span><span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span><span class="st">/output"</span>:/output <span class="dt">\</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  my-reproducible-pipeline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>After the container runs and exits, check your local output directory. You will find the <code>mtcars_analysis_result.json</code> file, containing the exact, reproducible result of your pipeline. The docker run command automatically executed the <code>CMD ["Rscript", "export-results.R"]</code> we defined in our Dockerfile, which extracted the pre-built artifact.</p>
+<p>You have successfully packaged a complex, polyglot pipeline into a simple, portable Docker image. This workflow combines the best of both worlds: Nix’s unparalleled power for creating reproducible builds and Docker’s universal standard for distributing and running applications.</p>
 </section>
-<section id="one-last-thing" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="one-last-thing"><span class="header-section-number">7.6</span> One last thing</h2>
-<p>It should be noted that you can also use <code>{renv}</code> in combination with Docker. What you could do is copy an <code>{renv}</code> lockfile into Docker, and restore the packages with <code>{renv}</code>. You could then push this image, which would contain every package, to Docker Hub, and then provide this image to your future users instead. This way, you wouldn’t need to use a base image with frozen CRAN repos as we did. That’s up to you.</p>
-<p>If you want an example of this, look <a href="https://github.com/b-rodrigues/rpi_docker_rap">here</a>.</p>
 </section>
-<section id="further-reading" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">7.7</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">7.4</span> Further reading</h2>
 <ul>
 <li>https://www.statworx.com/content-hub/blog/wie-du-ein-r-skript-in-docker-ausfuehrst/ (in German, English translation: https://www.r-bloggers.com/2019/02/running-your-r-script-in-docker/)</li>
 <li>https://colinfay.me/docker-r-reproducibility/</li>
@@ -1425,8 +1287,8 @@ eaead16dc43b: Pull complete </code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./07-packages.html" class="pagination-link" aria-label="From Scripts to Tools: Packaging Your Code in R and Python">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">From Scripts to Tools: Packaging Your Code in R and Python</span></span>
+      <a href="./07-rixpress.html" class="pagination-link" aria-label="Building Reproducible Pipelines with Nix and `{rixpress}`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

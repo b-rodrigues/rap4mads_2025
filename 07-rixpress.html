@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Building Reproducible Pipelines with Nix and {rixpress} – Building Reproducible Analytical Pipelines</title>
+<title>6&nbsp; Building Reproducible Pipelines with Nix and {rixpress} – Building Reproducible Analytical Pipelines</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./07-packages.html" rel="next">
-<link href="./05-unit-testing.html" rel="prev">
+<link href="./08-docker.html" rel="next">
+<link href="./06-packages.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-rixpress.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-rixpress.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -363,13 +363,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-git.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Version Control with Git</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-functional-programming.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functional Programming: The Cornerstone of Reproducible Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functional Programming</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -380,20 +380,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-rixpress.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span></a>
+  <a href="./06-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Short Intro to Packaging Your Code in R and Python</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">From Scripts to Tools: Packaging Your Code in R and Python</span></span></a>
+  <a href="./07-rixpress.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-docker.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Docker</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Containerization With Docker</span></span></a>
   </div>
 </li>
     </ul>
@@ -406,19 +406,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-from-scripts-and-notebooks-to-pipelines" id="toc-introduction-from-scripts-and-notebooks-to-pipelines" class="nav-link active" data-scroll-target="#introduction-from-scripts-and-notebooks-to-pipelines"><span class="header-section-number">5.1</span> Introduction: From Scripts and Notebooks to Pipelines</a></li>
-  <li><a href="#our-first-polyglot-pipeline" id="toc-our-first-polyglot-pipeline" class="nav-link" data-scroll-target="#our-first-polyglot-pipeline"><span class="header-section-number">5.2</span> Our First Polyglot Pipeline</a>
+  <li><a href="#introduction-from-scripts-and-notebooks-to-pipelines" id="toc-introduction-from-scripts-and-notebooks-to-pipelines" class="nav-link active" data-scroll-target="#introduction-from-scripts-and-notebooks-to-pipelines"><span class="header-section-number">6.1</span> Introduction: From Scripts and Notebooks to Pipelines</a></li>
+  <li><a href="#our-first-polyglot-pipeline" id="toc-our-first-polyglot-pipeline" class="nav-link" data-scroll-target="#our-first-polyglot-pipeline"><span class="header-section-number">6.2</span> Our First Polyglot Pipeline</a>
   <ul class="collapse">
-  <li><a href="#step-0-use-git" id="toc-step-0-use-git" class="nav-link" data-scroll-target="#step-0-use-git"><span class="header-section-number">5.2.1</span> Step 0: Use Git</a></li>
-  <li><a href="#step-1-defining-the-environment" id="toc-step-1-defining-the-environment" class="nav-link" data-scroll-target="#step-1-defining-the-environment"><span class="header-section-number">5.2.2</span> Step 1: Defining the Environment</a></li>
-  <li><a href="#step-2-defining-the-pipeline" id="toc-step-2-defining-the-pipeline" class="nav-link" data-scroll-target="#step-2-defining-the-pipeline"><span class="header-section-number">5.2.3</span> Step 2: Defining the Pipeline</a></li>
-  <li><a href="#step-3-building-and-inspecting-the-pipeline" id="toc-step-3-building-and-inspecting-the-pipeline" class="nav-link" data-scroll-target="#step-3-building-and-inspecting-the-pipeline"><span class="header-section-number">5.2.4</span> Step 3: Building and Inspecting the Pipeline</a></li>
+  <li><a href="#step-0-use-git" id="toc-step-0-use-git" class="nav-link" data-scroll-target="#step-0-use-git"><span class="header-section-number">6.2.1</span> Step 0: Use Git</a></li>
+  <li><a href="#step-1-defining-the-environment" id="toc-step-1-defining-the-environment" class="nav-link" data-scroll-target="#step-1-defining-the-environment"><span class="header-section-number">6.2.2</span> Step 1: Defining the Environment</a></li>
+  <li><a href="#step-2-defining-the-pipeline" id="toc-step-2-defining-the-pipeline" class="nav-link" data-scroll-target="#step-2-defining-the-pipeline"><span class="header-section-number">6.2.3</span> Step 2: Defining the Pipeline</a></li>
+  <li><a href="#step-3-building-and-inspecting-the-pipeline" id="toc-step-3-building-and-inspecting-the-pipeline" class="nav-link" data-scroll-target="#step-3-building-and-inspecting-the-pipeline"><span class="header-section-number">6.2.4</span> Step 3: Building and Inspecting the Pipeline</a></li>
   </ul></li>
-  <li><a href="#caching" id="toc-caching" class="nav-link" data-scroll-target="#caching"><span class="header-section-number">5.3</span> Caching</a></li>
-  <li><a href="#debugging-and-working-with-build-logs" id="toc-debugging-and-working-with-build-logs" class="nav-link" data-scroll-target="#debugging-and-working-with-build-logs"><span class="header-section-number">5.4</span> Debugging and Working with Build Logs</a></li>
-  <li><a href="#running-someone-elses-pipeline-the-ultimate-test-of-reproducibility" id="toc-running-someone-elses-pipeline-the-ultimate-test-of-reproducibility" class="nav-link" data-scroll-target="#running-someone-elses-pipeline-the-ultimate-test-of-reproducibility"><span class="header-section-number">5.5</span> Running Someone Else’s Pipeline: The Ultimate Test of Reproducibility</a></li>
+  <li><a href="#caching" id="toc-caching" class="nav-link" data-scroll-target="#caching"><span class="header-section-number">6.3</span> Caching</a></li>
+  <li><a href="#debugging-and-working-with-build-logs" id="toc-debugging-and-working-with-build-logs" class="nav-link" data-scroll-target="#debugging-and-working-with-build-logs"><span class="header-section-number">6.4</span> Debugging and Working with Build Logs</a></li>
+  <li><a href="#running-someone-elses-pipeline-the-ultimate-test-of-reproducibility" id="toc-running-someone-elses-pipeline-the-ultimate-test-of-reproducibility" class="nav-link" data-scroll-target="#running-someone-elses-pipeline-the-ultimate-test-of-reproducibility"><span class="header-section-number">6.5</span> Running Someone Else’s Pipeline: The Ultimate Test of Reproducibility</a></li>
+  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">6.6</span> Hands-On Exercises</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/06-rixpress.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/07-rixpress.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -426,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></h1>
 </div>
 
 
@@ -455,8 +456,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>What you’ll have learned by the end of the chapter: how to orchestrate a fully reproducible, polyglot analytical pipeline using Nix as a build automation tool, and why this is a fundamentally more robust approach than using computational notebooks or other common workflow tools.</p>
-<section id="introduction-from-scripts-and-notebooks-to-pipelines" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="introduction-from-scripts-and-notebooks-to-pipelines"><span class="header-section-number">5.1</span> Introduction: From Scripts and Notebooks to Pipelines</h2>
+<section id="introduction-from-scripts-and-notebooks-to-pipelines" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="introduction-from-scripts-and-notebooks-to-pipelines"><span class="header-section-number">6.1</span> Introduction: From Scripts and Notebooks to Pipelines</h2>
 <p>So far, we have learned about the 3 main necessary pillars for building reproducible pipelines:</p>
 <ol type="1">
 <li><strong>Define Reproducible Environments</strong> with Nix and <code>{rix}</code> to ensure everyone uses the exact same versions of R, Python, and all system-level dependencies.</li>
@@ -473,8 +474,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This is why we will also be using Nix for build automation. Nix is not just a package manager; it is a full-fledged build system. When Nix builds a pipeline, it controls the entire dependency graph, from your input data files all the way down to the C compiler used to build R itself. It unifies the “what to run and when” problem with the “what tools to use” problem into a single, cohesive framework.</p>
 <p>However, writing build instructions directly in the Nix language can be complex. This is where <strong><code>{rixpress}</code></strong> comes in. It provides a user-friendly R interface, heavily inspired by <code>{targets}</code>, that lets us define our pipeline in familiar R code. <code>{rixpress}</code> then translates this into the necessary Nix expressions for us. We get the ergonomic, object-passing feel of <code>{targets}</code> with the unparalleled, bit-for-bit reproducibility of the Nix build system. It is the perfect tool to complete our reproducible workflow.</p>
 </section>
-<section id="our-first-polyglot-pipeline" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="our-first-polyglot-pipeline"><span class="header-section-number">5.2</span> Our First Polyglot Pipeline</h2>
+<section id="our-first-polyglot-pipeline" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="our-first-polyglot-pipeline"><span class="header-section-number">6.2</span> Our First Polyglot Pipeline</h2>
 <div style="text-align:center;">
 <div class="cell">
 <div class="cell-output-display">
@@ -494,13 +495,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rixpress<span class="sc">::</span><span class="fu">rxp_init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This handy function creates two essential plain text files: <code>gen-env.R</code> and <code>gen-pipeline.R</code>.</p>
-<section id="step-0-use-git" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="step-0-use-git"><span class="header-section-number">5.2.1</span> Step 0: Use Git</h3>
+<section id="step-0-use-git" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="step-0-use-git"><span class="header-section-number">6.2.1</span> Step 0: Use Git</h3>
 <p>This might be the right time to start a Git repository. Either start by creating an empty project on GitHub, or start from your command line, locally:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="step-1-defining-the-environment" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="step-1-defining-the-environment"><span class="header-section-number">5.2.2</span> Step 1: Defining the Environment</h3>
+<section id="step-1-defining-the-environment" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="step-1-defining-the-environment"><span class="header-section-number">6.2.2</span> Step 1: Defining the Environment</h3>
 <p>Open <code>gen-env.R</code>. This is where we use <code>{rix}</code> to define the tools our pipeline needs.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In gen-env.R</span></span>
@@ -526,8 +527,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Run this script (<code>source("gen-env.R")</code>) to generate the <code>default.nix</code> file that describes our complete environment. Now, exit the temporary shell, build your project environment with <code>nix-build</code>, and enter it with <code>nix-shell</code>.</p>
 </section>
-<section id="step-2-defining-the-pipeline" class="level3" data-number="5.2.3">
-<h3 data-number="5.2.3" class="anchored" data-anchor-id="step-2-defining-the-pipeline"><span class="header-section-number">5.2.3</span> Step 2: Defining the Pipeline</h3>
+<section id="step-2-defining-the-pipeline" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="step-2-defining-the-pipeline"><span class="header-section-number">6.2.3</span> Step 2: Defining the Pipeline</h3>
 <p>Now, open <code>gen-pipeline.R</code>. This plain text file is where we’ll define the actual pipeline. <code>{rixpress}</code> offers several ways to pass data between languages.</p>
 <p>A pipeline is a list of derivations. A derivation is defined using functions such as <code>rxp_r()</code>, <code>rxp_py()</code>, etc. Most of the time, we start by importing data. In this case, we will be importing a <code>.csv</code> file (which you can download <a href="https://raw.githubusercontent.com/b-rodrigues/rixpress_demos/refs/heads/master/r_py_json/data/mtcars.csv">here</a> and save it in the <code>data/</code> folder) using <code>polars</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In gen-pipeline.R</span></span>
@@ -562,8 +563,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The next derivation is defined using <code>rxp_py()</code> which runs Pyton code. As you can see, the <code>py_expr</code> argument is literal Python code, where <code>polars</code> is used to filter data and then convert the result to a <code>pandas</code> data frame.</p>
 <p>To pass data to R, we have two methods available.</p>
-<section id="method-1-using-language-specific-converters" class="level4" data-number="5.2.3.1">
-<h4 data-number="5.2.3.1" class="anchored" data-anchor-id="method-1-using-language-specific-converters"><span class="header-section-number">5.2.3.1</span> Method 1: Using Language-Specific Converters</h4>
+<section id="method-1-using-language-specific-converters" class="level4" data-number="6.2.3.1">
+<h4 data-number="6.2.3.1" class="anchored" data-anchor-id="method-1-using-language-specific-converters"><span class="header-section-number">6.2.3.1</span> Method 1: Using Language-Specific Converters</h4>
 <p>The <code>rxp_r2py()</code> and <code>rxp_py2r()</code> functions are convenient wrappers that use the <code>{reticulate}</code> package behind the scenes to convert objects:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_py2r</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_am_r,</span>
@@ -579,8 +580,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This works well, but it tightly couples your pipeline to <code>{reticulate}</code>’s conversion capabilities, which in some cases could be overkill.</p>
 </section>
-<section id="method-2-a-lighter-approach-with-universal-data-formats" class="level4" data-number="5.2.3.2">
-<h4 data-number="5.2.3.2" class="anchored" data-anchor-id="method-2-a-lighter-approach-with-universal-data-formats"><span class="header-section-number">5.2.3.2</span> Method 2: A lighter Approach with Universal Data Formats</h4>
+<section id="method-2-a-lighter-approach-with-universal-data-formats" class="level4" data-number="6.2.3.2">
+<h4 data-number="6.2.3.2" class="anchored" data-anchor-id="method-2-a-lighter-approach-with-universal-data-formats"><span class="header-section-number">6.2.3.2</span> Method 2: A lighter Approach with Universal Data Formats</h4>
 <p>A lighter and language-agnostic approach is to use a universal data format like <strong>JSON</strong>. This makes your pipeline more modular, as any language that can read and write JSON could be added in the future. <code>{rixpress}</code> supports this via the <code>serialize_function</code> and <code>unserialize_function</code> arguments.</p>
 <p>Let’s rewrite our pipeline to use JSON. First, we need simple helper functions in our project.</p>
 <p>Create a script called <code>functions.py</code> that will contain all the Python helper functions we might need. In it, add:</p>
@@ -617,8 +618,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This approach works well in simple cases like passing data frames between languages, but may not work for more complex objects for which <code>{reticulate}</code> may have specialized code for conversion.</p>
 </section>
 </section>
-<section id="step-3-building-and-inspecting-the-pipeline" class="level3" data-number="5.2.4">
-<h3 data-number="5.2.4" class="anchored" data-anchor-id="step-3-building-and-inspecting-the-pipeline"><span class="header-section-number">5.2.4</span> Step 3: Building and Inspecting the Pipeline</h3>
+<section id="step-3-building-and-inspecting-the-pipeline" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="step-3-building-and-inspecting-the-pipeline"><span class="header-section-number">6.2.4</span> Step 3: Building and Inspecting the Pipeline</h3>
 <p>The complete pipeline will look like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rixpress)</span>
@@ -664,8 +665,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can also only generate the required code, but not run the pipeline yet, by setting <code>build = FALSE</code> in <code>rixpress()</code>.</p>
 </section>
 </section>
-<section id="caching" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="caching"><span class="header-section-number">5.3</span> Caching</h2>
+<section id="caching" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="caching"><span class="header-section-number">6.3</span> Caching</h2>
 <p>First, visualize your pipeline’s dependency graph:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You'll need to firts generate the required files by running</span></span>
@@ -677,8 +678,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now, modify a step. Open <code>gen-pipeline.R</code> and change the <code>my_head</code> function in <code>functions.R</code> to use <code>tail()</code> for example. Save the file and re-run <code>rixpress()</code>. Nix will detect that the data loading and Python filtering steps are unchanged and instantly use the cached results from the <code>/nix/store/</code>. It will <strong>only</strong> re-build the final R step that was affected by the change.</p>
 <p>This is the incredible power of a proper build automation tool. The cognitive load of tracking what to re-run is gone. You are free to experiment, confident that the tool will efficiently and correctly rebuild only what is necessary.</p>
 </section>
-<section id="debugging-and-working-with-build-logs" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="debugging-and-working-with-build-logs"><span class="header-section-number">5.4</span> Debugging and Working with Build Logs</h2>
+<section id="debugging-and-working-with-build-logs" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="debugging-and-working-with-build-logs"><span class="header-section-number">6.4</span> Debugging and Working with Build Logs</h2>
 <p>But what happens to the <em>old</em> results? What if you want to compare the <code>head()</code> version of your data to the <code>tail()</code> version? This is where <code>{rixpress}</code>’s build logging becomes a superpower.</p>
 <p>Every time you run <code>rixpress()</code>, a timestamped log of that specific build is saved in the <code>_rixpress/</code> directory. This is like having a Git history for your pipeline’s <em>outputs</em>.</p>
 <p>You can list all the past builds you’ve run:</p>
@@ -702,8 +703,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This is an incredibly powerful debugging and validation tool. You can go back in time to inspect the state of any output from any previous pipeline run, as long as it’s still in the Nix store. This provides a safety net and traceability that is simply absent in a notebook-based workflow.</p>
 </section>
-<section id="running-someone-elses-pipeline-the-ultimate-test-of-reproducibility" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="running-someone-elses-pipeline-the-ultimate-test-of-reproducibility"><span class="header-section-number">5.5</span> Running Someone Else’s Pipeline: The Ultimate Test of Reproducibility</h2>
+<section id="running-someone-elses-pipeline-the-ultimate-test-of-reproducibility" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="running-someone-elses-pipeline-the-ultimate-test-of-reproducibility"><span class="header-section-number">6.5</span> Running Someone Else’s Pipeline: The Ultimate Test of Reproducibility</h2>
 <p>Imagine a collaborator wants to run your pipeline. If you had sent them a Jupyter notebook, they would face a series of questions: “Which version of Python did you use? What packages do I need? In what order do I run the cells? What is this variable that’s used but never defined?”</p>
 <p>With our Nix-based workflow, the process is radically simpler and more robust. All they need to do is:</p>
 <ol type="1">
@@ -713,6 +714,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>That’s it. Nix reads your <code>default.nix</code> and <code>pipeline.nix</code> files and builds the <em>exact</em> same environment and the <em>exact</em> same data product, bit-for-bit. It solves all the problems we identified with other approaches: it controls the language versions, the operating system libraries, and all dependencies in one unified, declarative system.</p>
 <p>You now have the knowledge to build robust, efficient, polyglot, and truly reproducible analytical pipelines. By abandoning the chaos of notebooks for production work and embracing the structured, automatable world of plain text files and build automation, your work becomes more reliable, more scalable, and fundamentally more scientific.</p>
+</section>
+<section id="hands-on-exercises" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">6.6</span> Hands-On Exercises</h2>
+<p>Check out the <a href="https://github.com/b-rodrigues/rixpress_demos">rixpress_demos</a> GitHub repository and, by taking inspiration from them, write a pipeline that uses the packages you wrote for the exercises of Chapter 6 <em>Packages</em>.</p>
 
 
 </section>
@@ -1132,13 +1137,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05-unit-testing.html" class="pagination-link" aria-label="Unit Testing: The Safety Net for Your Code">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unit Testing: The Safety Net for Your Code</span></span>
+      <a href="./06-packages.html" class="pagination-link" aria-label="A Short Intro to Packaging Your Code in R and Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Short Intro to Packaging Your Code in R and Python</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./07-packages.html" class="pagination-link" aria-label="From Scripts to Tools: Packaging Your Code in R and Python">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">From Scripts to Tools: Packaging Your Code in R and Python</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./08-docker.html" class="pagination-link" aria-label="Containerization With Docker">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Containerization With Docker</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1147,4 +1152,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/06-rixpress.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/07-rixpress.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; From Scripts to Tools: Packaging Your Code in R and Python – Building Reproducible Analytical Pipelines</title>
+<title>5&nbsp; A Short Intro to Packaging Your Code in R and Python – Building Reproducible Analytical Pipelines</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./08-docker.html" rel="next">
-<link href="./06-rixpress.html" rel="prev">
+<link href="./07-rixpress.html" rel="next">
+<link href="./05-unit-testing.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-packages.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">From Scripts to Tools: Packaging Your Code in R and Python</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-packages.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Short Intro to Packaging Your Code in R and Python</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -363,13 +363,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-git.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Version Control with Git</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-functional-programming.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functional Programming: The Cornerstone of Reproducible Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Functional Programming</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -380,20 +380,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-rixpress.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span></a>
+  <a href="./06-packages.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Short Intro to Packaging Your Code in R and Python</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-packages.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">From Scripts to Tools: Packaging Your Code in R and Python</span></span></a>
+  <a href="./07-rixpress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-docker.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Docker</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Containerization With Docker</span></span></a>
   </div>
 </li>
     </ul>
@@ -406,26 +406,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-why-bother-packaging" id="toc-introduction-why-bother-packaging" class="nav-link active" data-scroll-target="#introduction-why-bother-packaging"><span class="header-section-number">6.1</span> Introduction: Why Bother Packaging?</a></li>
-  <li><a href="#part-1-creating-an-r-package-with-usethis-and-devtools" id="toc-part-1-creating-an-r-package-with-usethis-and-devtools" class="nav-link" data-scroll-target="#part-1-creating-an-r-package-with-usethis-and-devtools"><span class="header-section-number">6.2</span> Part 1: Creating an R Package with <code>{usethis}</code> and <code>{devtools}</code></a>
+  <li><a href="#introduction-why-bother-packaging" id="toc-introduction-why-bother-packaging" class="nav-link active" data-scroll-target="#introduction-why-bother-packaging"><span class="header-section-number">5.1</span> Introduction: Why Bother Packaging?</a></li>
+  <li><a href="#part-1-creating-an-r-package-with-usethis-and-devtools" id="toc-part-1-creating-an-r-package-with-usethis-and-devtools" class="nav-link" data-scroll-target="#part-1-creating-an-r-package-with-usethis-and-devtools"><span class="header-section-number">5.2</span> Part 1: Creating an R Package with <code>{usethis}</code> and <code>{devtools}</code></a>
   <ul class="collapse">
-  <li><a href="#step-1-project-setup" id="toc-step-1-project-setup" class="nav-link" data-scroll-target="#step-1-project-setup"><span class="header-section-number">6.2.1</span> Step 1: Project Setup</a></li>
-  <li><a href="#step-2-write-and-document-a-function" id="toc-step-2-write-and-document-a-function" class="nav-link" data-scroll-target="#step-2-write-and-document-a-function"><span class="header-section-number">6.2.2</span> Step 2: Write and Document a Function</a></li>
-  <li><a href="#step-3-add-unit-tests" id="toc-step-3-add-unit-tests" class="nav-link" data-scroll-target="#step-3-add-unit-tests"><span class="header-section-number">6.2.3</span> Step 3: Add Unit Tests</a></li>
-  <li><a href="#step-4-check-and-install" id="toc-step-4-check-and-install" class="nav-link" data-scroll-target="#step-4-check-and-install"><span class="header-section-number">6.2.4</span> Step 4: Check and Install</a></li>
-  <li><a href="#step-5-install-from-github" id="toc-step-5-install-from-github" class="nav-link" data-scroll-target="#step-5-install-from-github"><span class="header-section-number">6.2.5</span> Step 5: Install from GitHub</a></li>
+  <li><a href="#step-1-project-setup" id="toc-step-1-project-setup" class="nav-link" data-scroll-target="#step-1-project-setup"><span class="header-section-number">5.2.1</span> Step 1: Project Setup</a></li>
+  <li><a href="#step-2-write-and-document-a-function" id="toc-step-2-write-and-document-a-function" class="nav-link" data-scroll-target="#step-2-write-and-document-a-function"><span class="header-section-number">5.2.2</span> Step 2: Write and Document a Function</a></li>
+  <li><a href="#step-3-add-unit-tests" id="toc-step-3-add-unit-tests" class="nav-link" data-scroll-target="#step-3-add-unit-tests"><span class="header-section-number">5.2.3</span> Step 3: Add Unit Tests</a></li>
+  <li><a href="#step-4-check-and-install" id="toc-step-4-check-and-install" class="nav-link" data-scroll-target="#step-4-check-and-install"><span class="header-section-number">5.2.4</span> Step 4: Check and Install</a></li>
+  <li><a href="#step-5-install-from-github" id="toc-step-5-install-from-github" class="nav-link" data-scroll-target="#step-5-install-from-github"><span class="header-section-number">5.2.5</span> Step 5: Install from GitHub</a></li>
   </ul></li>
-  <li><a href="#part-2-creating-a-minimal-python-package-with-uv" id="toc-part-2-creating-a-minimal-python-package-with-uv" class="nav-link" data-scroll-target="#part-2-creating-a-minimal-python-package-with-uv"><span class="header-section-number">6.3</span> Part 2: Creating a Minimal Python Package with uv</a>
+  <li><a href="#part-2-creating-a-minimal-python-package-with-uv" id="toc-part-2-creating-a-minimal-python-package-with-uv" class="nav-link" data-scroll-target="#part-2-creating-a-minimal-python-package-with-uv"><span class="header-section-number">5.3</span> Part 2: Creating a Minimal Python Package with uv</a>
   <ul class="collapse">
-  <li><a href="#step-1-project-setup-with-uv" id="toc-step-1-project-setup-with-uv" class="nav-link" data-scroll-target="#step-1-project-setup-with-uv"><span class="header-section-number">6.3.1</span> Step 1: Project Setup with uv</a></li>
-  <li><a href="#step-2-write-a-function-and-declare-dependencies" id="toc-step-2-write-a-function-and-declare-dependencies" class="nav-link" data-scroll-target="#step-2-write-a-function-and-declare-dependencies"><span class="header-section-number">6.3.2</span> Step 2: Write a Function and Declare Dependencies</a></li>
-  <li><a href="#step-3-add-unit-tests-1" id="toc-step-3-add-unit-tests-1" class="nav-link" data-scroll-target="#step-3-add-unit-tests-1"><span class="header-section-number">6.3.3</span> Step 3: Add Unit Tests</a></li>
-  <li><a href="#step-4-build-and-install" id="toc-step-4-build-and-install" class="nav-link" data-scroll-target="#step-4-build-and-install"><span class="header-section-number">6.3.4</span> Step 4: Build and Install</a></li>
-  <li><a href="#step-5-install-from-github-1" id="toc-step-5-install-from-github-1" class="nav-link" data-scroll-target="#step-5-install-from-github-1"><span class="header-section-number">6.3.5</span> Step 5: Install from GitHub</a></li>
+  <li><a href="#step-1-project-setup-with-uv" id="toc-step-1-project-setup-with-uv" class="nav-link" data-scroll-target="#step-1-project-setup-with-uv"><span class="header-section-number">5.3.1</span> Step 1: Project Setup with uv</a></li>
+  <li><a href="#step-2-write-a-function-and-declare-dependencies" id="toc-step-2-write-a-function-and-declare-dependencies" class="nav-link" data-scroll-target="#step-2-write-a-function-and-declare-dependencies"><span class="header-section-number">5.3.2</span> Step 2: Write a Function and Declare Dependencies</a></li>
+  <li><a href="#step-3-add-unit-tests-1" id="toc-step-3-add-unit-tests-1" class="nav-link" data-scroll-target="#step-3-add-unit-tests-1"><span class="header-section-number">5.3.3</span> Step 3: Add Unit Tests</a></li>
+  <li><a href="#step-4-build-and-install" id="toc-step-4-build-and-install" class="nav-link" data-scroll-target="#step-4-build-and-install"><span class="header-section-number">5.3.4</span> Step 4: Build and Install</a></li>
+  <li><a href="#step-5-install-from-github-1" id="toc-step-5-install-from-github-1" class="nav-link" data-scroll-target="#step-5-install-from-github-1"><span class="header-section-number">5.3.5</span> Step 5: Install from GitHub</a></li>
   </ul></li>
-  <li><a href="#conclusion-the-packaging-mindset-in-the-age-of-ai" id="toc-conclusion-the-packaging-mindset-in-the-age-of-ai" class="nav-link" data-scroll-target="#conclusion-the-packaging-mindset-in-the-age-of-ai"><span class="header-section-number">6.4</span> Conclusion: The Packaging Mindset in the Age of AI</a></li>
+  <li><a href="#conclusion-the-packaging-mindset-in-the-age-of-ai" id="toc-conclusion-the-packaging-mindset-in-the-age-of-ai" class="nav-link" data-scroll-target="#conclusion-the-packaging-mindset-in-the-age-of-ai"><span class="header-section-number">5.4</span> Conclusion: The Packaging Mindset in the Age of AI</a></li>
+  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">5.5</span> Hands-on Exercises</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-build-your-first-python-package-with-nix" id="toc-exercise-1-build-your-first-python-package-with-nix" class="nav-link" data-scroll-target="#exercise-1-build-your-first-python-package-with-nix"><span class="header-section-number">5.5.1</span> Exercise 1: Build Your First Python Package with Nix</a></li>
+  <li><a href="#exercise-2-build-and-package-an-r-tool-with-nix" id="toc-exercise-2-build-and-package-an-r-tool-with-nix" class="nav-link" data-scroll-target="#exercise-2-build-and-package-an-r-tool-with-nix"><span class="header-section-number">5.5.2</span> Exercise 2: Build and Package an R Tool with Nix</a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/07-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/06-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -433,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">From Scripts to Tools: Packaging Your Code in R and Python</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Short Intro to Packaging Your Code in R and Python</span></h1>
 </div>
 
 
@@ -460,8 +465,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>How to create, document, and test a modern Python package using <code>uv</code> and <code>pytest</code>.</li>
 <li>How to install your own packages directly from GitHub, enabling you to share your tools with colleagues and your future self.</li>
 </ul>
-<section id="introduction-why-bother-packaging" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="introduction-why-bother-packaging"><span class="header-section-number">6.1</span> Introduction: Why Bother Packaging?</h2>
+<section id="introduction-why-bother-packaging" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction-why-bother-packaging"><span class="header-section-number">5.1</span> Introduction: Why Bother Packaging?</h2>
 <p>So far, we have built a robust workflow based on three pillars: reproducible environments with Nix, reproducible history with Git, and reproducible logic with functional programming. We’ve organized our code into functions, which are a massive improvement over messy scripts.</p>
 <p>The final, logical step in this journey is to treat our collection of functions not just as a set of helper scripts, but as a formal <strong>package</strong>. A package is more than just a folder of code; it’s a self-contained, distributable, and installable unit of software that bundles together code, data, documentation, and tests.</p>
 <p>You might think, “I’m a data scientist, not a software engineer. Isn’t this overkill?” The answer is a definitive <strong>no</strong>. Packaging your code, even for an internal analysis project, provides enormous benefits:</p>
@@ -474,16 +479,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>In this chapter, we will walk through the process of creating a simple package in both R and Python. The goal is not to become an expert package developer, but to understand the structure and benefits so you can apply this powerful “packaging mindset” to all your future projects.</p>
 </section>
-<section id="part-1-creating-an-r-package-with-usethis-and-devtools" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="part-1-creating-an-r-package-with-usethis-and-devtools"><span class="header-section-number">6.2</span> Part 1: Creating an R Package with <code>{usethis}</code> and <code>{devtools}</code></h2>
+<section id="part-1-creating-an-r-package-with-usethis-and-devtools" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="part-1-creating-an-r-package-with-usethis-and-devtools"><span class="header-section-number">5.2</span> Part 1: Creating an R Package with <code>{usethis}</code> and <code>{devtools}</code></h2>
 <p>The R community has developed an outstanding set of tools that make package development incredibly streamlined. The two essential packages are:</p>
 <ul>
 <li><strong><code>{devtools}</code>:</strong> Provides core development tools like <code>install()</code>, <code>test()</code>, and <code>check()</code>.</li>
 <li><strong><code>{usethis}</code>:</strong> A workflow package that automates all the boilerplate. It creates files, sets up infrastructure, and guides you through the process.</li>
 </ul>
 <p>Let’s build a package called <code>cleanR</code>, which will contain a function to standardize column names.</p>
-<section id="step-1-project-setup" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="step-1-project-setup"><span class="header-section-number">6.2.1</span> Step 1: Project Setup</h3>
+<section id="step-1-project-setup" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="step-1-project-setup"><span class="header-section-number">5.2.1</span> Step 1: Project Setup</h3>
 <p>First, make sure you have the necessary tools installed: <code>install.packages(c("devtools", "usethis", "roxygen2"))</code>.</p>
 <p>Now, let <code>{usethis}</code> create the package structure for you. From your R console, run:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">create_package</span>(<span class="st">"~/Documents/projects/cleanR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -494,8 +499,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>NAMESPACE</code>: A file that declares which functions your package exports for users and which functions it imports from other packages. <strong>You should never edit this file by hand.</strong> <code>{roxygen2}</code> will manage it for you.</li>
 </ul>
 </section>
-<section id="step-2-write-and-document-a-function" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="step-2-write-and-document-a-function"><span class="header-section-number">6.2.2</span> Step 2: Write and Document a Function</h3>
+<section id="step-2-write-and-document-a-function" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="step-2-write-and-document-a-function"><span class="header-section-number">5.2.2</span> Step 2: Write and Document a Function</h3>
 <p>Let’s create our function. <code>{usethis}</code> helps with this too:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_r</span>(<span class="st">"clean_names"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This creates a new file <code>R/clean_names.R</code> and opens it for editing. Let’s add our function, including special comments for documentation. These <code>#'</code> comments are used by the <code>{roxygen2}</code> package to automatically generate the official documentation.</p>
@@ -531,8 +536,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">document</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This updates the <code>NAMESPACE</code> file and creates the help file (<code>man/clean_names.Rd</code>). You can now see your function’s help page with <code>?clean_names</code>.</p>
 </section>
-<section id="step-3-add-unit-tests" class="level3" data-number="6.2.3">
-<h3 data-number="6.2.3" class="anchored" data-anchor-id="step-3-add-unit-tests"><span class="header-section-number">6.2.3</span> Step 3: Add Unit Tests</h3>
+<section id="step-3-add-unit-tests" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="step-3-add-unit-tests"><span class="header-section-number">5.2.3</span> Step 3: Add Unit Tests</h3>
 <p>A package without tests is a package waiting to break. <code>{usethis}</code> makes setting up tests trivial.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_testthat</span>() <span class="co"># Sets up the tests/testthat/ directory</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_test</span>(<span class="st">"clean_names"</span>) <span class="co"># Creates tests/testthat/test-clean_names.R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -555,8 +560,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>To run all the tests for your package, use:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="step-4-check-and-install" class="level3" data-number="6.2.4">
-<h3 data-number="6.2.4" class="anchored" data-anchor-id="step-4-check-and-install"><span class="header-section-number">6.2.4</span> Step 4: Check and Install</h3>
+<section id="step-4-check-and-install" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="step-4-check-and-install"><span class="header-section-number">5.2.4</span> Step 4: Check and Install</h3>
 <p>The final step before sharing is to run the official R CMD check, the gold standard for package quality. This command runs all tests, checks documentation, and looks for common problems.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">check</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If your package passes with 0 errors, 0 warnings, and 0 notes, you are in great shape.</p>
@@ -564,8 +569,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can now use your package in any R session with <code>library(cleanR)</code>.</p>
 </section>
-<section id="step-5-install-from-github" class="level3" data-number="6.2.5">
-<h3 data-number="6.2.5" class="anchored" data-anchor-id="step-5-install-from-github"><span class="header-section-number">6.2.5</span> Step 5: Install from GitHub</h3>
+<section id="step-5-install-from-github" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="step-5-install-from-github"><span class="header-section-number">5.2.5</span> Step 5: Install from GitHub</h3>
 <p>To share your package, the easiest way is with GitHub.</p>
 <ol type="1">
 <li><p>Create a new, empty repository on GitHub (e.g., <code>cleanR</code>).</p></li>
@@ -581,12 +586,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Congratulations, you have created and shared a fully functional R package!</p>
 </section>
 </section>
-<section id="part-2-creating-a-minimal-python-package-with-uv" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="part-2-creating-a-minimal-python-package-with-uv"><span class="header-section-number">6.3</span> Part 2: Creating a Minimal Python Package with uv</h2>
+<section id="part-2-creating-a-minimal-python-package-with-uv" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="part-2-creating-a-minimal-python-package-with-uv"><span class="header-section-number">5.3</span> Part 2: Creating a Minimal Python Package with uv</h2>
 <p>The Python packaging ecosystem is rapidly modernizing. While we use Nix to manage our overall environment, we still need to define the metadata and structure for our Python package. We will use <strong><code>uv</code></strong>, an extremely fast and modern tool, for one specific purpose: initializing our project’s configuration file. We will <strong>not</strong> use <code>uv</code> to manage a virtual environment, as Nix already handles that for us.</p>
 <p>Let’s build a Python package called <code>pyclean</code>, the equivalent of our R package.</p>
-<section id="step-1-project-setup-with-uv" class="level3" data-number="6.3.1">
-<h3 data-number="6.3.1" class="anchored" data-anchor-id="step-1-project-setup-with-uv"><span class="header-section-number">6.3.1</span> Step 1: Project Setup with uv</h3>
+<section id="step-1-project-setup-with-uv" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="step-1-project-setup-with-uv"><span class="header-section-number">5.3.1</span> Step 1: Project Setup with uv</h3>
 <p>First, ensure <code>uv</code> is installed in your Nix environment. Then, create a directory for your new package and initialize it:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> pyclean</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> pyclean</span>
@@ -604,8 +609,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │       └── __init__.py
 └── tests/</code></pre>
 </section>
-<section id="step-2-write-a-function-and-declare-dependencies" class="level3" data-number="6.3.2">
-<h3 data-number="6.3.2" class="anchored" data-anchor-id="step-2-write-a-function-and-declare-dependencies"><span class="header-section-number">6.3.2</span> Step 2: Write a Function and Declare Dependencies</h3>
+<section id="step-2-write-a-function-and-declare-dependencies" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="step-2-write-a-function-and-declare-dependencies"><span class="header-section-number">5.3.2</span> Step 2: Write a Function and Declare Dependencies</h3>
 <p>Let’s create our <code>clean_names</code> function inside a new file, <code>src/pyclean/formatters.py</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In src/pyclean/formatters.py</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -649,8 +654,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>pythonpath = ["src"]</code> line is the key. Without it, you’d first need to install your <code>pyclean</code> library in editable mode using pip before running the tests. By adding this block, simply running <code>pytest</code> from the command line will work.</p>
 </section>
-<section id="step-3-add-unit-tests-1" class="level3" data-number="6.3.3">
-<h3 data-number="6.3.3" class="anchored" data-anchor-id="step-3-add-unit-tests-1"><span class="header-section-number">6.3.3</span> Step 3: Add Unit Tests</h3>
+<section id="step-3-add-unit-tests-1" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="step-3-add-unit-tests-1"><span class="header-section-number">5.3.3</span> Step 3: Add Unit Tests</h3>
 <p>Create a new test file, <code>tests/test_formatters.py</code>, and add your tests.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In tests/test_formatters.py</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -669,8 +674,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Since your Nix environment provides all the tools, you can run tests directly from your terminal:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="step-4-build-and-install" class="level3" data-number="6.3.4">
-<h3 data-number="6.3.4" class="anchored" data-anchor-id="step-4-build-and-install"><span class="header-section-number">6.3.4</span> Step 4: Build and Install</h3>
+<section id="step-4-build-and-install" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="step-4-build-and-install"><span class="header-section-number">5.3.4</span> Step 4: Build and Install</h3>
 <p>To package your code, you need a build tool. It turns out that <code>uv</code> bundles a build tool with it, so we only need to call <code>uv build</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In your terminal, from the root of the 'pyclean' project</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -684,8 +689,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="st">''</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(you may need to adapt the path depending on where you’re developing the package). With this, dropping into the Nix shell, starting the Python interpreter and then typing <code>import pyclean</code> will work without any issues.</p>
 </section>
-<section id="step-5-install-from-github-1" class="level3" data-number="6.3.5">
-<h3 data-number="6.3.5" class="anchored" data-anchor-id="step-5-install-from-github-1"><span class="header-section-number">6.3.5</span> Step 5: Install from GitHub</h3>
+<section id="step-5-install-from-github-1" class="level3" data-number="5.3.5">
+<h3 data-number="5.3.5" class="anchored" data-anchor-id="step-5-install-from-github-1"><span class="header-section-number">5.3.5</span> Step 5: Install from GitHub</h3>
 <p>Sharing via GitHub is the most common way to distribute packages that aren’t on the official Python Package Index (PyPI):</p>
 <ol type="1">
 <li>Create a new, empty repository on GitHub.</li>
@@ -711,8 +716,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This process is naturally more involved than simply calling <code>pip install</code>, but it has the advantage of being entirely reproducible.</p>
 </section>
 </section>
-<section id="conclusion-the-packaging-mindset-in-the-age-of-ai" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="conclusion-the-packaging-mindset-in-the-age-of-ai"><span class="header-section-number">6.4</span> Conclusion: The Packaging Mindset in the Age of AI</h2>
+<section id="conclusion-the-packaging-mindset-in-the-age-of-ai" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="conclusion-the-packaging-mindset-in-the-age-of-ai"><span class="header-section-number">5.4</span> Conclusion: The Packaging Mindset in the Age of AI</h2>
 <p>You have now successfully created, tested, documented, and shared a basic package in both R and Python. While there is much more to learn about advanced package development, you have already mastered the most important part: the <strong>packaging mindset</strong>.</p>
 <p>From now on, when you start a new analysis project, think of it as a small, internal package.</p>
 <ul>
@@ -739,8 +744,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>For Python:</strong> The official <a href="https://packaging.python.org/en/latest/tutorials/packaging-projects/"><strong>Python Packaging User Guide</strong></a> is the place to start. For a more modern and streamlined approach that handles dependency management and publishing, many developers use tools like <a href="https://python-poetry.org/docs/"><strong>Poetry</strong></a> or <a href="https://hatch.pypa.io/latest/"><strong>Hatch</strong></a>.</li>
 </ul>
 <p>Treating your data analysis project like a small, internal software package, complete with functions and tests, is a powerful mindset that will elevate the quality and reliability of your work.</p>
+<p>Here are two new exercises to add to the end of the chapter.</p>
+</section>
+<section id="hands-on-exercises" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">5.5</span> Hands-on Exercises</h2>
+<section id="exercise-1-build-your-first-python-package-with-nix" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="exercise-1-build-your-first-python-package-with-nix"><span class="header-section-number">5.5.1</span> Exercise 1: Build Your First Python Package with Nix</h3>
+<p><strong>Goal:</strong> To build a complete, testable, and documented Python package and make it available in a reproducible Nix environment.</p>
+<p>You will create a small Python package called <code>statstools</code>. This package will contain a single function that calculates descriptive statistics for a list of numbers.</p>
+<p><strong>Requirements:</strong></p>
+<ol type="1">
+<li><p><strong>Project Structure:</strong> Create the following directory structure for your package: <code>bash     statstools/     ├── pyproject.toml     ├── default.nix     ├── src/     │   └── statstools/     │       ├── __init__.py     │       └── calculations.py     └── tests/         └── test_calculations.py</code></p></li>
+<li><p><strong>Functionality:</strong> In <code>src/statstools/calculations.py</code>, create a function <code>descriptive_stats(numbers: list) -&gt; dict</code>. This function should take a list of numbers and return a dictionary containing the mean and standard deviation. Use the <code>numpy</code> library for the calculations.</p></li>
+<li><p><strong>Documentation:</strong> Write a clear docstring for your <code>descriptive_stats</code> function explaining what it does, its parameters (<code>Args</code>), and what it returns (<code>Returns</code>).</p></li>
+<li><p><strong>Dependencies:</strong> In your <code>pyproject.toml</code> file:</p>
+<ul>
+<li>Define the project name as <code>statstools</code> and give it a version of <code>0.1.0</code>.</li>
+<li>Add <code>numpy</code> as a runtime dependency.</li>
+<li>Add <code>pytest</code> as an optional dependency for testing.</li>
+<li>Add the <code>[tool.pytest.ini_options]</code> block to set the <code>pythonpath</code> correctly so <code>pytest</code> can find your <code>src</code> directory.</li>
+</ul></li>
+<li><p><strong>Unit Tests:</strong> In <code>tests/test_calculations.py</code>, write at least two tests for your function using <code>pytest</code>:</p>
+<ul>
+<li>A “happy path” test with a simple list like <code>[1, 2, 3, 4, 5]</code>.</li>
+<li>A test with negative numbers and floats.</li>
+</ul></li>
+<li><p><strong>GitHub Repository:</strong> Push your completed package to a new public repository on GitHub.</p></li>
+<li><p><strong>Nix Expression:</strong> This is the most critical part. Create a <code>default.nix</code> file in the root of your project. This file should:</p>
+<ul>
+<li>Fetch your package’s source code from your GitHub repository using <code>pkgs.fetchgit</code>. You will need to get the commit hash (<code>rev</code>) and the <code>sha256</code> hash (remember, you can get the correct <code>sha256</code> from the error message when you first try to build with an empty <code>sha256 = "";</code>).</li>
+<li>Define your package using <code>pkgs.python3Packages.buildPythonPackage</code>. Ensure you set <code>pyproject = true;</code> and list its dependencies (<code>numpy</code>, <code>pytest</code>) in <code>propagatedBuildInputs</code>.</li>
+<li>Create a reproducible shell using <code>pkgs.mkShell</code> that includes both your <code>statstools</code> package and the Python interpreter.</li>
+<li><strong>Hint:</strong> Look closely at the <code>default.nix</code> file from the main course repository for a complete example of how a Python package is fetched from GitHub and built.</li>
+</ul></li>
+</ol>
+<p><strong>To verify your work:</strong> * Run <code>pytest</code> from within the Nix shell to ensure all your tests pass. * Start a Python interpreter inside the Nix shell and successfully run <code>from     statstools import descriptive_stats</code>.</p>
+</section>
+<section id="exercise-2-build-and-package-an-r-tool-with-nix" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="exercise-2-build-and-package-an-r-tool-with-nix"><span class="header-section-number">5.5.2</span> Exercise 2: Build and Package an R Tool with Nix</h3>
+<p><strong>Goal:</strong> To apply R’s best practices for package development (<code>usethis</code>, <code>devtools</code>, <code>roxygen2</code>) and integrate the final product into a reproducible Nix environment.</p>
+<p>You will create a small R package called <code>datasummary</code>. This package will provide a function to quickly summarize a data frame.</p>
+<p><strong>Requirements:</strong></p>
+<ol type="1">
+<li><p><strong>Project Setup:</strong> Use <code>usethis::create_package("datasummary")</code> to generate the standard R package structure.</p></li>
+<li><p><strong>Functionality:</strong></p>
+<ul>
+<li>Use <code>usethis::use_r("summarize_df")</code> to create a new file for your function.</li>
+<li>The function, <code>summarize_df(df)</code>, should take a data frame as input.</li>
+<li>It should return a new data frame with two columns: <code>column_name</code> and <code>missing_values</code>, showing the count of <code>NA</code>s in each column of the input data frame.</li>
+<li>This function will require the <code>{dplyr}</code> package. Use <code>usethis::use_package("dplyr")</code> to declare this dependency in your <code>DESCRIPTION</code> file.</li>
+</ul></li>
+<li><p><strong>Documentation:</strong></p>
+<ul>
+<li>Use <code>roxygen2</code> comments to document your <code>summarize_df</code> function.</li>
+<li>Include <code>@param</code>, <code>@return</code>, and <code>@export</code> tags.</li>
+<li>Provide a working example in the <code>@examples</code> tag.</li>
+<li>Since your function will use functions from <code>{dplyr}</code>, add the appropriate <code>@importFrom</code> tags (e.g., <code>@importFrom dplyr %&gt;%     summarise_all</code>).</li>
+<li>Run <code>devtools::document()</code> to generate the documentation.</li>
+</ul></li>
+<li><p><strong>Unit Tests:</strong></p>
+<ul>
+<li>Set up testing with <code>usethis::use_testthat()</code>.</li>
+<li>Create a test file with <code>usethis::use_test("summarize_df")</code>.</li>
+<li>In the test file, write at least one test using <code>test_that()</code> that creates a sample data frame with missing values and checks if your function returns the correct counts.</li>
+<li>Run <code>devtools::test()</code> to execute your tests.</li>
+</ul></li>
+<li><p><strong>Quality Check:</strong> Run <code>devtools::check()</code> to ensure your package is free of errors, warnings, and notes.</p></li>
+<li><p><strong>GitHub Repository:</strong> Push your completed R package to a new public repository on GitHub.</p></li>
+<li><p><strong>Nix Expression:</strong> Create a <code>default.nix</code> file in the root of your <code>datasummary</code> project. This file must:</p>
+<ul>
+<li>Define a custom R environment.</li>
+<li>Define your <code>datasummary</code> package by using <code>buildRPackage</code>. Fetch the source from your GitHub repository using <code>pkgs.fetchgit</code> (you will need the <code>rev</code> and <code>sha256</code>).</li>
+<li>Make sure to list its R dependencies (like <code>{dplyr}</code> and its own dependencies) in <code>propagatedBuildInputs</code>.</li>
+<li>Create a final shell with <code>pkgs.mkShell</code> that drops you into an R session where your <code>datasummary</code> package is installed and available.</li>
+<li><strong>Hint:</strong> Refer to the main course repository’s <code>default.nix</code> file to see how R packages are defined with <code>buildRPackage</code> and included in the final R environment. Using <code>{rix}</code> is also an option.</li>
+</ul></li>
+</ol>
+<p><strong>To verify your work:</strong> * Drop into the Nix shell provided by your <code>default.nix</code>. * Start an R session. * Successfully run <code>library(datasummary)</code> and test your <code>summarize_df()</code> function on a data frame like <code>iris</code>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1158,13 +1241,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./06-rixpress.html" class="pagination-link" aria-label="Building Reproducible Pipelines with Nix and `{rixpress}`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span>
+      <a href="./05-unit-testing.html" class="pagination-link" aria-label="Unit Testing: The Safety Net for Your Code">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unit Testing: The Safety Net for Your Code</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./08-docker.html" class="pagination-link" aria-label="Docker">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Docker</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./07-rixpress.html" class="pagination-link" aria-label="Building Reproducible Pipelines with Nix and `{rixpress}`">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building Reproducible Pipelines with Nix and <code>{rixpress}</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1173,4 +1256,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/07-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/06-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>

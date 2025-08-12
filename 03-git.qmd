@@ -1113,3 +1113,114 @@ git push origin main
 This workflow ensures you maintain full control over your codebase while
 benefiting from LLM assistance, with complete traceability of what changes were
 made and why.
+
+
+## Hands-on Exercises
+
+### Exercise 1: Setup and First Commit (skip if you followed along)
+
+**Goal:** To confirm that Git is installed and configured correctly, and to
+practice the fundamental `clone`, `add`, `commit`, and `push` cycle.
+
+1.  On your GitHub account, create a new **public** repository named
+    `data-analysis-project`.
+2.  Initialize the repository with a `README.md` file directly on GitHub.
+3.  On your local machine, navigate to a suitable projects directory (e.g.,
+    `~/Documents/projects`).
+4.  Clone your new repository to your local machine using the SSH URL.
+5.  Create a new file in the local repository called `hello.py` that contains a
+    single line: `print("Hello, Git!")`.
+6.  Use the command line to stage the new `hello.py` file.
+7.  Commit the staged file with the message "Add initial Python script".
+8.  Push your commit to the `main` branch on GitHub.
+9.  Verify that the `hello.py` file appears in your repository on the GitHub website.
+
+#### Exercise 2: Exploring History
+**Goal:** To practice inspecting the project's history and learn how to revert changes.
+
+1.  In your local `data-analysis-project` repository, modify the `README.md` file by adding a new line: "This is my project for analyzing interesting data."
+2.  Commit this change with the message "Update README with project description".
+3.  Next, create a new file named `analysis.R` and add the following code:
+    ```R
+    # Initial data exploration
+    data(iris)
+    summary(iris)
+    ```
+4.  Commit this new file with the message "Add initial analysis for iris dataset".
+5.  Use `git log --oneline` to view your commit history. You should see at least three commits.
+6.  Find the commit hash for your "Update README with project description" commit.
+7.  Now, create a new commit that **reverts** the README change. Use the `git revert <commit-hash>` command. A text editor will open for the revert commit message; you can leave the default message and just save and close it.
+8.  Push your changes to GitHub. On the GitHub history for the `main` branch, you should now see a new "Revert..." commit, and the `README.md` file should no longer contain the project description.
+
+#### Exercise 3: Working with Branches
+**Goal:** To understand the workflow of creating a feature branch to work in isolation and then merging it back into the main branch.
+
+1.  In your local repository, create a new branch called `feature-visualization`.
+2.  Switch to the `feature-visualization` branch.
+3.  In the `analysis.R` file, add the following code at the end of the file to create a plot:
+    ```R
+    # Add a simple plot of the data
+    plot(iris$Sepal.Length, iris$Sepal.Width, main="Iris Sepal Dimensions")
+    ```
+4.  Commit this change to the `feature-visualization` branch with the message "Feat: Add sepal dimensions plot".
+5.  Push the `feature-visualization` branch to GitHub.
+6.  Switch back to the `main` branch on your local machine.
+7.  Merge the `feature-visualization` branch into `main`.
+8.  Push the `main` branch to see the merged changes on GitHub.
+9.  (Optional) Delete the `feature-visualization` branch both locally and on the remote repository.
+
+#### Exercise 4: Resolving Conflicts
+**Goal:** To learn how to handle the common "non-fast-forward" error by using `git pull --rebase` and resolving a merge conflict.
+
+1.  On the GitHub website, navigate to your `analysis.R` file and use the "Edit" button to change the comment `# Initial data exploration` to `# Initial exploration of the Iris dataset`. Commit this change directly on GitHub.
+2.  Now, on your **local machine** (without pulling the remote changes yet), edit the **exact same line** in your `analysis.R` file to be `# R-Script for Iris Data`.
+3.  Stage and commit this change locally with the message "Refactor: Update analysis script comment".
+4.  Try to push your change using `git push origin main`. The push will be rejected because your local history has diverged from the remote's history.
+5.  Fetch the remote changes and re-apply your local commit on top by running `git pull --rebase origin main`. This will trigger a merge conflict.
+6.  Open `analysis.R` in a text editor. You will see the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
+7.  Resolve the conflict by deleting the markers and choosing a final version for the line (e.g., `# R-Script for the initial exploration of the Iris dataset`).
+8.  After saving the file, stage the resolved file using `git add analysis.R`.
+9.  Continue the rebase with `git rebase --continue`.
+10. Finally, push your successfully rebased and conflict-free history to GitHub.
+
+#### Exercise 5: Reviewing AI-Generated Code
+**Goal:** To practice the safe workflow for reviewing and selectively accepting code suggested by an LLM using interactive staging.
+
+1.  First, commit any outstanding work in your repository to ensure you have a clean state.
+2.  Pretend an LLM has suggested an "improvement" to your `hello.py` file. Manually edit the file to look like this:
+    ```python
+    import sys
+
+    # A function to greet
+    def greet(name):
+        """A function that prints a greeting."""
+        print(f"Hello, {name}!") # The main change we want
+        # The LLM also added this logging, which we don't want
+        print("Function finished execution.", file=sys.stderr)
+
+    if __name__ == '__main__':
+        greet("Git")
+    ```
+3.  Use `git diff` to see the changes. Notice the unwanted `print` statement to `sys.stderr`.
+4.  Instead of staging the whole file, use interactive staging: `git add -p hello.py`.
+5.  Git will show you the chunk of changes. When prompted `Stage this hunk [y,n,q,a,d,s,e,?]?`, press `e` to manually edit the hunk.
+6.  Your text editor will open with the patch. Delete the line `+print("Function finished execution.", file=sys.stderr)`. Save and close the editor.
+7.  You have now staged only the parts of the change you approved. Commit the staged changes with a message like "Feat: Refactor hello.py into a function".
+8.  Run `git status`. You will see that `hello.py` is still listed as modified. Use `git diff` to see the remaining change (the one you rejected).
+9.  Discard the unwanted change permanently with `git checkout -- hello.py`. Your working directory is now clean, and only the approved changes are in your commit history.
+
+#### Exercise 6: Contributing to another Project (Fork & Pull Request)
+**Goal:** To simulate contributing to an open-source project by forking a
+repository and submitting a Pull Request. For this exercise, use this
+[repo](https://github.com/b-rodrigues/myPackage) to contribute to.
+
+1.  With your browser, navigate to the GitHub repository you want to contribute to (your partner's or instructor's).
+2.  Click the **Fork** button in the top-right corner to create a copy of the repository under your own account.
+3.  Clone **your fork** to your local machine.
+4.  Add the original repository as a new remote called `upstream`. You can do this with: `git remote add upstream git@github.com:original-owner/original-repo-name.git`.
+5.  Create a new branch for your contribution, for example, `fix-spelling-error`.
+6.  Make a small, helpful change. For example, find a typo in their `README.md` and fix it. Or add a new file `CONTRIBUTORS.md` and add your name.
+7.  Commit your change with a clear commit message.
+8.  Push your branch to **your fork** (`origin`), not `upstream`.
+9.  On GitHub, navigate to your forked repository. You should see a banner prompting you to "Contribute" and "Open a pull request".
+10. Open a Pull Request. Ensure the base repository is the original project's `main` branch and the head repository is your `fix-spelling-error` branch. Write a short title and description for your change and submit it. The owner of the original repository can now review your work.

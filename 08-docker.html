@@ -423,6 +423,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-3-build-and-run" id="toc-step-3-build-and-run" class="nav-link" data-scroll-target="#step-3-build-and-run"><span class="header-section-number">7.3.3</span> Step 3: Build and Run</a></li>
   </ul></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">7.4</span> Further reading</a></li>
+  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">7.5</span> Hands-on Exercises</a>
+  <ul class="collapse">
+  <li><a href="#level-1-foundational-skills" id="toc-level-1-foundational-skills" class="nav-link" data-scroll-target="#level-1-foundational-skills"><span class="header-section-number">7.5.1</span> Level 1: Foundational Skills</a></li>
+  <li><a href="#level-2-building-and-distributing-images" id="toc-level-2-building-and-distributing-images" class="nav-link" data-scroll-target="#level-2-building-and-distributing-images"><span class="header-section-number">7.5.2</span> Level 2: Building and Distributing Images</a></li>
+  <li><a href="#level-3-the-capstone-project" id="toc-level-3-the-capstone-project" class="nav-link" data-scroll-target="#level-3-the-capstone-project"><span class="header-section-number">7.5.3</span> Level 3: The Capstone Project</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/08-docker.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -868,8 +874,90 @@ RUN mkdir ...
 <li>https://jsta.github.io/r-docker-tutorial/</li>
 <li>http://haines-lab.com/post/2022-01-23-automating-computational-reproducibility-with-r-using-renv-docker-and-github-actions/</li>
 </ul>
+</section>
+<section id="hands-on-exercises" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">7.5</span> Hands-on Exercises</h2>
+<section id="level-1-foundational-skills" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="level-1-foundational-skills"><span class="header-section-number">7.5.1</span> Level 1: Foundational Skills</h3>
+<p>These exercises focus on mastering the basic Docker commands and concepts.</p>
+<p><strong>Exercise 1: The Ephemeral Container and the Persistent Volume</strong></p>
+<p>The goal of this exercise is to solidify your understanding of how containers are ephemeral and how volumes provide persistence.</p>
+<ol type="1">
+<li>Run the <code>rocker/tidyverse</code> image in detached mode (<code>-d</code>), giving it a name (e.g., <code>my-rstudio</code>). Publish the port <code>8787</code> and set a password.</li>
+<li>Connect to the RStudio instance in your browser. Create a new R script named <code>test_script.R</code> and save it in the default home directory (<code>/home/rstudio</code>). Inside the script, write a simple R command like <code>message("Hello from inside     the container!")</code>.</li>
+<li>Stop and remove the container using <code>docker stop</code> and <code>docker rm</code> (or just use <code>--rm</code> from the start).</li>
+<li>Run a <em>new</em> container with the same command. Connect to RStudio again. Is your <code>test_script.R</code> still there? (It shouldn’t be).</li>
+<li>Now, create a folder on your local machine called <code>r_projects</code>.</li>
+<li>Run the <code>rocker/tidyverse</code> container again, but this time, mount your <code>r_projects</code> folder as a volume to <code>/home/rstudio/projects</code> inside the container. The flag should look something like <code>-v     "$(pwd)/r_projects":/home/rstudio/projects</code>.</li>
+<li>Connect to RStudio, navigate to the <code>projects</code> folder, and create your <code>test_script.R</code> there.</li>
+<li>Stop and remove the container. Check your local <code>r_projects</code> folder. Is the script there? (It should be). This demonstrates how volumes link your host machine to the container’s filesystem.</li>
+</ol>
+<p><strong>Exercise 2: The Container Inspector</strong></p>
+<p>This exercise is designed to get you comfortable with interacting with a running container from your terminal.</p>
+<ol type="1">
+<li>Run a basic <code>ubuntu:latest</code> container in detached mode (<code>-d</code>) and give it a name like <code>my-ubuntu-box</code>. Use the command <code>sleep 3600</code> to keep it running for an hour.
+<ul>
+<li><em>Hint:</em> The full command would be <code>docker run -d --name my-ubuntu-box ubuntu:latest sleep 3600</code>.</li>
+</ul></li>
+<li>Use <code>docker ps</code> to verify that your container is running.</li>
+<li>Use <code>docker exec</code> to get an interactive bash shell inside the <code>my-ubuntu-box</code> container.</li>
+<li>Once inside, run the following Linux commands: <code>ls -la</code>, <code>pwd</code>, <code>whoami</code>, and <code>cat /etc/os-release</code>. What do you observe?</li>
+<li>Still inside the container, use <code>apt-get update &amp;&amp; apt-get install -y     fortunes</code> to install a fun package. Run the <code>fortune</code> command.</li>
+<li>Exit the container’s shell (type <code>exit</code>). Is the container still running? (It should be).</li>
+<li>Stop the container using <code>docker stop my-ubuntu-box</code>.</li>
+</ol>
+</section>
+<section id="level-2-building-and-distributing-images" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="level-2-building-and-distributing-images"><span class="header-section-number">7.5.2</span> Level 2: Building and Distributing Images</h3>
+<p>These exercises focus on creating your own <code>Dockerfile</code> and sharing your work.</p>
+<p><strong>Exercise 3: Your First Custom R Image</strong></p>
+<p>Create a <code>Dockerfile</code> that builds a simple, non-Nix R image.</p>
+<ol type="1">
+<li>Create a new project folder. Inside, create a <code>Dockerfile</code>.</li>
+<li>In the <code>Dockerfile</code>, start from <code>rocker/r-ver:4.5.1</code> (or any other versioned tag).</li>
+<li>Add a <code>RUN</code> command to install the R package <code>{cowsay}</code> from CRAN.</li>
+<li>Create an R script named <code>run.R</code> in the same folder. The script should contain: <code>r     library(cowsay)     say("Moo-ving to Docker!", by = "cow")</code></li>
+<li>In your <code>Dockerfile</code>, add a <code>COPY</code> command to copy <code>run.R</code> into the image (e.g., to <code>/home/run.R</code>).</li>
+<li>Set the <code>CMD</code> to execute your script using <code>Rscript</code>.</li>
+<li>Build the image with the tag <code>my-cowsay-app</code>.</li>
+<li>Run a container from your new image. You should see the cow’s message printed to your terminal.</li>
+</ol>
+<p><strong>Exercise 4: Publish Your Nix Base</strong></p>
+<p>Take the <code>nix-base</code> image you created in the chapter and practice the full distribution workflow.</p>
+<ol type="1">
+<li>If you haven’t already, build the <code>nix-base</code> image locally.</li>
+<li>Create a free account on Docker Hub.</li>
+<li>Log in to Docker Hub from your terminal using <code>docker login</code>.</li>
+<li>Tag your <code>nix-base:latest</code> image with your Docker Hub username, e.g., <code>docker tag nix-base:latest your-username/nix-base:1.0</code>.</li>
+<li>Push the image to Docker Hub using <code>docker push</code>.</li>
+<li>To test that it works, remove your local copy of the image: <code>docker rmi your-username/nix-base:1.0</code> and <code>docker rmi nix-base:latest</code>.</li>
+<li>Create a simple <code>Dockerfile</code> that starts with <code>FROM your-username/nix-base:1.0</code>. When you build this <code>Dockerfile</code>, Docker should pull the image you just pushed from Docker Hub.</li>
+</ol>
+</section>
+<section id="level-3-the-capstone-project" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="level-3-the-capstone-project"><span class="header-section-number">7.5.3</span> Level 3: The Capstone Project</h3>
+<p>This exercise integrates all the concepts from the chapter into a complete, reproducible data product.</p>
+<p><strong>Exercise 5: Package Your Own <code>{rixpress}</code> Pipeline</strong></p>
+<p>Take a <code>{rixpress}</code> pipeline (you can use the one from the previous chapter’s exercises or create a new one) and package it into a distributable Docker image.</p>
+<ol type="1">
+<li>Your project should contain all the necessary files: <code>gen-env.R</code>, <code>gen-pipeline.R</code>, your <code>default.nix</code> and <code>pipeline.nix</code>, and any data/function scripts.</li>
+<li>Create a <code>Dockerfile</code> that uses your published <code>nix-base</code> image from Exercise 4 as its <code>FROM</code> source.</li>
+<li>The <code>Dockerfile</code> should:
+<ul>
+<li>Set a working directory (e.g., <code>/app</code>).</li>
+<li><code>COPY</code> all your project files into the image.</li>
+<li><code>RUN</code> the <code>nix-build pipeline.nix</code> command to execute the pipeline <em>during the build process</em>.</li>
+<li>Include an <code>export-results.R</code> script (you’ll need to write this) that saves one or more of your final pipeline artifacts to an <code>/output</code> directory.</li>
+<li>Set the <code>CMD</code> to run your <code>export-results.R</code> script.</li>
+</ul></li>
+<li>Build the final image with a descriptive tag (e.g., <code>my-final-analysis:latest</code>).</li>
+<li>Run the image, mounting a local <code>output</code> folder to the container’s <code>/output</code> folder.</li>
+<li>Verify that the final results (e.g., a plot, a CSV, or a JSON file) appear in your local <code>output</code> folder. <strong>Congratulations, you’ve created a fully portable and reproducible data product!</strong></li>
+</ol>
+<p><strong>Extra Challenge:</strong> Modify your solution from Exercise 5 for a “big data” scenario where the input data cannot be included in the image. * Your <code>Dockerfile</code> should <strong>not</strong> copy the data and should <strong>not</strong> run <code>nix-build</code> at build time. * Instead, the <code>CMD</code> should execute the entire pipeline at runtime. You will need to figure out how to pass the paths for input data and output results to your script. * The <code>docker run</code> command will now need to mount <em>two</em> volumes: one for the input data and one for the output results.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

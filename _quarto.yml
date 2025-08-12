@@ -20,6 +20,9 @@ book:
     - 06-packages.qmd
     - 07-rixpress.qmd
     - 08-docker.qmd
+    - 09-github_actions.qmd
+    - 10-what-else.qmd
+    - 11-conclusion.qmd
   page-navigation: true
 
 bibliography: references.bib

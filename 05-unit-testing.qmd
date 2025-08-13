@@ -230,6 +230,7 @@ new, critical role for the data scientist: **you are the reviewer.**
 
 An LLM does not *write* your tests; it *generates a draft*. It is your
 professional responsibility to:
+
 1.  **Read and understand** every line of the test code.
 2.  **Verify** that the `expected_output` is actually correct.
 3.  **Confirm** that the tests cover the cases you care about.
@@ -456,3 +457,4 @@ that verifies the function raises a `KeyError` if the 'ts' column is missing."
         did well and one thing you had to change or fix (e.g., `# LLM correctly
         set up the test for the KeyError, but I had to correct the expected data
         type in the happy path test.`).
+

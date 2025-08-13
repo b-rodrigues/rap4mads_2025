@@ -618,7 +618,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Prompt:</strong> “Here is my Python function <code>normalize_vector</code>. Please write three <code>pytest</code> unit tests for it. Include a test for the happy path with a simple array, a test for an array containing <code>np.nan</code>, and a test for the edge case where all elements in the array are identical.”</p>
 </blockquote>
 <p>The LLM will likely generate high-quality test code that is very similar to what we wrote above. This is a massive productivity boost. However, this introduces a new, critical role for the data scientist: <strong>you are the reviewer.</strong></p>
-<p>An LLM does not <em>write</em> your tests; it <em>generates a draft</em>. It is your professional responsibility to: 1. <strong>Read and understand</strong> every line of the test code. 2. <strong>Verify</strong> that the <code>expected_output</code> is actually correct. 3. <strong>Confirm</strong> that the tests cover the cases you care about. 4. <strong>Commit</strong> that code under your name, taking full ownership of it.</p>
+<p>An LLM does not <em>write</em> your tests; it <em>generates a draft</em>. It is your professional responsibility to:</p>
+<ol type="1">
+<li><strong>Read and understand</strong> every line of the test code.</li>
+<li><strong>Verify</strong> that the <code>expected_output</code> is actually correct.</li>
+<li><strong>Confirm</strong> that the tests cover the cases you care about.</li>
+<li><strong>Commit</strong> that code under your name, taking full ownership of it.</li>
+</ol>
 <p>“A COMPUTER CAN NEVER BE HELD ACCOUNTABLE THEREFORE A COMPUTER MUST NEVER MAKE A MANAGEMENT DECISION” – IBM Training Manual, 1979.</p>
 <p>If I ask you why you did something, and your answer is something to the effect of “I dunno, the LLM generated it”, be glad we’re not in the USA where I could just fire you, because that’s what I’d do.</p>
 </section>

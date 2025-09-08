@@ -78,9 +78,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5fec71090063759883e7e0e36cd2e998.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-719266190eddec20e870a87754db91cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-5fec71090063759883e7e0e36cd2e998.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eaec1411600aaa3d517a4c2d9683cbbb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-a82fafecdf541ab89c78077a0d003809.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-eaec1411600aaa3d517a4c2d9683cbbb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -478,7 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="6.1" class="anchored" data-anchor-id="introduction-from-scripts-and-notebooks-to-pipelines"><span class="header-section-number">6.1</span> Introduction: From Scripts and Notebooks to Pipelines</h2>
 <p>So far, we have learned about the 3 main necessary pillars for building reproducible pipelines:</p>
 <ol type="1">
-<li><strong>Define Reproducible Environments</strong> with Nix and <code>{rix}</code> to ensure everyone uses the exact same versions of R, Python, and all system-level dependencies.</li>
+<li><strong>Define Reproducible Environments</strong> with Nix and <code>{rix}</code> to ensure everyone uses the exact same versions of R, Python or Julia, and all system-level dependencies.</li>
 <li><strong>Manage Reproducible History</strong> with Git to track every change to our code and collaborate effectively.</li>
 <li><strong>Write Reproducible Logic</strong> with Functional Programming to create clean, testable, and predictable functions.</li>
 </ol>
@@ -572,14 +572,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">path =</span> <span class="st">'data/mtcars.csv'</span>,</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">read_function =</span> <span class="st">"lambda x: polars.read_csv(x, separator='|')"</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Note: polars must be converted to pandas for reticulate</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_py</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_pl_am,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1).to_pandas()"</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_py</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_pl_am,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1).to_pandas()"</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The next derivation is defined using <code>rxp_py()</code> which runs Pyton code. As you can see, the <code>py_expr</code> argument is literal Python code, where <code>polars</code> is used to filter data and then convert the result to a <code>pandas</code> data frame.</p>
+<p>The next derivation is defined using <code>rxp_py()</code> which runs Pyton code. As you can see, the <code>expr</code> argument is literal Python code, where <code>polars</code> is used to filter data and then convert the result to a <code>pandas</code> data frame.</p>
 <p>To pass data to R, we have two methods available.</p>
 <section id="method-1-using-language-specific-converters" class="level4" data-number="6.2.3.1">
 <h4 data-number="6.2.3.1" class="anchored" data-anchor-id="method-1-using-language-specific-converters"><span class="header-section-number">6.2.3.1</span> Method 1: Using Language-Specific Converters</h4>
@@ -619,16 +618,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_py</span>(</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_pl_am,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1)"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1)"</span>,</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">additional_files =</span> <span class="st">"functions.py"</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">serialize_function =</span> <span class="st">"serialize_to_json"</span> <span class="co"># Use our Python helper</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">encoder =</span> <span class="st">"serialize_to_json"</span> <span class="co"># Use our Python helper</span></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_r</span>(</span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_head,</span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> <span class="fu">my_head</span>(mtcars_pl_am),</span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">additional_files =</span> <span class="st">"functions.R"</span>,</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">unserialize_function =</span> <span class="st">"jsonlite::fromJSON"</span> <span class="co"># Use R's jsonlite</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">decoder =</span> <span class="st">"jsonlite::fromJSON"</span> <span class="co"># Use R's jsonlite</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  ...</span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -651,25 +650,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Note: polars must be converted to pandas for reticulate</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_py</span>(</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_pl_am,</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1).to_pandas()"</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1).to_pandas()"</span></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_py</span>(</span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_pl_am,</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1)"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> <span class="st">"mtcars_pl.filter(polars.col('am') == 1)"</span>,</span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">additional_files =</span> <span class="st">"functions.py"</span>,</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">serialize_function =</span> <span class="st">"serialize_to_json"</span> <span class="co"># Use our Python helper</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">encoder =</span> <span class="st">"serialize_to_json"</span> <span class="co"># Use our Python helper</span></span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_r</span>(</span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> mtcars_head,</span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> <span class="fu">my_head</span>(mtcars_pl_am),</span>
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">additional_files =</span> <span class="st">"functions.R"</span>,</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">unserialize_function =</span> <span class="st">"jsonlite::fromJSON"</span> <span class="co"># Use R's jsonlite</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">decoder =</span> <span class="st">"jsonlite::fromJSON"</span> <span class="co"># Use R's jsonlite</span></span>
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rixpress</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rxp_populate</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The very last function, <code>rixpress()</code> takes a list of derivations as input and will translate the list of derivations into a <code>pipeline.nix</code> file and instruct Nix to build the entire pipeline. Once it’s done, you can use <code>rxp_inspect()</code> to check which artifacts where built, and you can easily access the any of them:</p>
+<p>The very last function, <code>rxp_populate()</code> takes a list of derivations as input and will translate the list of derivations into a <code>pipeline.nix</code> file and instruct Nix to build the entire pipeline. This will not build the pipeline (unless you set the <code>build</code> argument to <code>TRUE</code>), so to build the pipeline use <code>rxp_make()</code>. Once the build process is done, you can use <code>rxp_inspect()</code> to check which artifacts where built, and you can easily access the any of them:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check out all artifacts</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rxp_inspect</span>()</span>
@@ -680,7 +679,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># You can now inspect it</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars_head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You can also only generate the required code, but not run the pipeline yet, by setting <code>build = FALSE</code> in <code>rixpress()</code>.</p>
 </section>
 </section>
 <section id="caching" class="level2" data-number="6.3">
@@ -688,11 +686,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>First, visualize your pipeline’s dependency graph:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You'll need to firts generate the required files by running</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `rixpress(...)` or `rixpress(..., build = FALSE)` first</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The execution environment will need to include `ggplot2` and `ggdag`</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Then you can visualize the graph</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rxp_ggdag</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This will show you a clear, unambiguous graph of your workflow.</p>
+<p>This will show you a clear, unambiguous graph of your workflow. You can also use <code>rxp_trace()</code> for a text based view:</p>
 <p>Now, modify a step. Open <code>gen-pipeline.R</code> and change the <code>my_head</code> function in <code>functions.R</code> to use <code>tail()</code> for example. Save the file and re-run <code>rixpress()</code>. Nix will detect that the data loading and Python filtering steps are unchanged and instantly use the cached results from the <code>/nix/store/</code>. It will <strong>only</strong> re-build the final R step that was affected by the change.</p>
 <p>This is the incredible power of a proper build automation tool. The cognitive load of tracking what to re-run is gone. You are free to experiment, confident that the tool will efficiently and correctly rebuild only what is necessary.</p>
 </section>

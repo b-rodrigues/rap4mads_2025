@@ -1,5 +1,11 @@
 # What else should you learn?
 
+<div style="text-align:center;">
+```{r, echo = F}
+knitr::include_graphics("img/stairs.png")
+```
+</div>
+
 Here's a list of things I think would be nice for you to invest some time in, in no particular order.
 
 ## Touch typing

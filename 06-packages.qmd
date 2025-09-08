@@ -1,7 +1,9 @@
 # A Short Intro to Packaging Your Code in R and Python
 
 <div style="text-align:center;">
-<img src="https://img.icons8.com/plasticine/200/000000/box.png" title="Package icon" width="30%">
+```{r, echo = F}
+knitr::include_graphics("img/packaging.png")
+```
 </div>
 
 What you'll learn by the end of this chapter:

@@ -18,7 +18,7 @@ So far, we have learned about the 3 main necessary pillars for building
 reproducible pipelines:
 
 1.  **Define Reproducible Environments** with Nix and `{rix}` to ensure everyone
-    uses the exact same versions of R, Python, and all system-level
+    uses the exact same versions of R, Python or Julia, and all system-level
     dependencies.
 2.  **Manage Reproducible History** with Git to track every change to our code
     and collaborate effectively.
@@ -201,16 +201,15 @@ list(
     path = 'data/mtcars.csv',
     read_function = "lambda x: polars.read_csv(x, separator='|')"
   ),
-  # Note: polars must be converted to pandas for reticulate
   rxp_py(
     name = mtcars_pl_am,
-    py_expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
+    expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
   ),
   ...
 ```
 
 The next derivation is defined using `rxp_py()` which runs Pyton code. As you
-can see, the `py_expr` argument is literal Python code, where `polars` is
+can see, the `expr` argument is literal Python code, where `polars` is
 used to filter data and then convert the result to a `pandas` data frame.
 
 To pass data to R, we have two methods available.
@@ -281,16 +280,16 @@ list(
 
   rxp_py(
     name = mtcars_pl_am,
-    py_expr = "mtcars_pl.filter(polars.col('am') == 1)",
+    expr = "mtcars_pl.filter(polars.col('am') == 1)",
     additional_files = "functions.py",
-    serialize_function = "serialize_to_json" # Use our Python helper
+    encoder = "serialize_to_json" # Use our Python helper
   ),
 
   rxp_r(
     name = mtcars_head,
     expr = my_head(mtcars_pl_am),
     additional_files = "functions.R",
-    unserialize_function = "jsonlite::fromJSON" # Use R's jsonlite
+    decoder = "jsonlite::fromJSON" # Use R's jsonlite
   ),
   ...
 )
@@ -316,28 +315,30 @@ list(
   # Note: polars must be converted to pandas for reticulate
   rxp_py(
     name = mtcars_pl_am,
-    py_expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
+    expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
   ),
   rxp_py(
     name = mtcars_pl_am,
-    py_expr = "mtcars_pl.filter(polars.col('am') == 1)",
+    expr = "mtcars_pl.filter(polars.col('am') == 1)",
     additional_files = "functions.py",
-    serialize_function = "serialize_to_json" # Use our Python helper
+    encoder = "serialize_to_json" # Use our Python helper
   ),
 
   rxp_r(
     name = mtcars_head,
     expr = my_head(mtcars_pl_am),
     additional_files = "functions.R",
-    unserialize_function = "jsonlite::fromJSON" # Use R's jsonlite
+    decoder = "jsonlite::fromJSON" # Use R's jsonlite
   ),
 ) |>
-  rixpress()
+  rxp_populate()
 ```
 
-The very last function, `rixpress()` takes a list of derivations as input and
-will translate the list of derivations into a `pipeline.nix` file and instruct
-Nix to build the entire pipeline. Once it's done, you can use `rxp_inspect()` to
+The very last function, `rxp_populate()` takes a list of derivations as input
+and will translate the list of derivations into a `pipeline.nix` file and
+instruct Nix to build the entire pipeline. This will not build the pipeline
+(unless you set the `build` argument to `TRUE`), so to build the pipeline use
+`rxp_make()`. Once the build process is done, you can use `rxp_inspect()` to
 check which artifacts where built, and you can easily access the any of them:
 
 ```{r, eval=FALSE}
@@ -351,21 +352,19 @@ rxp_load("mtcars_head")
 head(mtcars_head)
 ```
 
-You can also only generate the required code, but not run the pipeline yet,
-by setting `build = FALSE` in `rixpress()`.
-
 ## Caching
 
 First, visualize your pipeline's dependency graph:
 
 ```{r, eval=FALSE}
 # You'll need to firts generate the required files by running
-# `rixpress(...)` or `rixpress(..., build = FALSE)` first
+# The execution environment will need to include `ggplot2` and `ggdag`
 # Then you can visualize the graph
 rxp_ggdag()
 ```
 
-This will show you a clear, unambiguous graph of your workflow.
+This will show you a clear, unambiguous graph of your workflow. You can
+also use `rxp_trace()` for a text based view:
 
 Now, modify a step. Open `gen-pipeline.R` and change the `my_head` function in
 `functions.R` to use `tail()` for example. Save the file and re-run

@@ -296,33 +296,45 @@ for this, especially in the age of LLMs.
 At the end of each chapter, there are exercises that should help you solidify
 your knowledge. These are not graded, and there purely for you to learn more.
 
-## Jargon
+## Jargon  
 
-There’s some jargon that is helpful to know when working with R.
-Here’s a non-exhaustive list to get you started:
+There’s some jargon that is helpful to know when working with R, Python, or Nix.  
+Here’s a non-exhaustive list to get you started:  
 
-- CRAN: the Comprehensive R Archive Network. This is a curated online repository
-  of packages and R installers. When you type `install.packages("package_name")`
-  in an R console, the package gets downloaded from there;
-- Library: the collection of R packages installed on your machine;
-- R console: the program where the R interpreter runs;
-- Posit/RStudio: Posit (named RStudio in the past) are the makers of the RStudio
-  IDE and of the *tidyverse* collection of packages;
-- tidyverse: a collection of packages created by Posit that offer a common
-  language and syntax to perform any task required for data science — from
-  reading in data, to cleaning data, up to machine learning and visualisation;
-- base R: refers to a vanilla installation (and vanilla capabilities) of R.
-  Often used to contrast a *tidyverse* specific approach to a problem (for
-  example, using base R’s `lapply()` in constrast to the *tidyverse*
-  `purrr::map()`).
-- `package::function()`: Functions can be accessed in several ways in R, either
-  by loading an entire package at the start of a script with `library(dplyr)` or
-  by using `dplyr::select()`.
-- Function factory (sometimes adverb): a function that returns a function.
-- Variable: the variable of a function (as in `x` in `f(x)`) or the variable
-  from statistical modeling (synonym of feature)
-- `<-` vs `=`: in practice, you can use `<-` and `=` interchangeably. I prefer
-  `<-`, but feel free to use `=` if you wish.
+### R  
+- **CRAN**: the Comprehensive R Archive Network. This is a curated online repository of packages and R installers. When you type `install.packages("package_name")` in an R console, the package gets downloaded from there;  
+- **Library**: the collection of R packages installed on your machine;  
+- **R console**: the program where the R interpreter runs;  
+- **Posit/RStudio**: Posit (named RStudio in the past) are the makers of the RStudio IDE and of the *tidyverse* collection of packages;  
+- **tidyverse**: a collection of packages created by Posit that offer a common language and syntax to perform any task required for data science — from reading in data, to cleaning data, up to machine learning and visualisation;  
+- **base R**: refers to a vanilla installation (and vanilla capabilities) of R. Often used to contrast a *tidyverse* specific approach to a problem (for example, using base R’s `lapply()` in contrast to the *tidyverse* `purrr::map()`);  
+- **`package::function()`**: functions can be accessed in several ways in R, either by loading an entire package at the start of a script with `library(dplyr)` or by using `dplyr::select()`;  
+- **Function factory (sometimes adverb)**: a function that returns a function;  
+- **Variable**: the variable of a function (as in `x` in `f(x)`) or the variable from statistical modeling (synonym of feature);  
+- **`<-` vs `=`**: in practice, you can use `<-` and `=` interchangeably. I prefer `<-`, but feel free to use `=` if you wish.  
+
+### Python  
+- **PyPI**: the Python Package Index. Similar to CRAN for R, it is the default online repository of Python packages, used when you run `pip install package_name`;  
+- **Virtual environment (venv)**: an isolated environment containing its own Python interpreter and packages, useful for keeping dependencies separate between projects;  
+- **Conda**: an alternative package and environment manager to `pip`/`venv`, popular in data science;  
+- **Jupyter notebook**: an interactive environment for running Python code in cells, mixing code, plots, and prose;  
+- **PEP**: Python Enhancement Proposal. Design documents that describe new features or conventions (for example, PEP 8 is the style guide for Python code);  
+- **Decorator**: a function that takes another function and extends or modifies its behavior (for example, `@staticmethod`);  
+- **List comprehension**: a compact syntax for creating lists, such as `[x * x for x in range(10)]`;  
+- **`__init__.py`**: a special file that marks a directory as a Python package;  
+- **`__main__`**: the entry point of a Python program (`if __name__ == "__main__":`).  
+
+### Nix  
+- **Nixpkgs**: the main collection of Nix packages. Most software you install via Nix comes from here (CRAN and Bioconductor are mirrored, but for Python, only individual packages get packaged for Nix);  
+- **Derivation**: the low-level build instruction in Nix. Every package in Nix is ultimately a derivation;  
+- **Store**: the `/nix/store/` directory, where all Nix-built packages and their dependencies live, each in its own hash-prefixed path;  
+- **Expression**: Nix code describing how to build something (usually written in `.nix` files);  
+- **Flake**: a standardized way to package and distribute Nix code with reproducible inputs and outputs. We will not study flakes in this course, as they are still marked as *experimental*;  
+- **Shell**: a reproducible development environment created by Nix;  
+- **GC (garbage collection)**: Nix can remove unused packages from the store;  
+- **Overlay**: a mechanism to extend or override packages in Nixpkgs. This out of the scope of this course;  
+- **Hydra**: the continuous integration service often used with Nix to build packages at scale;  
+- **Pinning**: fixing your Nixpkgs (or other inputs) to a specific commit to ensure reproducibility.  
 
 ## Further reading
 
@@ -331,6 +343,7 @@ Here’s a non-exhaustive list to get you started:
 - [The R Inferno](https://www.burns-stat.com/pages/Tutor/R_inferno.pdf)
 - [Building Reproducible Analytical Pipelines with R](https://raps-with-r.dev/)
 - [Reproducible Analytical Pipelines (RAP)](https://analysisfunction.civilservice.gov.uk/support/reproducible-analytical-pipelines/)
+- [How Nix Works](https://nixos.org/guides/how-nix-works/)
 
 ## License
 

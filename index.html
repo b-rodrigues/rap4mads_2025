@@ -717,7 +717,12 @@ div.csl-indent {
   <li><a href="#nix" id="toc-nix" class="nav-link" data-scroll-target="#nix">Nix</a></li>
   <li><a href="#pre-requisites" id="toc-pre-requisites" class="nav-link" data-scroll-target="#pre-requisites">Pre-requisites</a></li>
   <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
-  <li><a href="#jargon" id="toc-jargon" class="nav-link" data-scroll-target="#jargon">Jargon</a></li>
+  <li><a href="#jargon" id="toc-jargon" class="nav-link" data-scroll-target="#jargon">Jargon</a>
+  <ul class="collapse">
+  <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a></li>
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  <li><a href="#nix-1" id="toc-nix-1" class="nav-link" data-scroll-target="#nix-1">Nix</a></li>
+  </ul></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
   </ul></li>
@@ -1194,19 +1199,78 @@ The reproducibility spectrum from Peng’s 2011 paper.
 </section>
 <section id="jargon" class="level2">
 <h2 class="anchored" data-anchor-id="jargon">Jargon</h2>
-<p>There’s some jargon that is helpful to know when working with R. Here’s a non-exhaustive list to get you started:</p>
+<p>There’s some jargon that is helpful to know when working with R, Python, or Nix.<br>
+Here’s a non-exhaustive list to get you started:</p>
+<section id="r" class="level3">
+<h3 class="anchored" data-anchor-id="r">R</h3>
 <ul>
-<li>CRAN: the Comprehensive R Archive Network. This is a curated online repository of packages and R installers. When you type <code>install.packages("package_name")</code> in an R console, the package gets downloaded from there;</li>
-<li>Library: the collection of R packages installed on your machine;</li>
-<li>R console: the program where the R interpreter runs;</li>
-<li>Posit/RStudio: Posit (named RStudio in the past) are the makers of the RStudio IDE and of the <em>tidyverse</em> collection of packages;</li>
-<li>tidyverse: a collection of packages created by Posit that offer a common language and syntax to perform any task required for data science — from reading in data, to cleaning data, up to machine learning and visualisation;</li>
-<li>base R: refers to a vanilla installation (and vanilla capabilities) of R. Often used to contrast a <em>tidyverse</em> specific approach to a problem (for example, using base R’s <code>lapply()</code> in constrast to the <em>tidyverse</em> <code>purrr::map()</code>).</li>
-<li><code>package::function()</code>: Functions can be accessed in several ways in R, either by loading an entire package at the start of a script with <code>library(dplyr)</code> or by using <code>dplyr::select()</code>.</li>
-<li>Function factory (sometimes adverb): a function that returns a function.</li>
-<li>Variable: the variable of a function (as in <code>x</code> in <code>f(x)</code>) or the variable from statistical modeling (synonym of feature)</li>
-<li><code>&lt;-</code> vs <code>=</code>: in practice, you can use <code>&lt;-</code> and <code>=</code> interchangeably. I prefer <code>&lt;-</code>, but feel free to use <code>=</code> if you wish.</li>
+<li><strong>CRAN</strong>: the Comprehensive R Archive Network. This is a curated online repository of packages and R installers. When you type <code>install.packages("package_name")</code> in an R console, the package gets downloaded from there;<br>
+</li>
+<li><strong>Library</strong>: the collection of R packages installed on your machine;<br>
+</li>
+<li><strong>R console</strong>: the program where the R interpreter runs;<br>
+</li>
+<li><strong>Posit/RStudio</strong>: Posit (named RStudio in the past) are the makers of the RStudio IDE and of the <em>tidyverse</em> collection of packages;<br>
+</li>
+<li><strong>tidyverse</strong>: a collection of packages created by Posit that offer a common language and syntax to perform any task required for data science — from reading in data, to cleaning data, up to machine learning and visualisation;<br>
+</li>
+<li><strong>base R</strong>: refers to a vanilla installation (and vanilla capabilities) of R. Often used to contrast a <em>tidyverse</em> specific approach to a problem (for example, using base R’s <code>lapply()</code> in contrast to the <em>tidyverse</em> <code>purrr::map()</code>);<br>
+</li>
+<li><strong><code>package::function()</code></strong>: functions can be accessed in several ways in R, either by loading an entire package at the start of a script with <code>library(dplyr)</code> or by using <code>dplyr::select()</code>;<br>
+</li>
+<li><strong>Function factory (sometimes adverb)</strong>: a function that returns a function;<br>
+</li>
+<li><strong>Variable</strong>: the variable of a function (as in <code>x</code> in <code>f(x)</code>) or the variable from statistical modeling (synonym of feature);<br>
+</li>
+<li><strong><code>&lt;-</code> vs <code>=</code></strong>: in practice, you can use <code>&lt;-</code> and <code>=</code> interchangeably. I prefer <code>&lt;-</code>, but feel free to use <code>=</code> if you wish.</li>
 </ul>
+</section>
+<section id="python" class="level3">
+<h3 class="anchored" data-anchor-id="python">Python</h3>
+<ul>
+<li><strong>PyPI</strong>: the Python Package Index. Similar to CRAN for R, it is the default online repository of Python packages, used when you run <code>pip install package_name</code>;<br>
+</li>
+<li><strong>Virtual environment (venv)</strong>: an isolated environment containing its own Python interpreter and packages, useful for keeping dependencies separate between projects;<br>
+</li>
+<li><strong>Conda</strong>: an alternative package and environment manager to <code>pip</code>/<code>venv</code>, popular in data science;<br>
+</li>
+<li><strong>Jupyter notebook</strong>: an interactive environment for running Python code in cells, mixing code, plots, and prose;<br>
+</li>
+<li><strong>PEP</strong>: Python Enhancement Proposal. Design documents that describe new features or conventions (for example, PEP 8 is the style guide for Python code);<br>
+</li>
+<li><strong>Decorator</strong>: a function that takes another function and extends or modifies its behavior (for example, <code>@staticmethod</code>);<br>
+</li>
+<li><strong>List comprehension</strong>: a compact syntax for creating lists, such as <code>[x * x for x in range(10)]</code>;<br>
+</li>
+<li><strong><code>__init__.py</code></strong>: a special file that marks a directory as a Python package;<br>
+</li>
+<li><strong><code>__main__</code></strong>: the entry point of a Python program (<code>if __name__ == "__main__":</code>).</li>
+</ul>
+</section>
+<section id="nix-1" class="level3">
+<h3 class="anchored" data-anchor-id="nix-1">Nix</h3>
+<ul>
+<li><strong>Nixpkgs</strong>: the main collection of Nix packages. Most software you install via Nix comes from here (CRAN and Bioconductor are mirrored, but for Python, only individual packages get packaged for Nix);<br>
+</li>
+<li><strong>Derivation</strong>: the low-level build instruction in Nix. Every package in Nix is ultimately a derivation;<br>
+</li>
+<li><strong>Store</strong>: the <code>/nix/store/</code> directory, where all Nix-built packages and their dependencies live, each in its own hash-prefixed path;<br>
+</li>
+<li><strong>Expression</strong>: Nix code describing how to build something (usually written in <code>.nix</code> files);<br>
+</li>
+<li><strong>Flake</strong>: a standardized way to package and distribute Nix code with reproducible inputs and outputs. We will not study flakes in this course, as they are still marked as <em>experimental</em>;<br>
+</li>
+<li><strong>Shell</strong>: a reproducible development environment created by Nix;<br>
+</li>
+<li><strong>GC (garbage collection)</strong>: Nix can remove unused packages from the store;<br>
+</li>
+<li><strong>Overlay</strong>: a mechanism to extend or override packages in Nixpkgs. This out of the scope of this course;<br>
+</li>
+<li><strong>Hydra</strong>: the continuous integration service often used with Nix to build packages at scale;<br>
+</li>
+<li><strong>Pinning</strong>: fixing your Nixpkgs (or other inputs) to a specific commit to ensure reproducibility.</li>
+</ul>
+</section>
 </section>
 <section id="further-reading" class="level2">
 <h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
@@ -1216,6 +1280,7 @@ The reproducibility spectrum from Peng’s 2011 paper.
 <li><a href="https://www.burns-stat.com/pages/Tutor/R_inferno.pdf">The R Inferno</a></li>
 <li><a href="https://raps-with-r.dev/">Building Reproducible Analytical Pipelines with R</a></li>
 <li><a href="https://analysisfunction.civilservice.gov.uk/support/reproducible-analytical-pipelines/">Reproducible Analytical Pipelines (RAP)</a></li>
+<li><a href="https://nixos.org/guides/how-nix-works/">How Nix Works</a></li>
 </ul>
 </section>
 <section id="license" class="level2">

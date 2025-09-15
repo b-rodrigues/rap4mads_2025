@@ -71,8 +71,8 @@ reproducible environments.
 
 ### The rix package
 
-`{rix}` is an R packages (I’m the author) and its goal is to make writing Nix
-expression easy. With `{rix}` you can declare the environment you need using the
+`{rix}` is an R package (I’m the author) and its goal is to make writing Nix
+expressions easy. With `{rix}` you can declare the environment you need using the
 provided `rix()` function, which is the package's main function. Calling it
 generates a file called `default.nix` which is then used by the Nix package
 manager to build that environment. Ideally, you would set up such an environment
@@ -80,7 +80,7 @@ for each of your projects. You can then use this environment to either work
 interactively, or run R or Python scripts. It is possible to have as many
 environments as projects, and software that is common to environments will
 simply be re-used and not get re-installed to save space. Environments are
-isolated for each other, but can still interact with your system's files, unlike
+isolated from each other, but can still interact with your system's files, unlike
 with Docker where a volume must be mounted. While this is useful, it can
 sometimes lead to issues. For example, if you already have R installed, and a
 user library of R packages, more caution is required to properly use
@@ -142,7 +142,7 @@ dual-boot Ubuntu.
 
 Installing (and uninstalling) Nix is quite simple, thanks to the installer from
 [Determinate
-Systems](https://determinate.systems/posts/determinate-nix-installer), a company
+Systems](https://github.com/DeterminateSystems/nix-installer), a company
 that provides services and tools built on Nix, and works the same way on Linux
 (native or WSL2) and macOS.
 
@@ -175,6 +175,29 @@ cachix use rstats-on-nix
 You only need to do this once per machine you want to use `{rix}` on. Many
 thanks to [Cachix](https://www.cachix.org/) for sponsoring the `rstats-on-nix`
 cache!
+
+If you get this warning when trying to install software with Nix:
+
+```
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+warning: ignoring untrusted substituter 'https://rstats-on-nix.cachix.org', you are not a trusted user.
+Run `man nix.conf` for more information on the `substituters` configuration option.
+warning: ignoring the client-specified setting 'trusted-public-keys', because it is a restricted setting and you are not a trusted user
+```
+
+Then this means that configuration was not successful. You need to add your user to `/etc/nix/nix.custom.conf`:
+
+```
+sudo vim /etc/nix/nix.custom.conf
+```
+
+then simply add this line in the file:
+
+```
+trusted-users = root YOURUSERNAME
+```
+
+where `YOURUSERNAME` is your current login user name.
 
 ### Temporary shells
 
@@ -256,6 +279,7 @@ Here is an example of a *simple* `Nix` expression:
 
 ```nix
 let
+
  pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-04-11.tar.gz") {};
 
 in
@@ -327,7 +351,7 @@ you can now generate an expression by running the following code:
 ```r
 rix(
   date = "2025-08-04",
-  r_pkgs = c("dplyr", "ggplot2"),
+  r_pkgs = c("dplyr", "ggplot2"), # add languageserver if you plan to use VS Code
   py_conf = list(
     py_version = "3.13",
     py_pkgs = c("polars", "great-tables")
@@ -371,7 +395,7 @@ To ensure long-term reproducibility, a pinned the version of Nixpkgs is used:
 
 ```nix
 let
-  pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-06-02.tar.gz") {};
+  pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/2025-08-04.tar.gz") {};
 in
 ...
 ```
@@ -396,8 +420,7 @@ environments. To be recommended, a setup should:
 
 Regardless of your operating system, a general-purpose editor such as VS Code
 (or Codium), Emacs, or Neovim meets the above requirements. Recent releases of
-Positron also work quite well. (Note: Neovim is not
-covered here due to lack of experience—PRs welcome!) However, some editors
+Positron also work quite well. However, some editors
 perform better on certain platforms.
 
 Also, we recommend you uninstall R if it's installed system-wide and also remove
@@ -565,7 +588,7 @@ able to interact with WSL seamlessly and before continuing here, please follow
 [these
 instructions](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode)
 (it’s mostly about installing the right extensions after having installed
-Positron).
+Code).
 
 On macOS, start by installing Code using the official `.dmg` installer. Start
 Code, and then the command palette using `COMMAND-SHIFT-P`. In the search bar,

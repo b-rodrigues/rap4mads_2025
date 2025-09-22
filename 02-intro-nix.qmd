@@ -600,6 +600,19 @@ yet another popup, this time from the R Code extension complaining that R can't
 be found. In this case, simply restart Code and open the project folder again:
 now it should work every time.
 
+Sometimes, dependending on platform and installed packages, Positron might not
+be able to correctly load a Nix-managed Python interpreter. This happens when
+it tries to load its own version of `ipykernal`. To make sure this doesn’t cause
+issues, add these lines to the shell’s definition in `default.nix`:
+
+```r
+shellHook = ''
+   # Export LD_LIBRARY is required for python packages that dynamically load libraries, such as numpy 
+   export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (with pkgs; [ zlib gcc.cc glibc stdenv.cc.cc ])}":LD_LIBRARY_PATH;
+   ...
+   '';
+```
+
 ### In summary and next steps
 
 For a new project, simply repeat this process:

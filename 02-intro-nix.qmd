@@ -635,6 +635,10 @@ seamless experience.
 Now configure Positron to use GitHub Copilot:
 [click here](https://positron.posit.co/assistant.html).
 
+You can enable LLM tab-completion if you want. I’m not a fan of this, I prefer
+simply using the interface and using LLMs as an advanced rubber duck:
+[https://github.com/copilot/](https://github.com/copilot/).
+
 ## Starting a new project:
 
 To start a new project, create a new directory, and `cd` into it. 

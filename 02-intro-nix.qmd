@@ -635,6 +635,44 @@ seamless experience.
 Now configure Positron to use GitHub Copilot:
 [click here](https://positron.posit.co/assistant.html).
 
+## Starting a new project:
+
+To start a new project, create a new directory, and `cd` into it. 
+Then, in that folder, create a new script called `gen-env.R` and add
+the following:
+
+```r
+library(rix)
+
+rix(
+  date = "2025-09-22",
+  r_pkgs = c(
+    "languageserver", # if you want to use VS Code
+    "tidyverse" # or whatever packages
+  ),
+  py_conf = list(
+    py_version = "3.13",
+    py_pkgs = c("polars", "great-tables")
+  ),
+  ide = "none",
+  project_path = ".",
+  overwrite = TRUE,
+  print = TRUE
+)
+```
+
+Then call:
+
+```r
+nix-shell -I nixpkgs=https://github.com/rstats-on-nix/nixpkgs/archive/refs/heads/2025-09-22.tar.gz -p R rPackages.rix
+```
+
+providing a url to my fork of `nixpkgs` makes sure that you get the latest `rix` version (change the date in the url 
+to a more recent one if needed). Start R by typing `R` in the shell, and then `source("gen-env.R")`. That will create
+a `default.nix` which you can then drop into using `nix-shell`. Then create an `.envrc` and add the lines from before,
+and you’re done! 
+
+Note: if you want to use `uv` instead of Nix to manage the Python packages, follow the instructions above.
 
 ## Hands-On Exercises
 

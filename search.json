@@ -190,11 +190,21 @@
     ]
   },
   {
+    "objectID": "02-intro-nix.html#starting-a-new-project",
+    "href": "02-intro-nix.html#starting-a-new-project",
+    "title": "1  Reproducibility with Nix",
+    "section": "1.5 Starting a new project:",
+    "text": "1.5 Starting a new project:\nTo start a new project, create a new directory, and cd into it. Then, in that folder, create a new script called gen-env.R and add the following:\nlibrary(rix)\n\nrix(\n  date = \"2025-09-22\",\n  r_pkgs = c(\n    \"languageserver\", # if you want to use VS Code\n    \"tidyverse\" # or whatever packages\n  ),\n  py_conf = list(\n    py_version = \"3.13\",\n    py_pkgs = c(\"polars\", \"great-tables\")\n  ),\n  ide = \"none\",\n  project_path = \".\",\n  overwrite = TRUE,\n  print = TRUE\n)\nThen call:\nnix-shell -I nixpkgs=https://github.com/rstats-on-nix/nixpkgs/archive/refs/heads/2025-09-22.tar.gz -p R rPackages.rix\nproviding a url to my fork of nixpkgs makes sure that you get the latest rix version (change the date in the url to a more recent one if needed). Start R by typing R in the shell, and then source(\"gen-env.R\"). That will create a default.nix which you can then drop into using nix-shell. Then create an .envrc and add the lines from before, and you’re done!\nNote: if you want to use uv instead of Nix to manage the Python packages, follow the instructions above.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Reproducibility with Nix</span>"
+    ]
+  },
+  {
     "objectID": "02-intro-nix.html#hands-on-exercises",
     "href": "02-intro-nix.html#hands-on-exercises",
     "title": "1  Reproducibility with Nix",
-    "section": "1.5 Hands-On Exercises",
-    "text": "1.5 Hands-On Exercises\n\nStart a temporary shell with R and {rix} again using nix-shell -p R rPackages.rix. Start an R session (by typing R) and then load the {rix} package (using library(rix)). Run the available_dates() function: using the latest available date, generate a new default.nix.\nInside of an activated shell, type which R and echo $PATH. Explore what is being added to your environment. What is the significance of paths like /nix/store/...?\nBreak it on purpose: generate a new environment with a wrong R package name, for example dplyrnaught. Try to build the environment. What happens?\nGo to https://search.nixos.org/packages and look for packages that you usually use for your projects to see if they are available.",
+    "section": "1.6 Hands-On Exercises",
+    "text": "1.6 Hands-On Exercises\n\nStart a temporary shell with R and {rix} again using nix-shell -p R rPackages.rix. Start an R session (by typing R) and then load the {rix} package (using library(rix)). Run the available_dates() function: using the latest available date, generate a new default.nix.\nInside of an activated shell, type which R and echo $PATH. Explore what is being added to your environment. What is the significance of paths like /nix/store/...?\nBreak it on purpose: generate a new environment with a wrong R package name, for example dplyrnaught. Try to build the environment. What happens?\nGo to https://search.nixos.org/packages and look for packages that you usually use for your projects to see if they are available.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Reproducibility with Nix</span>"
     ]

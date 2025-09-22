@@ -449,7 +449,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#direnv" id="toc-direnv" class="nav-link" data-scroll-target="#direnv"><span class="header-section-number">1.4.2</span> direnv</a></li>
   <li><a href="#in-summary-and-next-steps" id="toc-in-summary-and-next-steps" class="nav-link" data-scroll-target="#in-summary-and-next-steps"><span class="header-section-number">1.4.3</span> In summary and next steps</a></li>
   </ul></li>
-  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">1.5</span> Hands-On Exercises</a></li>
+  <li><a href="#starting-a-new-project" id="toc-starting-a-new-project" class="nav-link" data-scroll-target="#starting-a-new-project"><span class="header-section-number">1.5</span> Starting a new project:</a></li>
+  <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises"><span class="header-section-number">1.6</span> Hands-On Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/02-intro-nix.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -779,8 +780,33 @@ warning: ignoring the client-specified setting 'trusted-public-keys', because it
 <p>Now configure Positron to use GitHub Copilot: <a href="https://positron.posit.co/assistant.html">click here</a>.</p>
 </section>
 </section>
-<section id="hands-on-exercises" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">1.5</span> Hands-On Exercises</h2>
+<section id="starting-a-new-project" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="starting-a-new-project"><span class="header-section-number">1.5</span> Starting a new project:</h2>
+<p>To start a new project, create a new directory, and <code>cd</code> into it. Then, in that folder, create a new script called <code>gen-env.R</code> and add the following:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rix)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rix</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> <span class="st">"2025-09-22"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"languageserver"</span>, <span class="co"># if you want to use VS Code</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tidyverse"</span> <span class="co"># or whatever packages</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">py_conf =</span> <span class="fu">list</span>(</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_version =</span> <span class="st">"3.13"</span>,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">py_pkgs =</span> <span class="fu">c</span>(<span class="st">"polars"</span>, <span class="st">"great-tables"</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ide =</span> <span class="st">"none"</span>,</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">print =</span> <span class="cn">TRUE</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then call:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>nix<span class="sc">-</span>shell <span class="sc">-</span>I nixpkgs<span class="ot">=</span>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>rstats<span class="sc">-</span>on<span class="sc">-</span>nix<span class="sc">/</span>nixpkgs<span class="sc">/</span>archive<span class="sc">/</span>refs<span class="sc">/</span>heads<span class="sc">/</span><span class="dv">2025-09</span><span class="fl">-22.</span>tar.gz <span class="sc">-</span>p R rPackages.rix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>providing a url to my fork of <code>nixpkgs</code> makes sure that you get the latest <code>rix</code> version (change the date in the url to a more recent one if needed). Start R by typing <code>R</code> in the shell, and then <code>source("gen-env.R")</code>. That will create a <code>default.nix</code> which you can then drop into using <code>nix-shell</code>. Then create an <code>.envrc</code> and add the lines from before, and you’re done!</p>
+<p>Note: if you want to use <code>uv</code> instead of Nix to manage the Python packages, follow the instructions above.</p>
+</section>
+<section id="hands-on-exercises" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="hands-on-exercises"><span class="header-section-number">1.6</span> Hands-On Exercises</h2>
 <ol type="1">
 <li>Start a temporary shell with R and <code>{rix}</code> again using <code>nix-shell -p R rPackages.rix</code>. Start an R session (by typing <code>R</code>) and then load the <code>{rix}</code> package (using <code>library(rix)</code>). Run the <code>available_dates()</code> function: using the latest available date, generate a new <code>default.nix</code>.</li>
 <li>Inside of an activated shell, type <code>which R</code> and <code>echo $PATH</code>. Explore what is being added to your environment. What is the significance of paths like <code>/nix/store/...</code>?</li>

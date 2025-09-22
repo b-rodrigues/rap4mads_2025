@@ -426,8 +426,8 @@ git push origin main
 3. The other person attempts to push their own changes:
 
 ```bash
-echo 'data(iris)' > iris_analysis.R
-git add iris_analysis.R
+echo 'data(iris)' > new_analysis.R
+git add new_analysis.R
 git commit -m "Add iris analysis"
 git push origin main  # This will fail!
 ```

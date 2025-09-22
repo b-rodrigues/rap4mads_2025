@@ -749,15 +749,20 @@ Instead of putting all this in one giant Pull Request (PR), you can "stack"
 them. A stacked PR is a PR that is based on another PR branch, not on `main`.
 
 Here's the workflow:
+
 1.  **Create the first branch** from `main` for the first step.
+
     ```bash
     git switch -c add-cleaning-function
     # ...do the work, commit, and push...
     ```
+
     Create a Pull Request on GitHub for this branch (`add-cleaning-function` -> `main`).
 
 2.  **Create the second branch *from the first branch***. This is the key step.
+
     ```bash
+
     git switch -c process-the-data
     # ...do the work that DEPENDS on the cleaning function...
     ```

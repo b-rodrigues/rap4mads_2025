@@ -727,8 +727,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="3" type="1">
 <li>The other person attempts to push their own changes:</li>
 </ol>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'data(iris)'</span> <span class="op">&gt;</span> iris_analysis.R</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add iris_analysis.R</span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'data(iris)'</span> <span class="op">&gt;</span> new_analysis.R</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add new_analysis.R</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add iris analysis"</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main  <span class="co"># This will fail!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You’ll get an error like <code>! [rejected] main -&gt; main (non-fast-forward)</code>. This sounds scary, but it’s Git’s safe way of telling you: <strong>“The remote repository on GitHub has changes that you don’t have on your computer. I’m stopping you from pushing because you would overwrite those changes.”</strong></p>

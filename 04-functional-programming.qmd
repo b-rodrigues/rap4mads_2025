@@ -72,6 +72,41 @@ Our Nix environments handle the "right library" problem; purity handles the
 "right logic" problem. Our goal is to write our analysis code with this same
 level of rock-solid predictability.
 
+To appreciate what FP brings, it helps to contrast it with **object-oriented
+programming (OOP)** which is arguably the dominant paradigm in many software systems. OOP grew
+out of large industrial projects where different teams or departments managed
+different parts of a system. Each team could define the behavior of its
+component (an “object”) and expose a limited interface to the rest of the
+organization. The core idea was *message passing*: you send a message to an
+object, asking it to perform an action, without needing to know how it works
+internally. OOP organizes computation around *who does what*, a network of
+objects communicating with each other and managing their own internal state.
+
+Functional programming, by contrast, organizes computation around *how data
+changes*. It replaces a network of interacting objects with a flow of
+transformations: data goes in, data comes out, and nothing else changes in the
+process. Rather than objects that carry both data and behavior, FP favors pure
+functions that take data as input and return new data as output. The emphasis
+shifts from *actors* to *transformations* — from modeling the world as a set of
+entities that act, to modeling it as a sequence of transformations applied to
+values.
+
+This shift is especially powerful in data science. Analyses are naturally
+expressed as pipelines of transformations (cleaning, filtering, aggregating,
+modeling) where each step should depend only on its input, not on hidden state
+elsewhere in the program. Functional programming aligns perfectly with this
+workflow. Pure functions make results reproducible, because the same inputs
+always yield the same outputs. Immutability prevents accidental side effects on
+shared data. And because transformations can be composed, tested, and reused
+independently, FP encourages modular, maintainable analysis code. Finally,
+because pure functions are self-contained, they can be easily parallelized,
+making it easier to scale analyses across datasets or machines.
+
+In short, OOP helps us build complex systems by modeling *actors* that exchange
+messages, while FP helps us build robust analyses by composing *transformations*
+of data. For data science, where clarity, reproducibility, and data flow matter
+most, the functional approach offers the stronger foundation.
+
 ### Why Does This Matter for Data Science?
 
 Adopting a functional style brings massive benefits that directly connect to our
@@ -867,3 +902,4 @@ task.
     name (string), and a `summary_var` name (string). Use `.groupby()` and
     `.agg()` to produce the same summary table (count, mean, sd). Test it on the
     penguins dataset by summarizing `body_mass_g` grouped by `species`.
+

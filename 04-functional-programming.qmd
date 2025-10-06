@@ -127,9 +127,15 @@ previous chapters:
     `pytest` unit tests for it." Functions provide the clear boundaries and
     contracts that LLMs excel at working with.
 4.  **Readability and Maintainability:** Well-named functions are
-    self-documenting. `starwars %>% group_by(species) %>% summarize(mean_height
-    = mean(height))` is instantly understandable. The equivalent `for` loop is a
-    puzzle you have to solve.
+    self-documenting. 
+
+    ```r
+    starwars %>% 
+      group_by(species) %>% 
+      summarize(mean_height = mean(height))
+    ``` 
+
+    is instantly understandable. The equivalent `for` loop is a puzzle you have to solve.
 
 ## Purity and Side Effects
 
@@ -902,4 +908,5 @@ task.
     name (string), and a `summary_var` name (string). Use `.groupby()` and
     `.agg()` to produce the same summary table (count, mean, sd). Test it on the
     penguins dataset by summarizing `body_mass_g` grouped by `species`.
+
 

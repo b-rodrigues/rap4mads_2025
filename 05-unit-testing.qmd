@@ -167,7 +167,7 @@ Because this isn’t a package though, but a simple project with scripts, you
 also need to create another file called `pytest.ini`, which will tell `pytest`
 where to find the tests:
 
-```
+```ini
 [pytest]
 # Discover tests in the tests/ directory
 testpaths = tests/
@@ -185,7 +185,7 @@ To run your tests, you simply navigate to your project's root directory in the
 terminal and run the command `pytest`. It will automatically discover and run
 all your tests for you. That being said, you will get an error:
 
-```
+```py
 >       assert np.allclose(actual_output, expected_output)
 E       assert False
 E        +  where False = <function allclose at 0x7f0e81c959f0>(array([-1.22474487,  0.        ,  1.22474487]), array([-1.,  0.,  1.])    def test_normalize_vector_with_nas():
@@ -506,5 +506,6 @@ that verifies the function raises a `KeyError` if the 'ts' column is missing."
         did well and one thing you had to change or fix (e.g., `# LLM correctly
         set up the test for the KeyError, but I had to correct the expected data
         type in the happy path test.`).
+
 
 

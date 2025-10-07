@@ -163,9 +163,58 @@ def test_normalize_vector_with_nas():
     np.testing.assert_allclose(actual_output, expected_output)
 ```
 
+Because this isn’t a package though, but a simple project with scripts, you
+also need to create another file called `pytest.ini`, which will tell `pytest`
+where to find the tests:
+
+```
+[pytest]
+# Discover tests in the tests/ directory
+testpaths = tests/
+
+# Include default patterns and your hyphenated pattern
+python_files = test_*.py *_test.py test-*.py
+
+# Adds the root directory to the pythonpath, without this
+# it’ll be impossible to import normalize_vector() from
+# utils.py
+pythonpath = .
+```
+
 To run your tests, you simply navigate to your project's root directory in the
 terminal and run the command `pytest`. It will automatically discover and run
-all your tests for you.
+all your tests for you. That being said, you will get an error:
+
+```
+>       assert np.allclose(actual_output, expected_output)
+E       assert False
+E        +  where False = <function allclose at 0x7f0e81c959f0>(array([-1.22474487,  0.        ,  1.22474487]), array([-1.,  0.,  1.])    def test_normalize_vector_with_nas():
+        input_with_na = np.array([10, 20, 30, np.nan])
+        expected_output = np.array([-1.0, 0.0, 1.0, np.nan])
+
+        actual_output = normalize_vector(input_with_na)
+
+        # `np.allclose` doesn't handle NaNs, but `np.testing.assert_allclose` does!
+>       np.testing.assert_allclose(actual_output, expected_output)
+E       AssertionError:
+E       Not equal to tolerance rtol=1e-07, atol=0
+E
+E       Mismatched elements: 2 / 4 (50%)
+E       Max absolute difference among violations: 0.22474487
+E       Max relative difference among violations: 0.22474487
+E        ACTUAL: array([-1.224745,  0.      ,  1.224745,       nan])
+E        DESIRED: array([-1.,  0.,  1., nan])
+
+tests/test_utils.py:25: AssertionError
+====================================================== short test summary info =======================================================
+FAILED tests/test_utils.py::test_normalize_vector_happy_path - assert False
+FAILED tests/test_utils.py::test_normalize_vector_with_nas - AssertionError:
+========================================================= 2 failed in 0.15s ==========================================================
+
+```
+
+You don’t encounter this issue in R and understanding why reveals how valuable unit tests can be.
+(Hint: how does the implementation of the `sd` function, which computes the standard deviation, differ between R and NumPy?)
 
 ## Testing as a Design Tool
 
@@ -457,4 +506,5 @@ that verifies the function raises a `KeyError` if the 'ts' column is missing."
         did well and one thing you had to change or fix (e.g., `# LLM correctly
         set up the test for the KeyError, but I had to correct the expected data
         type in the happy path test.`).
+
 

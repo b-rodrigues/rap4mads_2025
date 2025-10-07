@@ -71,15 +71,15 @@ development incredibly streamlined. The two essential packages are:
     creates files, sets up infrastructure, and guides you through the process.
 
 Let's build a package called `cleanR`, which will contain a function to
-standardize column names.
+standardize column names. Create folder called `cleanR` and `cd` into it.
 
 ### Step 1: Project Setup
 
-First, make sure you have the necessary tools installed:
-`install.packages(c("devtools", "usethis", "roxygen2"))`.
+First, make sure you have the necessary tools installed. Create a Nix environment
+that contains the following R packages: `{devtools}`, `{usethis}` and `{roxygen2}`.
 
-Now, let `{usethis}` create the package structure for you. From your R console,
-run:
+Drop into this Nix shell, and let `{usethis}` create the package structure for you. 
+From your R console, run:
 
 ```R
 usethis::create_package("~/Documents/projects/cleanR")
@@ -230,6 +230,10 @@ To share your package, the easiest way is with GitHub.
     remotes::install_github("yourusername/cleanR")
     ```
 
+If you want to create an environment using Nix that includes this package,
+use the `git_pkgs` argument of `rix::rix()` to generate the right
+`default.nix` file.
+
 Congratulations, you have created and shared a fully functional R package!
 
 ## Part 2: Creating a Minimal Python Package with uv
@@ -239,7 +243,8 @@ manage our overall environment, we still need to define the metadata and
 structure for our Python package. We will use **`uv`**, an extremely fast and
 modern tool, for one specific purpose: initializing our project's configuration
 file. We will **not** use `uv` to manage a virtual environment, as Nix already
-handles that for us.
+handles that for us (unless you absolutely want to: however, you should then
+make sure that `uv` itself is being managed by Nix to ensure reproducibility).
 
 Let's build a Python package called `pyclean`, the equivalent of our R package.
 
@@ -338,7 +343,7 @@ pythonpath = [
 ```
 
 The `pythonpath = ["src"]` line is the key. Without it, you’d first need to
-install your `pyclean` library in editable mode using pip before running the
+install your `pyclean` library in editable mode using `pip` before running the
 tests. By adding this block, simply running `pytest` from the command line will
 work.
 
@@ -446,7 +451,7 @@ package for Nix, but it’s good enough for our purposes.
 
 Finally, add `pyclean` to the `buildInputs` of the shell:
 
-```
+```nix
   buildInputs = [ rpkgs pyconf pyclean tex system_packages github_pkgs ];
 ```
 

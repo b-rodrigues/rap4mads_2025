@@ -33,7 +33,7 @@ that are discussed in greater detail in the book.*
 - 2025/10/13 - 4 hours, Packaging
 - 2025/10/15 - 4 hours, Pipelines using Nix and rixpress
 - 2025/10/20 - 4 hours, Docker
-- 2025/10/27 - 4 hours, GitHub Actions
+- 2025/10/21 - 4 hours, GitHub Actions
 
 ## Reproducible analytical pipelines?
 

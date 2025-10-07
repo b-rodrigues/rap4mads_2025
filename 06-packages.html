@@ -512,11 +512,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong><code>{devtools}</code>:</strong> Provides core development tools like <code>install()</code>, <code>test()</code>, and <code>check()</code>.</li>
 <li><strong><code>{usethis}</code>:</strong> A workflow package that automates all the boilerplate. It creates files, sets up infrastructure, and guides you through the process.</li>
 </ul>
-<p>Let’s build a package called <code>cleanR</code>, which will contain a function to standardize column names.</p>
+<p>Let’s build a package called <code>cleanR</code>, which will contain a function to standardize column names. Create folder called <code>cleanR</code> and <code>cd</code> into it.</p>
 <section id="step-1-project-setup" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="step-1-project-setup"><span class="header-section-number">5.2.1</span> Step 1: Project Setup</h3>
-<p>First, make sure you have the necessary tools installed: <code>install.packages(c("devtools", "usethis", "roxygen2"))</code>.</p>
-<p>Now, let <code>{usethis}</code> create the package structure for you. From your R console, run:</p>
+<p>First, make sure you have the necessary tools installed. Create a Nix environment that contains the following R packages: <code>{devtools}</code>, <code>{usethis}</code> and <code>{roxygen2}</code>.</p>
+<p>Drop into this Nix shell, and let <code>{usethis}</code> create the package structure for you. From your R console, run:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">create_package</span>(<span class="st">"~/Documents/projects/cleanR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This will create a new <code>cleanR</code> directory with all the necessary files and subdirectories. It will also open a new RStudio session for that project. The key components are:</p>
 <ul>
@@ -609,12 +609,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("remotes")</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"yourusername/cleanR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
+<p>If you want to create an environment using Nix that includes this package, use the <code>git_pkgs</code> argument of <code>rix::rix()</code> to generate the right <code>default.nix</code> file.</p>
 <p>Congratulations, you have created and shared a fully functional R package!</p>
 </section>
 </section>
 <section id="part-2-creating-a-minimal-python-package-with-uv" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="part-2-creating-a-minimal-python-package-with-uv"><span class="header-section-number">5.3</span> Part 2: Creating a Minimal Python Package with uv</h2>
-<p>The Python packaging ecosystem is rapidly modernizing. While we use Nix to manage our overall environment, we still need to define the metadata and structure for our Python package. We will use <strong><code>uv</code></strong>, an extremely fast and modern tool, for one specific purpose: initializing our project’s configuration file. We will <strong>not</strong> use <code>uv</code> to manage a virtual environment, as Nix already handles that for us.</p>
+<p>The Python packaging ecosystem is rapidly modernizing. While we use Nix to manage our overall environment, we still need to define the metadata and structure for our Python package. We will use <strong><code>uv</code></strong>, an extremely fast and modern tool, for one specific purpose: initializing our project’s configuration file. We will <strong>not</strong> use <code>uv</code> to manage a virtual environment, as Nix already handles that for us (unless you absolutely want to: however, you should then make sure that <code>uv</code> itself is being managed by Nix to ensure reproducibility).</p>
 <p>Let’s build a Python package called <code>pyclean</code>, the equivalent of our R package.</p>
 <section id="step-1-project-setup-with-uv" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="step-1-project-setup-with-uv"><span class="header-section-number">5.3.1</span> Step 1: Project Setup with uv</h3>
@@ -678,7 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="dt">pythonpath</span> <span class="op">=</span> <span class="op">[</span></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"src"</span></span>
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>pythonpath = ["src"]</code> line is the key. Without it, you’d first need to install your <code>pyclean</code> library in editable mode using pip before running the tests. By adding this block, simply running <code>pytest</code> from the command line will work.</p>
+<p>The <code>pythonpath = ["src"]</code> line is the key. Without it, you’d first need to install your <code>pyclean</code> library in editable mode using <code>pip</code> before running the tests. By adding this block, simply running <code>pytest</code> from the command line will work.</p>
 </section>
 <section id="step-3-add-unit-tests-1" class="level3" data-number="5.3.3">
 <h3 data-number="5.3.3" class="anchored" data-anchor-id="step-3-add-unit-tests-1"><span class="header-section-number">5.3.3</span> Step 3: Add Unit Tests</h3>
@@ -738,7 +739,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 };</code></pre>
 <p>You need to add the <code>rev</code>, which corresponds to the commit that want, and the <code>sha256</code>. To find the right <code>sha256</code>, start with an empty one (<code>sha256 = "";</code>) and try to build the package. The error message will give you the right <code>sha256</code>. Also not that this isn’t the the most idiomatic way to build a Python package for Nix, but it’s good enough for our purposes.</p>
 <p>Finally, add <code>pyclean</code> to the <code>buildInputs</code> of the shell:</p>
-<pre><code>  buildInputs = [ rpkgs pyconf pyclean tex system_packages github_pkgs ];</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode nix code-with-copy"><code class="sourceCode nix"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>  buildInputs = <span class="op">[</span> rpkgs pyconf pyclean tex system_packages github_pkgs <span class="op">]</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This process is naturally more involved than simply calling <code>pip install</code>, but it has the advantage of being entirely reproducible.</p>
 </section>
 </section>

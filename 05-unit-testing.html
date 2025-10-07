@@ -581,43 +581,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `np.allclose` doesn't handle NaNs, but `np.testing.assert_allclose` does!</span></span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    np.testing.assert_allclose(actual_output, expected_output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Because this isn’t a package though, but a simple project with scripts, you also need to create another file called <code>pytest.ini</code>, which will tell <code>pytest</code> where to find the tests:</p>
-<pre><code>[pytest]
-# Discover tests in the tests/ directory
-testpaths = tests/
-
-# Include default patterns and your hyphenated pattern
-python_files = test_*.py *_test.py test-*.py
-
-# Adds the root directory to the pythonpath, without this
-# it’ll be impossible to import normalize_vector() from
-# utils.py
-pythonpath = .</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode ini code-with-copy"><code class="sourceCode ini"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[pytest]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Discover tests in the tests/ directory</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">testpaths </span><span class="ot">=</span><span class="st"> tests/</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Include default patterns and your hyphenated pattern</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dt">python_files </span><span class="ot">=</span><span class="st"> test_*.py *_test.py test-*.py</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Adds the root directory to the pythonpath, without this</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># it’ll be impossible to import normalize_vector() from</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># utils.py</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="dt">pythonpath </span><span class="ot">=</span><span class="st"> .</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To run your tests, you simply navigate to your project’s root directory in the terminal and run the command <code>pytest</code>. It will automatically discover and run all your tests for you. That being said, you will get an error:</p>
-<pre><code>&gt;       assert np.allclose(actual_output, expected_output)
-E       assert False
-E        +  where False = &lt;function allclose at 0x7f0e81c959f0&gt;(array([-1.22474487,  0.        ,  1.22474487]), array([-1.,  0.,  1.])    def test_normalize_vector_with_nas():
-        input_with_na = np.array([10, 20, 30, np.nan])
-        expected_output = np.array([-1.0, 0.0, 1.0, np.nan])
-
-        actual_output = normalize_vector(input_with_na)
-
-        # `np.allclose` doesn't handle NaNs, but `np.testing.assert_allclose` does!
-&gt;       np.testing.assert_allclose(actual_output, expected_output)
-E       AssertionError:
-E       Not equal to tolerance rtol=1e-07, atol=0
-E
-E       Mismatched elements: 2 / 4 (50%)
-E       Max absolute difference among violations: 0.22474487
-E       Max relative difference among violations: 0.22474487
-E        ACTUAL: array([-1.224745,  0.      ,  1.224745,       nan])
-E        DESIRED: array([-1.,  0.,  1., nan])
-
-tests/test_utils.py:25: AssertionError
-====================================================== short test summary info =======================================================
-FAILED tests/test_utils.py::test_normalize_vector_happy_path - assert False
-FAILED tests/test_utils.py::test_normalize_vector_with_nas - AssertionError:
-========================================================= 2 failed in 0.15s ==========================================================
-</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>       <span class="cf">assert</span> np.allclose(actual_output, expected_output)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>E       <span class="cf">assert</span> <span class="va">False</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>E        <span class="op">+</span>  where <span class="va">False</span> <span class="op">=</span> <span class="op">&lt;</span>function allclose at <span class="bn">0x7f0e81c959f0</span><span class="op">&gt;</span>(array([<span class="op">-</span><span class="fl">1.22474487</span>,  <span class="fl">0.</span>        ,  <span class="fl">1.22474487</span>]), array([<span class="op">-</span><span class="fl">1.</span>,  <span class="fl">0.</span>,  <span class="fl">1.</span>])    <span class="kw">def</span> test_normalize_vector_with_nas():</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        input_with_na <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, np.nan])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        expected_output <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span>, np.nan])</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        actual_output <span class="op">=</span> normalize_vector(input_with_na)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># `np.allclose` doesn't handle NaNs, but `np.testing.assert_allclose` does!</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>       np.testing.assert_allclose(actual_output, expected_output)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>E       <span class="pp">AssertionError</span>:</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>E       Not equal to tolerance rtol<span class="op">=</span><span class="fl">1e-07</span>, atol<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>E</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>E       Mismatched elements: <span class="dv">2</span> <span class="op">/</span> <span class="dv">4</span> (<span class="dv">50</span><span class="op">%</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>E       Max absolute difference among violations: <span class="fl">0.22474487</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>E       Max relative difference among violations: <span class="fl">0.22474487</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>E        ACTUAL: array([<span class="op">-</span><span class="fl">1.224745</span>,  <span class="fl">0.</span>      ,  <span class="fl">1.224745</span>,       nan])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>E        DESIRED: array([<span class="op">-</span><span class="fl">1.</span>,  <span class="fl">0.</span>,  <span class="fl">1.</span>, nan])</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>tests<span class="op">/</span>test_utils.py:<span class="dv">25</span>: <span class="pp">AssertionError</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="op">======================================================</span> short test summary info <span class="op">=======================================================</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>FAILED tests<span class="op">/</span>test_utils.py::test_normalize_vector_happy_path <span class="op">-</span> <span class="cf">assert</span> <span class="va">False</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>FAILED tests<span class="op">/</span>test_utils.py::test_normalize_vector_with_nas <span class="op">-</span> <span class="pp">AssertionError</span>:</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="op">=========================================================</span> <span class="dv">2</span> failed <span class="kw">in</span> <span class="fl">0.15</span><span class="er">s</span> <span class="op">==========================================================</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You don’t encounter this issue in R and understanding why reveals how valuable unit tests can be. (Hint: how does the implementation of the <code>sd</code> function, which computes the standard deviation, differ between R and NumPy?)</p>
 </section>
 </section>

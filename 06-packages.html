@@ -732,7 +732,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> .<span class="pp">[</span><span class="ss">test</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>But we are working from a Nix shell. Instead, we will simply edit our <code>default.nix</code> to update the <code>PYTHONPATH</code> environment variable, so our package can easily be found. If you look at the <code>default.nix</code> file of the course you’ve been using, you’ll see the following at the bottom:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode nix code-with-copy"><code class="sourceCode nix"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>shellHook = <span class="st">''</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">  export PYTHONPATH=$PWD/pyclean/src:$PYTHONPATH</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">  export PYTHONPATH=$PWD/src:$PYTHONPATH</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="st">''</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(you may need to adapt the path depending on where you’re developing the package). With this, dropping into the Nix shell, starting the Python interpreter and then typing <code>import pyclean</code> will work without any issues.</p>
 </section>

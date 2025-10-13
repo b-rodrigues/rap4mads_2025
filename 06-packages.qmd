@@ -198,19 +198,23 @@ devtools::check()
 ```
 
 If your package passes with 0 errors, 0 warnings, and 0 notes, you are in great
-shape.
+shape. If your package raises NOTEs or WARNINGs during the check phase, you can
+*most of the time* safely ignore these, especially if the package is only intented
+for internal usage. However, I would recommend that you still take care of the
+WARNINGs at the very least.
 
-Now, let's install it locally.
+As a next step, you could edit the DESCRIPTION file. This is where you will list
+yourself as the package author, list the dependencies of the package and so on.
+I won’t got into detail here, but learning how to edit the DESCRIPTION file is important
+for actual package development (especially listing dependencies is key).
 
-```R
-devtools::install()
-```
-
-You can now use your package in any R session with `library(cleanR)`.
+To use your package within a project, the simplest way is to host it on GitHub or build
+a `.tar.gz` file and install it locally.
 
 ### Step 5: Install from GitHub
 
-To share your package, the easiest way is with GitHub.
+If you can publicly host your package, hosting it on GitHub is a good way to easily share
+your code, and install the package in your projects without needed to publish it on CRAN.
 
 1.  Create a new, empty repository on GitHub (e.g., `cleanR`).
 2.  In your local project, follow the instructions GitHub provides to link your
@@ -221,8 +225,9 @@ To share your package, the easiest way is with GitHub.
     git branch -M main
     git push -u origin main
     ```
+
 3.  Now, anyone (including you on a different machine) can install your package
-    with a single command:
+    with a single command (**if you don’t use Nix**):
 
     ```R
     # You might need to install {remotes} first
@@ -235,6 +240,19 @@ use the `git_pkgs` argument of `rix::rix()` to generate the right
 `default.nix` file.
 
 Congratulations, you have created and shared a fully functional R package!
+
+### Step 5bis: Install it locally
+
+If you can’t share your package on GitHub, the alternative is to build it
+locally using:
+
+```r
+devtools::build()
+```
+
+which will create a `.tar.gz` package. You can then install it using either
+`devtools::install_local()` if you don’t use Nix or the `local_r_pkgs` argument
+of `rix::rix()`.
 
 ## Part 2: Creating a Minimal Python Package with uv
 

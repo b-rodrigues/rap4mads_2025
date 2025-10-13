@@ -352,7 +352,7 @@ To make this function easily importable, we expose it in
 # In src/pyclean/__init__.py
 from .formatters import clean_names
 
-__version__ = "0.1.0"
+__all__ = ["clean_names"]
 ```
 
 Next, we must declare our dependencies by manually editing `pyproject.toml`. We

@@ -432,6 +432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-3-add-unit-tests" id="toc-step-3-add-unit-tests" class="nav-link" data-scroll-target="#step-3-add-unit-tests"><span class="header-section-number">5.2.3</span> Step 3: Add Unit Tests</a></li>
   <li><a href="#step-4-check-and-install" id="toc-step-4-check-and-install" class="nav-link" data-scroll-target="#step-4-check-and-install"><span class="header-section-number">5.2.4</span> Step 4: Check and Install</a></li>
   <li><a href="#step-5-install-from-github" id="toc-step-5-install-from-github" class="nav-link" data-scroll-target="#step-5-install-from-github"><span class="header-section-number">5.2.5</span> Step 5: Install from GitHub</a></li>
+  <li><a href="#step-5bis-install-it-locally" id="toc-step-5bis-install-it-locally" class="nav-link" data-scroll-target="#step-5bis-install-it-locally"><span class="header-section-number">5.2.6</span> Step 5bis: Install it locally</a></li>
   </ul></li>
   <li><a href="#part-2-creating-a-minimal-python-package-with-uv" id="toc-part-2-creating-a-minimal-python-package-with-uv" class="nav-link" data-scroll-target="#part-2-creating-a-minimal-python-package-with-uv"><span class="header-section-number">5.3</span> Part 2: Creating a Minimal Python Package with uv</a>
   <ul class="collapse">
@@ -590,27 +591,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="5.2.4" class="anchored" data-anchor-id="step-4-check-and-install"><span class="header-section-number">5.2.4</span> Step 4: Check and Install</h3>
 <p>The final step before sharing is to run the official R CMD check, the gold standard for package quality. This command runs all tests, checks documentation, and looks for common problems.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">check</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If your package passes with 0 errors, 0 warnings, and 0 notes, you are in great shape.</p>
-<p>Now, let’s install it locally.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can now use your package in any R session with <code>library(cleanR)</code>.</p>
+<p>If your package passes with 0 errors, 0 warnings, and 0 notes, you are in great shape. If your package raises NOTEs or WARNINGs during the check phase, you can <em>most of the time</em> safely ignore these, especially if the package is only intented for internal usage. However, I would recommend that you still take care of the WARNINGs at the very least.</p>
+<p>As a next step, you could edit the DESCRIPTION file. This is where you will list yourself as the package author, list the dependencies of the package and so on. I won’t got into detail here, but learning how to edit the DESCRIPTION file is important for actual package development (especially listing dependencies is key).</p>
+<p>To use your package within a project, the simplest way is to host it on GitHub or build a <code>.tar.gz</code> file and install it locally.</p>
 </section>
 <section id="step-5-install-from-github" class="level3" data-number="5.2.5">
 <h3 data-number="5.2.5" class="anchored" data-anchor-id="step-5-install-from-github"><span class="header-section-number">5.2.5</span> Step 5: Install from GitHub</h3>
-<p>To share your package, the easiest way is with GitHub.</p>
+<p>If you can publicly host your package, hosting it on GitHub is a good way to easily share your code, and install the package in your projects without needed to publish it on CRAN.</p>
 <ol type="1">
 <li><p>Create a new, empty repository on GitHub (e.g., <code>cleanR</code>).</p></li>
 <li><p>In your local project, follow the instructions GitHub provides to link your local repository and push your code. This usually involves commands like:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:yourusername/cleanR.git</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-M</span> main</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Now, anyone (including you on a different machine) can install your package with a single command:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You might need to install {remotes} first</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("remotes")</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"yourusername/cleanR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin git@github.com:yourusername/cleanR.git</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-M</span> main</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Now, anyone (including you on a different machine) can install your package with a single command (<strong>if you don’t use Nix</strong>):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You might need to install {remotes} first</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("remotes")</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"yourusername/cleanR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
 <p>If you want to create an environment using Nix that includes this package, use the <code>git_pkgs</code> argument of <code>rix::rix()</code> to generate the right <code>default.nix</code> file.</p>
 <p>Congratulations, you have created and shared a fully functional R package!</p>
+</section>
+<section id="step-5bis-install-it-locally" class="level3" data-number="5.2.6">
+<h3 data-number="5.2.6" class="anchored" data-anchor-id="step-5bis-install-it-locally"><span class="header-section-number">5.2.6</span> Step 5bis: Install it locally</h3>
+<p>If you can’t share your package on GitHub, the alternative is to build it locally using:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">build</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which will create a <code>.tar.gz</code> package. You can then install it using either <code>devtools::install_local()</code> if you don’t use Nix or the <code>local_r_pkgs</code> argument of <code>rix::rix()</code>.</p>
 </section>
 </section>
 <section id="part-2-creating-a-minimal-python-package-with-uv" class="level2" data-number="5.3">

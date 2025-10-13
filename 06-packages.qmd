@@ -442,7 +442,7 @@ been using, you’ll see the following at the bottom:
 
 ```nix
 shellHook = ''
-  export PYTHONPATH=$PWD/pyclean/src:$PYTHONPATH
+  export PYTHONPATH=$PWD/src:$PYTHONPATH
 '';
 ```
 

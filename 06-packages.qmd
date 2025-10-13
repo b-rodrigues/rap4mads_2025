@@ -268,7 +268,26 @@ Let's build a Python package called `pyclean`, the equivalent of our R package.
 
 ### Step 1: Project Setup with uv
 
-First, ensure `uv` is installed in your Nix environment. Then, create a
+First, ensure `uv` is installed in your Nix environment:
+
+```py
+library(rix)
+
+rix(
+  date = "2025-10-07",
+  py_conf = list(
+    py_version = "3.13",
+    py_pkgs = c("pytest", "pandas")
+  ),
+  system_pkgs = "uv",
+  ide = "none",
+  project_path = ".",
+  overwrite = TRUE
+)
+
+```
+
+Then, create a
 directory for your new package and initialize it:
 
 ```bash
@@ -568,6 +587,7 @@ numbers.
 **Requirements:**
 
 1.  **Project Structure:** Create the following directory structure for your package:
+
     ```bash
     statstools/
     ├── pyproject.toml

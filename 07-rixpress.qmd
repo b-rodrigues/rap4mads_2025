@@ -331,7 +331,7 @@ list(
     expr = my_head(mtcars_pl_am),
     user_functions = "functions.R",
     decoder = "jsonlite::fromJSON" # Use R's jsonlite
-  ),
+  )
 ) |>
   rxp_populate()
 ```

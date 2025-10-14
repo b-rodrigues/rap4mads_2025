@@ -204,7 +204,7 @@ list(
     read_function = "lambda x: polars.read_csv(x, separator='|')"
   ),
   rxp_py(
-    name = mtcars_pl_am,
+    name = mtcars_pl_am_pd,
     expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
   ),
   ...
@@ -281,15 +281,15 @@ list(
   ....
 
   rxp_py(
-    name = mtcars_pl_am,
-    expr = "mtcars_pl.filter(polars.col('am') == 1)",
+    name = mtcars_pl_am_json,
+    expr = "mtcars_pl_am_pd.filter(polars.col('am') == 1)",
     user_functions = "functions.py",
     encoder = "serialize_to_json" # Use our Python helper
   ),
 
   rxp_r(
     name = mtcars_head,
-    expr = my_head(mtcars_pl_am),
+    expr = my_head(mtcars_pl_am_json),
     user_functions = "functions.R",
     decoder = "jsonlite::fromJSON" # Use R's jsonlite
   ),
@@ -314,13 +314,8 @@ list(
     path = 'data/mtcars.csv',
     read_function = "lambda x: polars.read_csv(x, separator='|')"
   ),
-  # Note: polars must be converted to pandas for reticulate
   rxp_py(
-    name = mtcars_pl_am,
-    expr = "mtcars_pl.filter(polars.col('am') == 1).to_pandas()"
-  ),
-  rxp_py(
-    name = mtcars_pl_am,
+    name = mtcars_pl_am_json,
     expr = "mtcars_pl.filter(polars.col('am') == 1)",
     user_functions = "functions.py",
     encoder = "serialize_to_json" # Use our Python helper
@@ -328,7 +323,7 @@ list(
 
   rxp_r(
     name = mtcars_head,
-    expr = my_head(mtcars_pl_am),
+    expr = my_head(mtcars_pl_am_json),
     user_functions = "functions.R",
     decoder = "jsonlite::fromJSON" # Use R's jsonlite
   )

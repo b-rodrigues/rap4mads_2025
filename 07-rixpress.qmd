@@ -128,9 +128,7 @@ git init
 ### Step 1: Defining the Environment
 
 Open `gen-env.R`. This is where we use `{rix}` to define the tools our pipeline
-needs. By default, `{rixpress}` would be installed from GitHub at `HEAD`, but
-replace `HEAD` with `7b1204390de59ee052ca04986802ead07e121d92` in the expression
-below. This will pin `{rixpress}` to the latest development version:
+needs:
 
 ```{r, eval=FALSE}
 # In gen-env.R
@@ -138,18 +136,13 @@ library(rix)
 
 # Define execution environment for our polyglot pipeline
 rix(
-  date = "2025-10-13",
-  r_pkgs = c("dplyr", "quarto", "reticulate", "jsonlite"),
+  date = "2025-10-14",
+  r_pkgs = c("dplyr", "quarto", "reticulate", "jsonlite", "rixpress"),
   py_conf = list(
     py_version = "3.13",
     py_pkgs = c("polars", "pyarrow", "pandas") # if you plan to build and
   ),                                           # explore the pipeline using
-  git_pkgs = list(                             # Python, also add 'ryxpress', 'rds2py' and 'biocframe'
-    package_name = "rixpress", 
-    repo_url = "https://github.com/b-rodrigues/rixpress",
-    commit = "HEAD" # replace with 7b1204390de59ee052ca04986802ead07e121d92
-  ),
-  ide = "none",
+  ide = "none",                                # Python, also add 'ryxpress', 'rds2py' and 'biocframe'
   project_path = ".",
   overwrite = TRUE
 )

@@ -348,7 +348,8 @@ the `pipeline.nix` file. This will not build the pipeline
 `rxp_make()`. If you use Python, and thus `ryxpress`, simply call:
 
 ```py
-from python import rxp_make, rxp_inspect, rxp_load
+# Python
+from ryxpress import rxp_make, rxp_inspect, rxp_load
 
 rxp_make()
 ```
@@ -357,6 +358,7 @@ Once the build process is done, you can use `rxp_inspect()` to
 check which artifacts where built, and you can easily access the any of them:
 
 ```{r, eval=FALSE}
+# R
 # Check out all artifacts
 rxp_inspect()
 
@@ -370,6 +372,7 @@ head(mtcars_head)
 or from Python:
 
 ```py
+# python
 a = rxp_inspect()
 
 print(a)

@@ -128,7 +128,9 @@ git init
 ### Step 1: Defining the Environment
 
 Open `gen-env.R`. This is where we use `{rix}` to define the tools our pipeline
-needs.
+needs. By default, `{rixpress}` would be installed from GitHub at `HEAD`, but
+replace `HEAD` with `7b1204390de59ee052ca04986802ead07e121d92` in the expression
+below. This will pin `{rixpress}` to the latest development version:
 
 ```{r, eval=FALSE}
 # In gen-env.R
@@ -136,16 +138,16 @@ library(rix)
 
 # Define execution environment for our polyglot pipeline
 rix(
-  date = "2025-06-02",
+  date = "2025-10-13",
   r_pkgs = c("dplyr", "quarto", "reticulate", "jsonlite"),
   py_conf = list(
     py_version = "3.13",
-    py_pkgs = c("polars", "pyarrow", "pandas")
-  ),
-  git_pkgs = list(
+    py_pkgs = c("polars", "pyarrow", "pandas") # if you plan to build and
+  ),                                           # explore the pipeline using
+  git_pkgs = list(                             # Python, also add 'ryxpress'
     package_name = "rixpress",
     repo_url = "https://github.com/b-rodrigues/rixpress",
-    commit = "HEAD"
+    commit = "HEAD" # replace with 7b1204390de59ee052ca04986802ead07e121d92
   ),
   ide = "none",
   project_path = ".",
@@ -281,14 +283,14 @@ list(
   rxp_py(
     name = mtcars_pl_am,
     expr = "mtcars_pl.filter(polars.col('am') == 1)",
-    additional_files = "functions.py",
+    user_functions = "functions.py",
     encoder = "serialize_to_json" # Use our Python helper
   ),
 
   rxp_r(
     name = mtcars_head,
     expr = my_head(mtcars_pl_am),
-    additional_files = "functions.R",
+    user_functions = "functions.R",
     decoder = "jsonlite::fromJSON" # Use R's jsonlite
   ),
   ...
@@ -320,14 +322,14 @@ list(
   rxp_py(
     name = mtcars_pl_am,
     expr = "mtcars_pl.filter(polars.col('am') == 1)",
-    additional_files = "functions.py",
+    user_functions = "functions.py",
     encoder = "serialize_to_json" # Use our Python helper
   ),
 
   rxp_r(
     name = mtcars_head,
     expr = my_head(mtcars_pl_am),
-    additional_files = "functions.R",
+    user_functions = "functions.R",
     decoder = "jsonlite::fromJSON" # Use R's jsonlite
   ),
 ) |>
@@ -336,9 +338,22 @@ list(
 
 The very last function, `rxp_populate()` takes a list of derivations as input
 and will translate the list of derivations into a `pipeline.nix` file and
-instruct Nix to build the entire pipeline. This will not build the pipeline
+instruct Nix to build the entire pipeline. 
+
+You know have the choice to either build the pipeline and inspect artifacts
+using R (and `{rixpress}`) or Python, using `ryxpress`, the Python 
+port of `{rixpress}`. If you use R, run `source("gen-pipeline.R")` to generate
+the `pipeline.nix` file. This will not build the pipeline
 (unless you set the `build` argument to `TRUE`), so to build the pipeline use
-`rxp_make()`. Once the build process is done, you can use `rxp_inspect()` to
+`rxp_make()`. If you use Python, and thus `ryxpress`, simply call:
+
+```py
+from python import rxp_make, rxp_inspect, rxp_load
+
+rxp_make()
+```
+
+Once the build process is done, you can use `rxp_inspect()` to
 check which artifacts where built, and you can easily access the any of them:
 
 ```{r, eval=FALSE}
@@ -350,6 +365,16 @@ rxp_load("mtcars_head")
 
 # You can now inspect it
 head(mtcars_head)
+```
+
+or from Python:
+
+```py
+a = rxp_inspect()
+
+print(a)
+
+rxp_load("mtcars_head")
 ```
 
 ## Caching

@@ -603,11 +603,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= rstats-on-nix.cachix.org-1:vdiiVgocg6WeJrODIqdprZRUrhi1JzhBnXv7aWI6+F0="</span> <span class="op">&gt;&gt;</span> /root/.config/nix/nix.conf</span>
 <span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy a script to generate the environment of interest using {rix}</span></span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> generate_env.R .</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> gen-env.R .</span>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># This will overwrite the default.nix we downloaded previously with a new</span></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co"># expression generated from running `generate_env.R`</span></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">nix-shell</span> <span class="at">--run</span> <span class="st">"Rscript generate_env.R"</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co"># expression generated from running `gen-env.R`</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">nix-shell</span> <span class="at">--run</span> <span class="st">"Rscript gen-env.R"</span></span>
 <span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co"># We now build the environment</span></span>
 <span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">nix-build</span></span>
@@ -649,15 +649,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This image is now available on our machines under the tag <code>nix-base:latest</code>, and we can refer to it for any of our projects. For a new project, simply reuse it like so:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nix-base:latest</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> generate_env.R .</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> gen-env.R .</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">curl</span> <span class="at">-O</span> https://raw.githubusercontent.com/ropensci/rix/main/inst/extdata/default.nix</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">nix-shell</span> <span class="at">--run</span> <span class="st">"Rscript generate_env.R"</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">nix-shell</span> <span class="at">--run</span> <span class="st">"Rscript gen-env.R"</span></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">nix-build</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> [<span class="st">"nix-shell"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The issue with this approach is that now you have created a dependency between the two Dockerfiles which you need to manage. I would recommend the second approach only if you can push the first image with the Nix base on a registry (either public or a private one from your company). Later in this chapter we will publish the first image.</p>
-<p>In the same folder than the second Dockerfile, add the required <code>generate_env.R</code> script:</p>
+<p>In the same folder than the second Dockerfile, add the required <code>gen-env.R</code> script:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rix</span>(</span>

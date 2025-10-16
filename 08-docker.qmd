@@ -309,11 +309,11 @@ RUN mkdir -p /root/.config/nix && \
     echo "trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= rstats-on-nix.cachix.org-1:vdiiVgocg6WeJrODIqdprZRUrhi1JzhBnXv7aWI6+F0=" >> /root/.config/nix/nix.conf
 
 # Copy a script to generate the environment of interest using {rix}
-COPY generate_env.R .
+COPY gen-env.R .
 
 # This will overwrite the default.nix we downloaded previously with a new
-# expression generated from running `generate_env.R`
-RUN nix-shell --run "Rscript generate_env.R"
+# expression generated from running `gen-env.R`
+RUN nix-shell --run "Rscript gen-env.R"
 
 # We now build the environment
 RUN nix-build
@@ -388,10 +388,10 @@ it like so:
 ```dockerfile
 FROM nix-base:latest
 
-COPY generate_env.R .
+COPY gen-env.R .
 
 RUN curl -O https://raw.githubusercontent.com/ropensci/rix/main/inst/extdata/default.nix
-RUN nix-shell --run "Rscript generate_env.R"
+RUN nix-shell --run "Rscript gen-env.R"
 RUN nix-build
 
 CMD ["nix-shell"]
@@ -403,7 +403,7 @@ approach only if you can push the first image with the Nix base on a registry
 (either public or a private one from your company). Later in this chapter
 we will publish the first image.
 
-In the same folder than the second Dockerfile, add the required `generate_env.R`
+In the same folder than the second Dockerfile, add the required `gen-env.R`
 script:
 
 

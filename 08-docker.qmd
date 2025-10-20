@@ -540,7 +540,7 @@ there.
 This image can now be used as a stable base for developing our pipelines. Here’s how
 I can now use this base image for our project:
 
-```
+```dockerfile
 FROM brodriguesco/nix-base:latest
 
 RUN mkdir ...

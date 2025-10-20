@@ -265,6 +265,8 @@ docker run -d --name my_r --rm -e PASSWORD=yourpassword -p 8787:8787 -v /path/to
 ```
 
 where `/path/to/your/local/folder` should be replaced to the folder you created.
+You can also use `$PWD` instead of `/path/to/your/local/folder` if you run
+the `docker run ...` call in the right folder.
 You should now be able to save the scripts inside the `scripts/` folder from
 RStudio and they will appear in the folder you created.
 

@@ -78,9 +78,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5cbd71c709c3387e4e7dab47f7b6899c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-2b28e90a16fd505ae23957488f4baea6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-5cbd71c709c3387e4e7dab47f7b6899c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ccfbee2233d6ae1729f5fe27ff2fb096.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-3185eeee7c5114c51f50d482c2b8af27.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ccfbee2233d6ae1729f5fe27ff2fb096.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -568,7 +568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You are now inside a terminal session, inside the running container! This can be useful for debugging purposes. It’s also possible to start R in the terminal, simply replace <code>bash</code> by <code>R</code> in the command above.</p>
 <p>Finally, let’s solve the issue of our scripts disappearing. For this, create a folder somewhere on your computer (host). Then, rerun the container, but this time with this command:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="at">--name</span> my_r <span class="at">--rm</span> <span class="at">-e</span> PASSWORD=yourpassword <span class="at">-p</span> 8787:8787 <span class="at">-v</span> /path/to/your/local/folder:/home/rstudio/scripts:rw rocker/tidyverse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>where <code>/path/to/your/local/folder</code> should be replaced to the folder you created. You should now be able to save the scripts inside the <code>scripts/</code> folder from RStudio and they will appear in the folder you created.</p>
+<p>where <code>/path/to/your/local/folder</code> should be replaced to the folder you created. You can also use <code>$PWD</code> instead of <code>/path/to/your/local/folder</code> if you run the <code>docker run ...</code> call in the right folder. You should now be able to save the scripts inside the <code>scripts/</code> folder from RStudio and they will appear in the folder you created.</p>
 </section>
 <section id="making-our-own-images" class="level3" data-number="7.2.4">
 <h3 data-number="7.2.4" class="anchored" data-anchor-id="making-our-own-images"><span class="header-section-number">7.2.4</span> Making our own images</h3>

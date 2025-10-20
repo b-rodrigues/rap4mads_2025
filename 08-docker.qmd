@@ -811,6 +811,7 @@ With the `Dockerfile` and `export-results.R` in place, you can now build your
 self-contained data product.
 
 1.  **Build the Docker image:** Open a terminal in your project directory and run:
+
     ```bash
     docker build -t my-reproducible-pipeline .
     ```
@@ -820,6 +821,7 @@ self-contained data product.
     and mount it into the container. (In case you couldn't bundle the raw data
     into the image, then this is also how you would provide the data at run time.
     The pipeline would only be executed then).
+
     ```bash
     # Create a directory on your host machine to receive the output
     mkdir -p ./output

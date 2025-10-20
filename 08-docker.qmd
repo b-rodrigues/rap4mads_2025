@@ -574,6 +574,7 @@ Run `docker save` to save the image into a file:
 
 ```bash
 docker save nix-base > nix-base.tar
+```
 
 This will create a `.tar` file of the image. You can then compress this file
 with an archiving tool if you want. If you're on Linux, you could do so in one

@@ -670,8 +670,6 @@ RUN apt-get update && apt-get install -y \
     wget
 ```
 
-A way to avoid that is to configure.
-
 Another issue that you will face is that building the image is not a reproducible
 process, only running containers is. To mitigate this issue you can use tagged
 images (like in the example above) or better yet, using a digest which

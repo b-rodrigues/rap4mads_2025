@@ -710,10 +710,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push brodriguesco/nix-base:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can go check your profile and your repositories, you should see your image there.</p>
 <p>This image can now be used as a stable base for developing our pipelines. Here’s how I can now use this base image for our project:</p>
-<pre><code>FROM brodriguesco/nix-base:latest
-
-RUN mkdir ...
-</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> brodriguesco/nix-base:latest</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="fu">mkdir</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now I’m re-using the image that defines the development environment, and I can do so for as many projects as necessary. I would recommend putting a link to the base image as a comment just before the first <code>FROM</code>.</p>
 <p>If you want to test this, you could delete all images and containers from your system. This way, when you build the image using the above Dockerfile, it will have to pull from Docker Hub. To delete all containers, start by using <code>docker system prune</code>. You can then delete all images using <code>docker rmi $(docker images -a -q)</code>. This should remove everything.</p>
 <p>If you work for a company that has its own private registry, the process will be essentially the same, as it’s just that Docker would have been configured to pull and push to the private registry instead.</p>

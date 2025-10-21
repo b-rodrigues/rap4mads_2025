@@ -9,6 +9,8 @@ knitr::include_graphics("img/octopus.png")
 What you’ll have learned by the end of the chapter: very basic knowledge of Github Actions,
 but enough to run your RAP in the cloud.
 
+Hello class.
+
 ## Introduction
 
 We are almost at the end; actually, we could have stopped at the end of the

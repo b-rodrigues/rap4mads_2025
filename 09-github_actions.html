@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -43,9 +78,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ccfbee2233d6ae1729f5fe27ff2fb096.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-3185eeee7c5114c51f50d482c2b8af27.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-ccfbee2233d6ae1729f5fe27ff2fb096.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5cbd71c709c3387e4e7dab47f7b6899c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2b28e90a16fd505ae23957488f4baea6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-5cbd71c709c3387e4e7dab47f7b6899c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -391,10 +426,12 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a></li>
   <li><a href="#getting-your-repo-ready-for-github-actions" id="toc-getting-your-repo-ready-for-github-actions" class="nav-link" data-scroll-target="#getting-your-repo-ready-for-github-actions"><span class="header-section-number">8.2</span> Getting your repo ready for Github Actions</a></li>
-  <li><a href="#building-a-docker-image-and-pushing-it-to-a-registry" id="toc-building-a-docker-image-and-pushing-it-to-a-registry" class="nav-link" data-scroll-target="#building-a-docker-image-and-pushing-it-to-a-registry"><span class="header-section-number">8.3</span> Building a Docker image and pushing it to a registry</a></li>
-  <li><a href="#running-a-pipeline-straight-from-github-actions" id="toc-running-a-pipeline-straight-from-github-actions" class="nav-link" data-scroll-target="#running-a-pipeline-straight-from-github-actions"><span class="header-section-number">8.4</span> Running a pipeline straight from Github Actions</a></li>
-  <li><a href="#running-unit-tests-on-github-actions" id="toc-running-unit-tests-on-github-actions" class="nav-link" data-scroll-target="#running-unit-tests-on-github-actions"><span class="header-section-number">8.5</span> Running unit tests on Github Actions</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">8.6</span> Further reading</a></li>
+  <li><a href="#nix-and-github-actions" id="toc-nix-and-github-actions" class="nav-link" data-scroll-target="#nix-and-github-actions"><span class="header-section-number">8.3</span> Nix and GitHub Actions</a></li>
+  <li><a href="#running-a-dockerized-workflow" id="toc-running-a-dockerized-workflow" class="nav-link" data-scroll-target="#running-a-dockerized-workflow"><span class="header-section-number">8.4</span> Running a dockerized workflow</a></li>
+  <li><a href="#building-a-docker-image-and-pushing-it-to-a-registry" id="toc-building-a-docker-image-and-pushing-it-to-a-registry" class="nav-link" data-scroll-target="#building-a-docker-image-and-pushing-it-to-a-registry"><span class="header-section-number">8.5</span> Building a Docker image and pushing it to a registry</a></li>
+  <li><a href="#running-a-pipeline-straight-from-github-actions" id="toc-running-a-pipeline-straight-from-github-actions" class="nav-link" data-scroll-target="#running-a-pipeline-straight-from-github-actions"><span class="header-section-number">8.6</span> Running a pipeline straight from Github Actions</a></li>
+  <li><a href="#github-actions-without-nix" id="toc-github-actions-without-nix" class="nav-link" data-scroll-target="#github-actions-without-nix"><span class="header-section-number">8.7</span> GitHub Actions without Nix</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">8.8</span> Further reading</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/b-rodrigues/rap4mads_2025/edit/main/09-github_actions.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -484,7 +521,31 @@ jobs:
 <p><video width="640" height="480" controls=""> <source src="img/ga_1.mp4" type="video/mp4"> </video></p>
 </div>
 <p>If we take a look at the commit we just pushed, we see this yellow dot next to the commit name. This means that an action is running. We can then take a look at the output of the job, and see that our commands, defined with the <code>run</code> statements in the workflow file, succeeded and echoed what we asked them.</p>
-<p>So, the next step is running our Docker image and getting back our plots. This next example can be found in <a href="https://github.com/b-rodrigues/dockerized_pipeline_demo">this repository</a>. This example doesn’t use Nix, <code>{rix}</code> nor <code>{rixpress}</code>, but the point here is to show how a Docker image can be executed on GitHub Actions, and artifacts can be recovered. The process is always the same, regardless is inside the Docker image.</p>
+</section>
+<section id="nix-and-github-actions" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="nix-and-github-actions"><span class="header-section-number">8.3</span> Nix and GitHub Actions</h2>
+<p>To set up Nix on GitHub Actions you can use several steps:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install Nix</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/install-nix-action@v31</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">nix_path</span><span class="kw">:</span><span class="at"> nixpkgs=https://github.com/rstats-on-nix/nixpkgs/archive/r-daily.tar.gz</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Setup Cachix</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/cachix-action@v15</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rstats-on-nix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you’re repository contains a <code>default.nix</code> file, the same environment you’ve been using locally can be used on GitHub Actions just as easily. You can also instead generate the <code>default.nix</code> from the <code>gen-env.R</code> script:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build dev env</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">  run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    nix-shell --expr "$(curl -sl https://raw.githubusercontent.com/ropensci/rix/main/inst/extdata/default.nix)" --run "Rscript -e 'source(\"gen-env.R\")'"</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can then use the shell to run whatever you need. For example, if you’re developing a package, you could run unit tests on each push:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> devtools::test() via nix-shell</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-shell --run "Rscript -e \"devtools::test(stop_on_failure = TRUE)\""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>stop_on_failure = TRUE</code> is needed to make the step fail if there’s an error, otherwise, the step would run successfully, even with failing tests.</p>
+</section>
+<section id="running-a-dockerized-workflow" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="running-a-dockerized-workflow"><span class="header-section-number">8.4</span> Running a dockerized workflow</h2>
+<p>This next example can be found in <a href="https://github.com/b-rodrigues/dockerized_pipeline_demo">this repository</a>. This example doesn’t use Nix, <code>{rix}</code> nor <code>{rixpress}</code>, but the point here is to show how a Docker container can be executed on GitHub Actions, and artifacts can be recovered. The process is always the same, regardless is inside the Docker image.</p>
 <p>This is what our workflow file looks like:</p>
 <pre><code>name: Reproducible pipeline
 
@@ -543,12 +604,12 @@ jobs:
 <p>As you can see in the video, the <code>_targets.R</code> script was changed, and the changes pushed to Github. This triggered the action we’ve defined before. The plots (artifacts) get refreshed, and we can download them. We see then that Dudelange was added in the <code>communes.png</code> plot!</p>
 <p>It is also possible to “deploy” the plots directly to another branch, and do much, much more. I just wanted to give you a little taste of Github Actions (and more generally GitOps). The possibilities are virtually limitless, and I still can’t get over the fact that Github Actions is free for public repositories.</p>
 </section>
-<section id="building-a-docker-image-and-pushing-it-to-a-registry" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="building-a-docker-image-and-pushing-it-to-a-registry"><span class="header-section-number">8.3</span> Building a Docker image and pushing it to a registry</h2>
+<section id="building-a-docker-image-and-pushing-it-to-a-registry" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="building-a-docker-image-and-pushing-it-to-a-registry"><span class="header-section-number">8.5</span> Building a Docker image and pushing it to a registry</h2>
 <p>It is also possible to build a Docker image and have it made available on an image registry. You can see how this works on this <a href="https://github.com/b-rodrigues/ga_demo">repository</a>. This images can then be used as a base for other RAPs, as in this <a href="https://github.com/b-rodrigues/ga_demo_rap/tree/main">repository</a>. Why do this? Well because of “separation of concerns”. You could have a repository which builds in image containing your development environment: this could be an image with a specific version of R and R packages built with Nix. And then have as many repositories as projects that run RAPs using that development environment image as a basis. Simply add the project-specific packages that you need for each project.</p>
 </section>
-<section id="running-a-pipeline-straight-from-github-actions" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="running-a-pipeline-straight-from-github-actions"><span class="header-section-number">8.4</span> Running a pipeline straight from Github Actions</h2>
+<section id="running-a-pipeline-straight-from-github-actions" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="running-a-pipeline-straight-from-github-actions"><span class="header-section-number">8.6</span> Running a pipeline straight from Github Actions</h2>
 <p>Using Docker on Github Actions has the advantage that you can use the same image to develop locally on your computer, and then also on CI. However, you could also run the pipeline straight from a Github Actions runner, but it’ll take some effort to set up the environment on CI. Take a look at <a href="https://github.com/rap4all/housing/tree/gitops-pipeline">the example from this repository</a>.</p>
 <p>The yaml file used in this action (which you can find <a href="https://github.com/rap4all/housing/blob/gitops-pipeline/.github/workflows/targets.yaml">here</a>) was generated by running <code>targets::tar_github_actions()</code> and was then modified further, mostly to add the required development libraries to compile the needed R packages (under the <code>Install Linux system dependencies</code> step).</p>
 <p>This action takes advantage of the included Github Actions cache to backup the targets from the pipeline, so they can also get skipped with subsequent runs:</p>
@@ -578,9 +639,9 @@ jobs:
 </div>
 <p>The previous examples assumed you didn’t use Nix, but if you did, you can also run pipelines from inside Nix and with <code>{rixpress}</code>. Look at this <code>yaml</code> file from the <code>rixpress_demos</code> repository that shows how to run a <code>{rixpress}</code> pipeline on GitHub Actions <a href="https://github.com/b-rodrigues/rixpress_demos/blob/master/.github/workflows/run_r_py_xgboost.yaml">link</a>.</p>
 </section>
-<section id="running-unit-tests-on-github-actions" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="running-unit-tests-on-github-actions"><span class="header-section-number">8.5</span> Running unit tests on Github Actions</h2>
-<p>Setting up your project as a package (or at least, the parts of your project that can be reused for others) as a package also has the advantage that it becomes very easy to run unit tests on CI. See for example the <code>{myPackage}</code> package that we developed together, in particular <a href="https://github.com/b-rodrigues/myPackage/blob/main/.github/workflows/rcmdcheck.yaml">this file</a>. This action runs on each push and pull request on Windows, Ubuntu and macOS:</p>
+<section id="github-actions-without-nix" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="github-actions-without-nix"><span class="header-section-number">8.7</span> GitHub Actions without Nix</h2>
+<p>If you’re not using Nix, you’ll have to set up GitHub Actions manually. Suppose you have a package project and want to run unit tests on each push. See for example the <code>{myPackage}</code> package, in particular <a href="https://github.com/b-rodrigues/myPackage/blob/main/.github/workflows/rcmdcheck.yaml">this file</a>. This action runs on each push and pull request on Windows, Ubuntu and macOS:</p>
 <pre><code>on:
   push:
     branches: [ "main" ]
@@ -606,8 +667,8 @@ jobs:
 <p>Check out the workflow results to see how the package could be improved <a href="https://github.com/b-rodrigues/myPackage/actions/runs/12348361696">here</a>.</p>
 <p>Here again, using Nix simplifies this process immensely. Look at this workflow file from <code>{rix}</code>’s repository <a href="https://github.com/ropensci/rix/blob/main/.github/workflows/tests-r-via-nix.yaml">here</a>. Setting up the environment is much easier, as is running the actual test suite.</p>
 </section>
-<section id="further-reading" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">8.6</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">8.8</span> Further reading</h2>
 <ul>
 <li>http://haines-lab.com/post/2022-01-23-automating-computational-reproducibility-with-r-using-renv-docker-and-github-actions/</li>
 <li>https://orchid00.github.io/actions_sandbox/</li>

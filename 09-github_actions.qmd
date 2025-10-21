@@ -147,11 +147,49 @@ the commit name. This means that an action is running. We can then take a look
 at the output of the job, and see that our commands, defined with the `run`
 statements in the workflow file, succeeded and echoed what we asked them.
 
-So, the next step is running our Docker image and getting back our plots. This
-next example can be found in [this
+## Nix and GitHub Actions
+
+To set up Nix on GitHub Actions you can use several steps:
+
+```yaml
+- name: Install Nix
+  uses: cachix/install-nix-action@v31
+  with:
+    nix_path: nixpkgs=https://github.com/rstats-on-nix/nixpkgs/archive/r-daily.tar.gz
+
+- name: Setup Cachix
+  uses: cachix/cachix-action@v15
+  with:
+    name: rstats-on-nix
+```
+
+If you’re repository contains a `default.nix` file, the same environment you’ve been using
+locally can be used on GitHub Actions just as easily. You can also instead
+generate the `default.nix` from the `gen-env.R` script:
+
+```yaml
+- name: Build dev env
+  run: |
+    nix-shell --expr "$(curl -sl https://raw.githubusercontent.com/ropensci/rix/main/inst/extdata/default.nix)" --run "Rscript -e 'source(\"gen-env.R\")'"
+```
+
+You can then use the shell to run whatever you need. For example, if you’re 
+developing a package, you could run unit tests on each push:
+
+```yaml
+- name: devtools::test() via nix-shell
+  run: nix-shell --run "Rscript -e \"devtools::test(stop_on_failure = TRUE)\""
+```
+
+`stop_on_failure = TRUE` is needed to make the step fail if there’s an error,
+otherwise, the step would run successfully, even with failing tests.
+
+## Running a dockerized workflow
+
+This next example can be found in [this
 repository](https://github.com/b-rodrigues/dockerized_pipeline_demo). This
 example doesn't use Nix, `{rix}` nor `{rixpress}`, but the point here is to show
-how a Docker image can be executed on GitHub Actions, and artifacts can be
+how a Docker container can be executed on GitHub Actions, and artifacts can be
 recovered. The process is always the same, regardless is inside the Docker image.
 
 This is what our workflow file looks like:
@@ -318,12 +356,12 @@ from the `rixpress_demos` repository that shows how to run a `{rixpress}`
 pipeline on GitHub Actions
 [link](https://github.com/b-rodrigues/rixpress_demos/blob/master/.github/workflows/run_r_py_xgboost.yaml).
 
-## Running unit tests on Github Actions
+## GitHub Actions without Nix
 
-Setting up your project as a package (or at least, the parts of your project
-that can be reused for others) as a package also has the advantage that it
-becomes very easy to run unit tests on CI. See for example the `{myPackage}`
-package that we developed together, in particular [this
+If you’re not using Nix, you’ll have to set up GitHub Actions manually. 
+Suppose you have a package project and want to run unit tests on each push.
+See for example the `{myPackage}`
+package, in particular [this
 file](https://github.com/b-rodrigues/myPackage/blob/main/.github/workflows/rcmdcheck.yaml).
 This action runs on each push and pull request on Windows, Ubuntu and macOS:
 

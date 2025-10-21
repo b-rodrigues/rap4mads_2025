@@ -780,11 +780,21 @@
     ]
   },
   {
+    "objectID": "10-what-else.html#unix-command-line",
+    "href": "10-what-else.html#unix-command-line",
+    "title": "9  What else should you learn?",
+    "section": "9.2 Unix command line",
+    "text": "9.2 Unix command line\nThe Unix philosophy emphasizes creating small, specialized programs that do one thing well. These programs, or “tools,” can be combined in powerful ways to accomplish complex tasks. Learning to use these tools from the command line is a fundamental skill. Start by mastering the basics of file system navigation (ls, cd, pwd) and file manipulation (mv, cp, rm). Then, move on to powerful text processing tools like grep for searching, sed for editing, and awk for pattern scanning and processing. Understanding how to use pipes (|) to chain these commands together is crucial. For example, you could use grep to find specific lines in a file and then pipe them to wc to count them. As you become more comfortable, you can explore modern alternatives to these classic tools, such as ripgrep as a faster grep, and fzf for fuzzy finding.\nCheck out: https://www.cs.toronto.edu/~maclean/csc209/unixtools.html and enroll for free: https://www.coursera.org/learn/unix or get this book (try to find a used copy online for cheap): https://www.oreilly.com/library/view/unix-power-tools/0596003307/",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>What else should you learn?</span>"
+    ]
+  },
+  {
     "objectID": "10-what-else.html#vim",
     "href": "10-what-else.html#vim",
     "title": "9  What else should you learn?",
-    "section": "9.2 Vim",
-    "text": "9.2 Vim\nYes, I think you should learn vim, or at the very least, your text editor of choice, by heart. You should know every keyboard shortcut and every possibility that your text editor offers. You should never touch the mouse when writing text. This is not just because of productivity, but also for your health. Grabbing the mouse to click one or twice, and then go back to typing, then go back to moving the mouse, etc, will destroy your shoulder. By keeping your hands on the keyboard at all times and minimizing mouse usage, you may be able to grow old healthy. Vim helps with that because it is a modal text editor (and most editors actually ship a Vim-mode). Watch this video to get a quick introduction on Vim, and how to enable Vim mode in Vscode.",
+    "section": "9.3 Vim",
+    "text": "9.3 Vim\nYes, I think you should learn vim, or at the very least, your text editor of choice, by heart. You should know every keyboard shortcut and every possibility that your text editor offers. You should never touch the mouse when writing text. This is not just because of productivity, but also for your health. Grabbing the mouse to click one or twice, and then go back to typing, then go back to moving the mouse, etc, will destroy your shoulder. By keeping your hands on the keyboard at all times and minimizing mouse usage, you may be able to grow old healthy. Vim helps with that because it is a modal text editor (and most editors actually ship a Vim-mode). Watch this video to get a quick introduction on Vim, and how to enable Vim mode in Vscode.",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>What else should you learn?</span>"
     ]
@@ -793,8 +803,8 @@
     "objectID": "10-what-else.html#statistical-modeling",
     "href": "10-what-else.html#statistical-modeling",
     "title": "9  What else should you learn?",
-    "section": "9.3 Statistical modeling",
-    "text": "9.3 Statistical modeling\nStatistical modeling is crucial, and if you didn’t major in stats, you very likely lack this knowledge. Here’s a reading (and watching) list:\n\nRegression and other stories (has a free PDF)\nStatistical Rethinking 2022 (on youtube)\nMostly harmless econometrics",
+    "section": "9.4 Statistical modeling",
+    "text": "9.4 Statistical modeling\nStatistical modeling is crucial, and if you didn’t major in stats, you very likely lack this knowledge. Here’s a reading (and watching) list:\n\nRegression and other stories (has a free PDF)\nStatistical Rethinking 2023 (on youtube)\nMostly harmless econometrics",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>What else should you learn?</span>"
     ]

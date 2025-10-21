@@ -26,6 +26,24 @@ of working until 19h00 every day because you type like a snail.
 
 You need to learn touch typing, meaning, typing without looking at your keyboard.
 
+## Unix command line
+
+The Unix philosophy emphasizes creating small, specialized programs that do one 
+thing well. These programs, or "tools," can be combined in powerful ways to 
+accomplish complex tasks. Learning to use these tools from the command line is a 
+fundamental skill. Start by mastering the basics of file system navigation (`ls`, 
+`cd`, `pwd`) and file manipulation (`mv`, `cp`, `rm`). Then, move on to powerful 
+text processing tools like `grep` for searching, `sed` for editing, and `awk` for 
+pattern scanning and processing. Understanding how to use pipes (`|`) to chain these
+commands together is crucial. For example, you could use `grep` to find specific 
+lines in a file and then pipe them to `wc` to count them. As you become more 
+comfortable, you can explore modern alternatives to these classic tools, such as 
+`ripgrep` as a faster `grep`, and `fzf` for fuzzy finding.
+
+Check out: https://www.cs.toronto.edu/~maclean/csc209/unixtools.html
+and enroll for free: https://www.coursera.org/learn/unix
+or get this book (try to find a used copy online for cheap): https://www.oreilly.com/library/view/unix-power-tools/0596003307/
+
 ## Vim
 
 Yes, I think you should learn vim, or at the very least, your text editor of choice, by
@@ -45,5 +63,5 @@ Statistical modeling is crucial, and if you didn't major in stats, you very like
 this knowledge. Here's a reading (and watching) list:
 
 - [Regression and other stories](https://avehtari.github.io/ROS-Examples/) (has a [free PDF](https://users.aalto.fi/~ave/ROS.pdf))
-- [Statistical Rethinking 2022 (on youtube)](https://www.youtube.com/watch?v=BYUykHScxj8&list=PLDcUM9US4XdMROZ57-OIRtIK0aOynbgZN)
+- [Statistical Rethinking 2023 (on youtube)](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
 - [Mostly harmless econometrics](https://press.princeton.edu/books/paperback/9780691120355/mostly-harmless-econometrics)
